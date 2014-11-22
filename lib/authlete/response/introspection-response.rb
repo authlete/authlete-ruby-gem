@@ -23,7 +23,9 @@ module Authlete
     # {/auth/introspection}[https://www.authlete.com/authlete_web_apis_introspection.html#auth_introspection]
     # API.
     #
-    class IntrospectionResponse < Athlete::Response::BaseResponse
+    class IntrospectionResponse < Authlete::Response::BaseResponse
+      include Authlete::Utility
+
       # The next action which the caller of the API should take next.
       attr_accessor :action
 
@@ -81,6 +83,50 @@ module Authlete
       alias_method :usable?,      :usable
       alias_method :sufficient?,  :sufficient
       alias_method :refreshable?, :refreshable
+
+      # Generate an array which is usable as a Rack response from this instance.
+      # When <tt>action</tt> method returns other value than 'OK', the array
+      # returned from this method satisfies RFC 6750.
+      def to_rack_response
+        # 'action' denotes the next action.
+        case @action
+        when 'INTERNAL_SERVER_ERROR'
+          # 500 Internal Server Error
+          #   The API request from this implementation was wrong
+          #   or an error occurred in Authlete.
+          return to_rack_response_www_authenticate(500, @response_content)
+
+        when 'BAD_REQUEST'
+          # 400 Bad Request
+          #   The request from the client application does not
+          #   contain an access token.
+          return to_rack_response_www_authenticate(400, @response_content)
+
+        when 'UNAUTHORIZED'
+          # 401 Unauthorized
+          #   The presented access token does not exist or has expired.
+          return to_rack_response_www_authenticate(401, @response_content)
+
+        when 'FORBIDDEN'
+          # 403 Forbidden
+          #   The access token does not cover the required scopes
+          #   or the subject associated with the access token is
+          #   different.
+          return to_rack_response_www_authenticate(403, @response_content)
+
+        when 'OK'
+          # The access token is valid (= exists and has not expired).
+          # Basically, the caller won't use the array returned from here.
+          # Instead, it will return the protected resource to the client
+          # application which has presented the valid access token.
+          return [ 200, nil, nil ]
+
+        else
+          # This should not happen.
+          return to_rack_response_www_authenticate(500,
+            'Bearer error="server_error",error_description="Unknown action"')
+        end
+      end
     end
   end
 end

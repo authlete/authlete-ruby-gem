@@ -15,6 +15,9 @@
 # limitations under the License.
 
 
+require 'base64'
+
+
 module Authlete
   module Utility
     def extract_value(hash, key)
@@ -29,6 +32,43 @@ module Authlete
       value = extract_value(hash, key)
 
       return (value == true || value == 'true')
+    end
+
+    # Extract an access token (RFC 6750)
+    def extract_access_token(request)
+      header = request.env['HTTP_AUTHORIZATION']
+
+      if /^Bearer[ ]+(.+)/i =~ header
+        return Base64.decode64($1)
+      end
+
+      return request['access_token']
+    end
+
+    def to_rack_response_json(status_code, content)
+      [
+        status_code,
+        {
+          'Content-Type'  => 'application/json;charset=UTF-8',
+          'Cache-Control' => 'no-store',
+          'Pragma'        => 'no-cache'
+        },
+        [
+          content
+        ]
+      ]
+    end
+
+    def to_rack_response_www_authenticate(status_code, content)
+      [
+        status_code,
+        {
+          'WWW-Authenticate' => content,
+          'Cache-Control'    => 'no-store',
+          'Pragma'           => 'no-cache'
+        },
+        nil
+      ]
     end
   end
 end

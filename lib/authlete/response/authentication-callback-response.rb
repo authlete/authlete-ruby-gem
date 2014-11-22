@@ -42,21 +42,11 @@ module Authlete
 
       # Generate an array which is usable as a Rack response from this instance.
       def to_rack_response
-        [
-          200,
-          {
-            'Content-Type'  => 'application/json;charset=UTF-8',
-            'Cache-Control' => 'no-store',
-            'Pragma'        => 'no-cache'
-          },
-          [
-            JSON.generate(
-              :authenticated => @authenticated,
-              :subject       => @subject,
-              :claims        => @claims
-            )
-          ]
-        ]
+        to_rack_response_json(200, JSON.generate(
+          :authenticated => @authenticated,
+          :subject       => @subject,
+          :claims        => @claims
+        ))
       end
     end
   end

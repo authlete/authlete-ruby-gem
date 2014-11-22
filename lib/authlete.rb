@@ -23,11 +23,9 @@ require 'authlete/version'
 # A library for {Authlete Web APIs}[https://www.authlete.com/authlete_web_apis.html].
 #
 module Authlete
-  # The host of Authlete Web APIs for evaluation.
-  HOST_EVALUATION = 'https://evaluation-dot-authlete.appspot.com'
-
   autoload :AuthenticationServer, 'authlete/authentication-server'
   autoload :Client, 'authlete/client'
+  autoload :Host, 'authlete/host'
   autoload :Utility, 'authlete/utility'
 
   module Request
