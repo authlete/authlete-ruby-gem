@@ -83,8 +83,10 @@ module Authlete
       res.authenticated = true
       res.subject       = subject
 
-      # Make the subclass collect values of the requested claims.
-      res.claims = collect_claims(req, subject)
+      if req.claims.nil? == false && req.claims.length != 0
+        # Make the subclass collect values of the requested claims.
+        res.claims = collect_claims(req, subject)
+      end
 
       # Return {"authenticated": true, ...} to Authlete.
       return res.to_rack_response
