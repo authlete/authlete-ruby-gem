@@ -39,9 +39,8 @@ module Authlete
       # Request
       request = Rack::Request.new(env)
 
-      # If the path is different from the name of the authentication
-      # callback endpoint.
-      if request.post? == false || request.path_info != authentication_callback_endpoint_path()
+      # If the request is not an authentication callback request.
+      if match_authentication_callback_request(request) == false
         # If this class is used as a Rack middleware.
         if @app && @app.respond_to?(:call)
           # Call chain to the next Rack middleware.
@@ -93,6 +92,12 @@ module Authlete
 
     private
 
+    def match_authentication_callback_request(request)
+      request.post? &&
+      request.path_info == authentication_callback_endpoint_path() &&
+      %r{^application/json}i === request.content_type
+    end
+
     def do_authenticate_api_call(env)
       # API key and secret for the API call to the authentication endpoint.
       api_key, api_secret = nil, nil
@@ -116,7 +121,7 @@ module Authlete
           'Content-Type' => 'text/plain'
         },
         [
-          "'#{request.request_method} #{request.path_info}' is not found on this server."
+          "Not Found: #{request.request_method} #{request.path_info} (#{request.content_type})"
         ]
       ]
     end
@@ -137,14 +142,13 @@ module Authlete
 
     # 400 Bad Request
     def generate_authentication_callback_request_format_error(exception)
-      p exception
       [
         400,
         {
           'Content-Type' => 'text/plain',
         },
         [
-          'The format of the authentication callback request was wrong.'
+          "The format of the authentication callback request was wrong: #{exception.to_s}"
         ]
       ]
     end
@@ -153,8 +157,11 @@ module Authlete
       # In case someone has already read it.
       request.body.rewind
 
+      # JSON
+      json = request.body.read
+
       # Parse the authentication callback request.
-      Authlete::Request::AuthenticationCallbackRequest.parse(request.body.read)
+      Authlete::Request::AuthenticationCallbackRequest.parse(json)
     end
 
     protected
