@@ -26,6 +26,13 @@ module Authlete
     class AuthenticationCallbackRequest
       include Authlete::Utility
 
+      # The API key of the service.
+      attr_accessor :service_api_key
+
+      # The ID of the client application which has triggered the authentication
+      # callback request.
+      attr_accessor :client_id
+
       # The login ID that the end-user input to the login ID field.
       attr_accessor :id
 
@@ -42,10 +49,12 @@ module Authlete
       # The constructor which takes a hash that represents a JSON request
       # to an authentication callback endpoint.
       def initialize(hash = {})
-        @id            = extract_value(hash, :id)
-        @password      = extract_value(hash, :password)
-        @claims        = extract_value(hash, :claims)
-        @claimsLocales = extract_value(hash, :claimsLocales)
+        @service_api_key = extract_value(hash, :serviceApiKey)
+        @client_id       = extract_value(hash, :clientId)
+        @id              = extract_value(hash, :id)
+        @password        = extract_value(hash, :password)
+        @claims          = extract_value(hash, :claims)
+        @claimsLocales   = extract_value(hash, :claimsLocales)
       end
 
       # Parse a JSON string which represents a request to an authentication
