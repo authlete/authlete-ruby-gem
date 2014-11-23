@@ -15,9 +15,6 @@
 # limitations under the License.
 
 
-require 'base64'
-
-
 module Authlete
   module Utility
     def extract_value(hash, key)
@@ -39,7 +36,7 @@ module Authlete
       header = request.env['HTTP_AUTHORIZATION']
 
       if /^Bearer[ ]+(.+)/i =~ header
-        return Base64.decode64($1)
+        return $1
       end
 
       return request['access_token']
