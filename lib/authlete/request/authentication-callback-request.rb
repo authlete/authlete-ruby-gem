@@ -44,17 +44,40 @@ module Authlete
 
       # Names of requested claim locales (string array). The values come
       # from 'claims_locales' request parameter of an authorization request.
-      attr_accessor :claimsLocales
+      attr_accessor :claims_locales
+
+      # The SNS which the end-user used for social login.
+      # For example, 'FACEBOOK'.
+      attr_accessor :sns
+
+      # The access token issued at the token endpoint of the SNS.
+      attr_accessor :access_token
+
+      # The refresh token issued along with the access token.
+      attr_accessor :refresh_token
+
+      # The duration of the access token.
+      attr_accessor :expires_in
+
+      # The raw content of the response from the token endpoint of the SNS.
+      # Correct OAuth 2.0 implementations return 'application/json', but Facebook
+      # returns 'application/x-www-form-url-encoded'.
+      attr_accessor :raw_token_response
 
       # The constructor which takes a hash that represents a JSON request
       # to an authentication callback endpoint.
       def initialize(hash = {})
-        @service_api_key = extract_value(hash, :serviceApiKey)
-        @client_id       = extract_value(hash, :clientId)
-        @id              = extract_value(hash, :id)
-        @password        = extract_value(hash, :password)
-        @claims          = extract_value(hash, :claims)
-        @claimsLocales   = extract_value(hash, :claimsLocales)
+        @service_api_key    = extract_value(hash, :serviceApiKey)
+        @client_id          = extract_value(hash, :clientId)
+        @id                 = extract_value(hash, :id)
+        @password           = extract_value(hash, :password)
+        @claims             = extract_value(hash, :claims)
+        @claims_locales     = extract_value(hash, :claimsLocales)
+        @sns                = extract_value(hash, :sns)
+        @access_token       = extract_value(hash, :accessToken)
+        @refresh_token      = extract_value(hash, :refreshToken)
+        @expires_in         = extract_integer_value(hash, :expiresIn)
+        @raw_token_response = extract_value(hash, :rawTokenResponse)
       end
 
       # Parse a JSON string which represents a request to an authentication

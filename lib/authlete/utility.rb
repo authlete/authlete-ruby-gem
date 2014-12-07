@@ -31,6 +31,10 @@ module Authlete
       return (value == true || value == 'true')
     end
 
+    def extract_integer_value(hash, key)
+      extract_value(hash, key).to_i
+    end
+
     # Extract an access token (RFC 6750)
     def extract_access_token(request)
       header = request.env['HTTP_AUTHORIZATION']
