@@ -15,7 +15,7 @@
 # limitations under the License.
 
 
-module Autlete
+module Authlete
   module Host
     # The host of Authlete Web APIs for evaluation.
     EVALUATION = 'https://evaluation-dot-authlete.appspot.com'
