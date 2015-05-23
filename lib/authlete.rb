@@ -28,6 +28,12 @@ module Authlete
   autoload :Host, 'authlete/host'
   autoload :Utility, 'authlete/utility'
 
+  module Model
+    autoload :Scope, 'authlete/model/scope'
+    autoload :Service, 'authlete/model/service'
+    autoload :SnsCredentials, 'authlete/model/sns-credentials'
+  end
+
   module Request
     autoload :AuthenticationCallbackRequest, 'authlete/request/authentication-callback-request'
   end
