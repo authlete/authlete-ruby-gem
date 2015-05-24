@@ -15,6 +15,9 @@
 # limitations under the License.
 
 
+require 'set'
+
+
 module Authlete
   module Model
     class Service
@@ -136,6 +139,151 @@ module Authlete
 
       # The URI of UserInfo endpoint. (URI)
       attr_accessor :userInfoEndpoint
+
+      private
+
+      # Integer attributes.
+      INTEGER_ATTRIBUTES = ::Set.new([
+        :accessTokenDuration, :apiKey, :idTokenDuration, :number,
+        :refreshTokenDuration, :serviceOwnerNumber
+      ])
+
+      # String attributes.
+      STRING_ATTRIBUTES = ::Set.new([
+        :accessTokenType, :apiSecret, :authenticationCallbackApiKey,
+        :authenticationCallbackApiSecret, :authenticationCallbackEndpoint,
+        :authorizationEndpoint, :description, :issuer, :jwks, :jwksUri,
+        :policyUri, :registrationEndpoint, :serviceDocumentation,
+        :serviceName, :tokenEndpoint, :tosUri, :userInfoEndpoint
+      ])
+
+      # String array attributes.
+      STRING_ARRAY_ATTRIBUTES = ::Set.new([
+        :supportedAcrs, :supportedClaimLocales, :supportedClaims,
+        :supportedClaimTypes, :supportedDisplays, :supportedGrantTypes,
+        :supportedResponseTypes, :supportedSnses, :supportedTokenAuthMethods,
+        :supportedUiLocales
+      ])
+
+      # The constructor
+      def initialize(hash = nil)
+        # Set default values to integer attributes.
+        INTEGER_ATTRIBUTES.each do |attr|
+          send("#{attr}=", 0)
+        end
+
+        # Set default values to string attributes.
+        STRING_ATTRIBUTES.each do |attr|
+          send("#{attr}=", nil)
+        end
+
+        # Set default values to string array attributes.
+        STRING_ARRAY_ATTRIBUTES.each do |attr|
+          send("#{attr}=", nil)
+        end
+
+        # Set default values to special objects.
+        @snsCredentials  = nil
+        @supportedScopes = nil
+
+        # Set attribute values using the given hash.
+        authlete_model_service_update(hash)
+      end
+
+      def authlete_model_service_simple_attribute?(key)
+        INTEGER_ATTRIBUTES.include?(key) or
+        STRING_ATTRIBUTES.include?(key) or
+        STRING_ARRAY_ATTRIBUTES.include?(key)
+      end
+
+      def authlete_model_service_update(hash)
+        if hash.nil?
+          return
+        end
+
+        hash.each do |key, value|
+          key = key.to_sym
+
+          # If the attribute is a simple one.
+          if authlete_model_service_simple_attribute?(key)
+            send("#{key}=", value)
+            next
+          end
+
+          if key == :snsCredentials
+            # The attribute 'snsCredentials'.
+            @snsCredentials = authlete_model_service_parse_array(value) do |element|
+              Authlete::Model::SnsCredentials.parse(element)
+            end
+          elsif key == :supportedScopes
+            # The attribute 'supportedScopes'.
+            @supportedScopes = authlete_model_service_parse_array(value) do |element|
+              Authlete::Model::Scope.parse(element)
+            end
+          end
+        end
+
+        return self
+      end
+
+      def authlete_model_service_parse_array(array)
+        if array.nil? or (array.kind_of?(Array) == false) or (array.length == 0)
+          return nil
+        end
+
+        elements = []
+
+        array.each do |element|
+          parsed_element = yield(element)
+
+          if parsed_element.nil? == false
+            elements.push(parsed_element)
+          end
+        end
+
+        if elements.length == 0
+          return nil
+        end
+
+        return elements
+      end
+
+      public
+
+      # Construct an instance from the given hash.
+      #
+      # If the given argument is nil or is not a Hash, nil is returned.
+      # Otherwise, Service.new(hash) is returned.
+      def self.parse(hash)
+        if hash.nil? or (hash.kind_of?(Hash) == false)
+          return nil
+        end
+
+        return Service.new(hash)
+      end
+
+      # Set attribute values using the given hash.
+      def update(hash)
+        authlete_model_service_update(hash)
+      end
+
+      # Convert this object into a hash.
+      def to_hash
+        hash = {}
+
+        instance_variables.each do |var|
+          key = var.to_s.delete("@").to_sym
+          val = instance_variable_get(var)
+
+          if authlete_model_service_simple_attribute?(key) or val.nil?
+            hash[key] = val
+          elsif val.kind_of?(Array)
+            hash[key] = val.map {|element| element.to_hash}
+          end
+        end
+
+        return hash
+      end
     end
   end
 end
