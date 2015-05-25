@@ -30,6 +30,8 @@ module Authlete
       # The flag to indicate whether this scope is included in the
       # default scope set. (boolean)
       attr_accessor :defaultEntry
+      alias_method  :default_entry,  :defaultEntry
+      alias_method  :default_entry=, :defaultEntry=
 
       private
 
@@ -38,6 +40,9 @@ module Authlete
 
       # String attributes.
       STRING_ATTRIBUTES = ::Set.new([:description, :name])
+
+      # Mapping from snake cases to camel cases.
+      SNAKE_TO_CAMEL = {:default_entry => :defaultEntry}
 
       # The constructor
       def initialize(hash = new)
@@ -55,6 +60,17 @@ module Authlete
         authlete_model_scope_update(hash)
       end
 
+      def authlete_model_scope_to_key(key)
+        key = key.to_sym
+
+        # Convert snakecase to camelcase, if necessary.
+        if SNAKE_TO_CAMEL.has_key?(key)
+          key = SNAKE_TO_CAMEL[key]
+        end
+
+        return key
+      end
+
       def authlete_model_scope_simple_attribute?(key)
         BOOLEAN_ATTRIBUTES.include?(key) or
         STRING_ATTRIBUTES.include?(key)
@@ -66,7 +82,7 @@ module Authlete
         end
 
         hash.each do |key, value|
-          key = key.to_sym
+          key = authlete_model_scope_to_key(key)
 
           # If the attribute is a simple one.
           if authlete_model_scope_simple_attribute?(key)
@@ -109,6 +125,27 @@ module Authlete
         end
 
         return hash
+      end
+
+      def [](key)
+        key = authlete_model_scope_to_key(key)
+
+        if respond_to?(key)
+          return send(key)
+        else
+          return nil
+        end
+      end
+
+      def []=(key, value)
+        key = authlete_model_scope_to_key(key)
+        method = "#{key}="
+
+        if respond_to?(method)
+          return send(method, value)
+        else
+          return nil
+        end
       end
     end
   end

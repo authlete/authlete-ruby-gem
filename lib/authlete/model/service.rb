@@ -23,33 +23,51 @@ module Authlete
     class Service
       # The duration of access tokens in seconds. (Integer)
       attr_accessor :accessTokenDuration
+      alias_method  :access_token_duration,  :accessTokenDuration
+      alias_method  :access_token_duration=, :accessTokenDuration=
 
       # The access token type. (String)
       attr_accessor :accessTokenType
+      alias_method  :access_token_type,  :accessTokenType
+      alias_method  :access_token_type=, :accessTokenType=
 
       # The API key. (Long)
       attr_accessor :apiKey
+      alias_method  :api_key,  :apiKey
+      alias_method  :api_key=, :apiKey=
 
       # The API secret. (String)
       attr_accessor :apiSecret
+      alias_method  :api_secret,  :apiSecret
+      alias_method  :api_secret=, :apiSecret=
 
       # The API key to access the authentication callback endpoint. (String)
       attr_accessor :authenticationCallbackApiKey
+      alias_method  :authentication_callback_api_key,  :authenticationCallbackApiKey
+      alias_method  :authentication_callback_api_key=, :authenticationCallbackApiKey=
 
       # The API secret to access the authentication callback endpoint. (String)
       attr_accessor :authenticationCallbackApiSecret
+      alias_method  :authentication_callback_api_secret,  :authenticationCallbackApiSecret
+      alias_method  :authentication_callback_api_secret=, :authenticationCallbackApiSecret=
 
       # The URI of the authentication callback endpoint. (URI)
       attr_accessor :authenticationCallbackEndpoint
+      alias_method  :authentication_callback_endpoint,  :authenticationCallbackEndpoint
+      alias_method  :authentication_callback_endpoint=, :authenticationCallbackEndpoint=
 
       # The URI of the authorization endpoint. (URI)
       attr_accessor :authorizationEndpoint
+      alias_method  :authorization_endpoint,  :authorizationEndpoint
+      alias_method  :authorization_endpoint=, :authorizationEndpoint=
 
       # The description of this service. (String)
       attr_accessor :description
 
       # The duration of ID tokens in seconds. (Integer)
       attr_accessor :idTokenDuration
+      alias_method  :id_token_duration,  :idTokenDuration
+      alias_method  :id_token_duration=, :idTokenDuration=
 
       # The issuer identifier of this OpenID Provider. (URI)
       attr_accessor :issuer
@@ -59,55 +77,83 @@ module Authlete
 
       # The URI of the service's JSON Web Key Set. (URI)
       attr_accessor :jwksUri
+      alias_method  :jwks_uri,  :jwksUri
+      alias_method  :jwks_uri=, :jwksUri=
 
       # The service number. (Integer)
       attr_accessor :number
 
       # The URI of the service's policy page. (URI)
       attr_accessor :policyUri
+      alias_method  :policy_uri,  :policyUri
+      alias_method  :policy_uri=, :policyUri=
 
       # The duration of refresh tokens in seconds. (Integer)
       attr_accessor :refreshTokenDuration
+      alias_method  :refresh_token_duration,  :refreshTokenDuration
+      alias_method  :refresh_token_duration=, :refreshTokenDuration=
 
       # The URI of the registration endpoint. (URI)
       attr_accessor :registrationEndpoint
+      alias_method  :registration_endpoint,  :registrationEndpoint
+      alias_method  :registration_endpoint=, :registrationEndpoint=
 
       # The URI of the service's documentation. (URI)
       attr_accessor :serviceDocumentation
+      alias_method  :service_documentation,  :serviceDocumentation
+      alias_method  :service_documentation=, :serviceDocumentation=
 
       # The service name. (String)
       attr_accessor :serviceName
+      alias_method  :service_name,  :serviceName
+      alias_method  :service_name=, :serviceName=
 
       # The service owner number. (Integer)
       attr_accessor :serviceOwnerNumber
+      alias_method  :service_owner_number,  :serviceOwnerNumber
+      alias_method  :service_owner_number=, :serviceOwnerNumber=
 
       # The list of SNS credentials. (SnsCredentials array)
       attr_accessor :snsCredentials
+      alias_method  :sns_credentials,  :snsCredentials
+      alias_method  :sns_credentials=, :snsCredentials=
 
       # The list of supported ACRs. (String array)
       attr_accessor :supportedAcrs
+      alias_method  :supported_acrs,  :supportedAcrs
+      alias_method  :supported_acrs=, :supportedAcrs=
 
       # The list of supported claim locales. (String array)
       attr_accessor :supportedClaimLocales
+      alias_method  :supported_claim_locales,  :supportedClaimLocales
+      alias_method  :supported_claim_locales=, :supportedClaimLocales=
 
       # The list of supported claims. (String array)
       attr_accessor :supportedClaims
+      alias_method  :supported_claims,  :supportedClaims
+      alias_method  :supported_claims=, :supportedClaims=
 
       # The list of supported claim types. (String array)
       #
       # Valid values are "NORMAL", "AGGREGATED" and "DISTRIBUTED".
       attr_accessor :supportedClaimTypes
+      alias_method  :supported_claim_types,  :supportedClaimTypes
+      alias_method  :supported_claim_types=, :supportedClaimTypes=
 
       # The list of supported values of +display+ parameter. (String array)
       #
       # Valid values are "PAGE", "POPUP", "TOUCH" and "WAP".
       attr_accessor :supportedDisplays
+      alias_method  :supported_displays,  :supportedDisplays
+      alias_method  :supported_displays=, :supportedDisplays=
 
       # The list of supported grant types. (String array)
       #
       # Valid values are "AUTHORIZATION_CODE", "IMPLICIT", "PASSWORD",
       # "CLIENT_CREDENTIALS" and "REFRESH_TOKEN".
       attr_accessor :supportedGrantTypes
+      alias_method  :supported_grant_types,  :supportedGrantTypes
+      alias_method  :supported_grant_types=, :supportedGrantTypes=
 
       # The list of supported response types. (String array)
       #
@@ -115,30 +161,46 @@ module Authlete
       # "CODE_TOKEN", "CODE_ID_TOKEN", "ID_TOKEN_TOKEN" and
       # "CODE_ID_TOKEN_TOKEN".
       attr_accessor :supportedResponseTypes
+      alias_method  :supported_response_types,  :supportedResponseTypes
+      alias_method  :supported_response_types=, :supportedResponseTypes=
 
       # The list of supported scopes. (Scope array)
       attr_accessor :supportedScopes
+      alias_method  :supported_scopes,  :supportedScopes
+      alias_method  :supported_scopes=, :supportedScopes=
 
       # The list of supported SNSes. (Sns array)
       attr_accessor :supportedSnses
+      alias_method  :supported_snses,  :supportedSnses
+      alias_method  :supported_snses=, :supportedSnses=
 
       # The list of supported client authentication methods at the token endpoint. (String array)
       #
       # Valid values are "NONE", "CLIENT_SECRET_BASIC", "CLIENT_SECRET_POST",
       # "CLIENT_SECRET_JWT" and "PRIVATE_KEY_JWT".
       attr_accessor :supportedTokenAuthMethods
+      alias_method  :supported_token_auth_methods,  :supportedTokenAuthMethods
+      alias_method  :supported_token_auth_methods=, :supportedTokenAuthMethods=
 
       # The list of supported UI locales. (String array)
       attr_accessor :supportedUiLocales
+      alias_method  :supported_ui_locales,  :supportedUiLocales
+      alias_method  :supported_ui_locales=, :supportedUiLocales=
 
       # The URI of the token endpoint. (URI)
       attr_accessor :tokenEndpoint
+      alias_method  :token_endpoint,  :tokenEndpoint
+      alias_method  :token_endpoint=, :tokenEndpoint=
 
       # The URI of the service's "Terms Of Service" page. (URI)
       attr_accessor :tosUri
+      alias_method  :tos_uri,  :tosUri
+      alias_method  :tos_uri=, :tosUri=
 
       # The URI of UserInfo endpoint. (URI)
       attr_accessor :userInfoEndpoint
+      alias_method  :user_info_endpoint,  :userInfoEndpoint
+      alias_method  :user_info_endpoint=, :userInfoEndpoint=
 
       private
 
@@ -165,6 +227,41 @@ module Authlete
         :supportedUiLocales
       ])
 
+      # Mapping from snake cases to camel cases.
+      SNAKE_TO_CAMEL = {
+        :access_token_duration              => :accessTokenDuration,
+        :access_token_type                  => :accessTokenType,
+        :api_key                            => :apiKey,
+        :api_secret                         => :apiSecret,
+        :authentication_callback_api_key    => :authenticationCallbackApiKey,
+        :authentication_callback_api_secret => :authenticationCallbackApiSecret,
+        :authentication_callback_endpoint   => :authenticationCallbackEndpoint,
+        :authorization_endpoint             => :authorizationEndpoint,
+        :id_tokn_duration                   => :idTokenDuration,
+        :jwks_uri                           => :jwksUri,
+        :policy_uri                         => :policyUri,
+        :refresh_token_duration             => :refreshTokenDuration,
+        :registration_endpoint              => :registrationEndpoint,
+        :service_documentation              => :serviceDocumentation,
+        :service_name                       => :serviceName,
+        :service_owner_number               => :serviceOwnerNumber,
+        :sns_credentials                    => :snsCredentials,
+        :supported_acrs                     => :supportedAcrs,
+        :supported_claim_locales            => :supportedClaimLocales,
+        :supported_claims                   => :supportedClaims,
+        :supported_claim_types              => :supportedClaimTypes,
+        :supported_displays                 => :supportedDisplays,
+        :supported_grant_types              => :supportedGrantTypes,
+        :supported_response_types           => :supportedResponseTypes,
+        :supported_scopes                   => :supportedScopes,
+        :supported_snses                    => :supportedSnses,
+        :supported_token_auth_methods       => :supportedTokenAuthMethods,
+        :supported_ui_locales               => :supportedUiLocales,
+        :token_endpoint                     => :tokenEndpoint,
+        :tos_uri                            => :tosUri,
+        :user_info_endpoint                 => :userInfoEndpoint
+      }
+
       # The constructor
       def initialize(hash = nil)
         # Set default values to integer attributes.
@@ -190,6 +287,17 @@ module Authlete
         authlete_model_service_update(hash)
       end
 
+      def authlete_model_service_to_key(key)
+        key = key.to_sym
+
+        # Convert snakecase to camelcase, if necessary.
+        if SNAKE_TO_CAMEL.has_key?(key)
+          key = SNAKE_TO_CAMEL[key]
+        end
+
+        return key
+      end
+
       def authlete_model_service_simple_attribute?(key)
         INTEGER_ATTRIBUTES.include?(key) or
         STRING_ATTRIBUTES.include?(key) or
@@ -202,7 +310,7 @@ module Authlete
         end
 
         hash.each do |key, value|
-          key = key.to_sym
+          key = authlete_model_service_to_key(key)
 
           # If the attribute is a simple one.
           if authlete_model_service_simple_attribute?(key)
@@ -283,6 +391,27 @@ module Authlete
         end
 
         return hash
+      end
+
+      def [](key)
+        key = authlete_model_service_to_key(key)
+
+        if respond_to?(key)
+          return send(key)
+        else
+          return nil
+        end
+      end
+
+      def []=(key, value)
+        key = authlete_model_service_to_key(key)
+        method = "#{key}="
+
+        if respond_to?(method)
+          return send(method, value)
+        else
+          return nil
+        end
       end
     end
   end

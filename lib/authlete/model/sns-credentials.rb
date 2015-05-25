@@ -23,9 +23,13 @@ module Authlete
     class SnsCredentials
       # The API key. (String)
       attr_accessor :apiKey
+      alias_method  :api_key,  :apiKey
+      alias_method  :api_key=, :apiKey=
 
       # The API secret. (String)
       attr_accessor :apiSecret
+      alias_method  :api_secret,  :apiSecret
+      alias_method  :api_secret=, :apiSecret=
 
       # The SNS. (String)
       #
@@ -36,6 +40,12 @@ module Authlete
 
       # String attributes.
       STRING_ATTRIBUTES = ::Set.new([:apiKey, :apiSecret, :sns])
+
+      # Mapping from snake cases to camel cases.
+      SNAKE_TO_CAMEL = {
+        :api_key    => :apiKey,
+        :api_secret => :apiSecret
+      }
 
       # The constructor.
       def initialize(hash = nil)
@@ -48,6 +58,17 @@ module Authlete
         authlete_model_snsCredentials_update(hash)
       end
 
+      def authlete_model_snsCredentials_to_key(key)
+        key = key.to_sym
+
+        # Convert snakecase to camelcase, if necessary.
+        if SNAKE_TO_CAMEL.has_key?(key)
+          key = SNAKE_TO_CAMEL[key]
+        end
+
+        return key
+      end
+
       def authlete_model_snsCredentials_simple_attribute?(key)
         STRING_ATTRIBUTES.include?(key)
       end
@@ -58,7 +79,7 @@ module Authlete
         end
 
         hash.each do |key, value|
-          key = key.to_sym
+          key = authlete_model_snsCredentials_to_key(key)
 
           # If the attribute is a simple one.
           if authlete_model_snsCredentials_simple_attribute?(key)
@@ -101,6 +122,27 @@ module Authlete
         end
 
         return hash
+      end
+
+      def [](key)
+        key = authlete_model_snsCredentials_to_key(key)
+
+        if respond_to?(key)
+          return send(key)
+        else
+          return nil
+        end
+      end
+
+      def []=(key, value)
+        key = authlete_model_snsCredentials_to_key(key)
+        method = "#{key}="
+
+        if respond_to?(method)
+          return send(method, value)
+        else
+          return nil
+        end
       end
     end
   end
