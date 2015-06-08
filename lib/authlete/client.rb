@@ -1,6 +1,6 @@
 # :nodoc:
 #
-# Copyright (C) 2014 Authlete, Inc.
+# Copyright (C) 2014-2015 Authlete, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -44,6 +44,9 @@ module Authlete
     # The API secret of a service.
     attr_accessor :service_api_secret
 
+    # Extra HTTP headers
+    attr_accessor :extra_headers
+
     # The constructor which takes a hash containing configuration
     # parameters. Valid configuration parameter names are as follows.
     #
@@ -64,23 +67,57 @@ module Authlete
     private
 
     def call_api(method, path, content_type, payload, user, password)
+      headers = {}
+
+      if content_type.nil? == false
+        headers.merge!(:content_type => content_type)
+      end
+
+      if @extra_headers.nil? == false
+        headers.merge!(@extra_headers)
+      end
+
       response = RestClient::Request.new(
         :method   => method,
         :url      => @host + path,
-        :headers  => { :content_type => content_type },
+        :headers  => headers,
         :payload  => payload,
         :user     => user,
         :password => password
       ).execute
 
-      JSON.parse(response.to_str, :symbolize_names => true)
+      body = body_as_string(response)
+
+      if body.nil?
+        return nil
+      end
+
+      JSON.parse(response.body.to_s, :symbolize_names => true)
+    end
+
+    def body_as_string(response)
+      if response.body.nil?
+        return nil
+      end
+
+      body = response.body.to_s
+
+      if body.length == 0
+        return nil
+      end
+
+      return body
+    end
+
+    def call_api_service_owner(method, path, content_type, payload)
+      call_api(method, path, content_type, payload, @service_owner_api_key, @service_owner_api_secret)
     end
 
     def call_api_json(path, body, user, password)
       call_api(:post, path, 'application/json;charset=UTF-8', JSON.generate(body), user, password)
     end
 
-    def call_api_json_servie_owner(path, body)
+    def call_api_json_service_owner(path, body)
       call_api_json(path, body, @service_owner_api_key, @service_owner_api_secret)
     end
 
@@ -106,7 +143,104 @@ module Authlete
       end
     end
 
+    def to_query(params)
+      if params.nil? || params.size == 0
+        return ""
+      end
+
+      array = []
+
+      params.each do |key, value|
+        array.push("#{key}=#{value}")
+      end
+
+      return "?" + array.join("&")
+    end
+
     public
+
+
+    # Call Authlete's /api/service/create API.
+    #
+    # <tt>service</tt> is the content of a new service to create. The type of
+    # the given object is either <tt>Hash</tt> or any object which
+    # responds to <tt>to_hash</tt>. In normal cases, Authlete::Model::Service
+    # (which responds to <tt>to_hash</tt>) should be used.
+    #
+    # On success, an instance of Authlete::Model::ServiceList is returned.
+    # On error, RestClient::Exception (of rest-client GEM) is raised.
+    def service_create(service)
+      if service.kind_of?(Hash) == false
+        if service.respond_to?('to_hash')
+          service = service.to_hash
+        end
+      end
+
+      hash = call_api_json_service_owner("/api/service/create", service)
+
+      Authlete::Model::Service.new(hash)
+    end
+
+    # Call Authlete's /api/service/delete/{api_key} API.
+    #
+    # On error, RestClient::Exception (of rest-client GEM) is raised.
+    def service_delete(api_key)
+      call_api_service_owner(:delete, "/api/service/delete/#{api_key}", nil, nil)
+    end
+
+
+    # Call Authlete's /api/service/get/{api_key} API.
+    #
+    # <tt>api_key</tt> is the API key of the service whose information
+    # you want to get.
+    #
+    # On success, an instance of Authlete::Model::Service is returned.
+    # On error, RestClient::Exception (of rest-client GEM) is raised.
+    def service_get(api_key)
+      hash = call_api_service_owner(:get, "/api/service/get/#{api_key}", nil, nil)
+
+      Authlete::Model::Service.new(hash)
+    end
+
+    # Call Authlete's /api/service/get/list API.
+    #
+    # <tt>params</tt> is an optional hash which contains query parameters
+    # for /api/service/get/list API. <tt>:start</tt> and <tt>:end</tt> are
+    # a start index (inclusive) and an end index (exclusive), respectively.
+    #
+    # On success, an instance of Authlete::Model::ServiceList is returned.
+    # On error, RestClient::Exception (of rest-client GEM) is raised.
+    def service_get_list(params = nil)
+      hash = call_api_service_owner(:get, "/api/service/get/list#{to_query(params)}", nil, nil)
+
+      Authlete::Model::ServiceList.new(hash)
+    end
+
+
+    # Call Authlete's /api/service/update/{api_key} API.
+    #
+    # <tt>api_key</tt> is the API key of the service whose information
+    # you want to get.
+    #
+    # <tt>service</tt> is the new content of the service. The type of
+    # the given object is either <tt>Hash</tt> or any object which
+    # responds to <tt>to_hash</tt>. In normal cases, Authlete::Model::Service
+    # (which responds to <tt>to_hash</tt>) should be used.
+    #
+    # On success, an instance of Authlete::Model::Service is returned.
+    # On error, RestClient::Exception (of rest-client GEM) is raised.
+    def service_update(api_key, service)
+      if service.kind_of?(Hash) == false
+        if service.respond_to?('to_hash')
+          service = service.to_hash
+        end
+      end
+
+      hash = call_api_json_service_owner("/api/service/update/#{api_key}", service)
+
+      Authlete::Model::Service.new(hash)
+    end
+
 
     # Call Authlete's {/auth/introspection}
     # [https://www.authlete.com/authlete_web_apis_introspection.html#auth_introspection]
@@ -135,6 +269,7 @@ module Authlete
 
       Authlete::Response::IntrospectionResponse.new(hash)
     end
+
 
     # Ensure that the request contains a valid access token.
     #

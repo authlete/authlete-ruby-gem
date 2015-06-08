@@ -31,6 +31,7 @@ module Authlete
   module Model
     autoload :Scope, 'authlete/model/scope'
     autoload :Service, 'authlete/model/service'
+    autoload :ServiceList, 'authlete/model/service-list'
     autoload :SnsCredentials, 'authlete/model/sns-credentials'
   end
 
