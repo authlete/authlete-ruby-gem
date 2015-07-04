@@ -61,6 +61,11 @@ module Authlete
       alias_method  :authorization_endpoint,  :authorizationEndpoint
       alias_method  :authorization_endpoint=, :authorizationEndpoint=
 
+      # The timestamp at which the service was created. (Integer)
+      attr_accessor :createdAt
+      alias_method  :created_at, :createdAt
+      alias_method  :created_at=, :createdAt=
+
       # The description of this service. (String)
       attr_accessor :description
 
@@ -80,6 +85,11 @@ module Authlete
       alias_method  :jwks_uri,  :jwksUri
       alias_method  :jwks_uri=, :jwksUri=
 
+      # The timestamp at which the service was modified. (Integer)
+      attr_accessor :modifiedAt
+      alias_method  :modified_at, :modifiedAt
+      alias_method  :modified_at=, :modifiedAt=
+
       # The service number. (Integer)
       attr_accessor :number
 
@@ -87,6 +97,9 @@ module Authlete
       attr_accessor :policyUri
       alias_method  :policy_uri,  :policyUri
       alias_method  :policy_uri=, :policyUri=
+
+      # The service properties. (Array)
+      attr_accessor :properties
 
       # The duration of refresh tokens in seconds. (Integer)
       attr_accessor :refreshTokenDuration
@@ -206,8 +219,8 @@ module Authlete
 
       # Integer attributes.
       INTEGER_ATTRIBUTES = ::Set.new([
-        :accessTokenDuration, :apiKey, :idTokenDuration, :number,
-        :refreshTokenDuration, :serviceOwnerNumber
+        :accessTokenDuration, :apiKey, :createdAt, :idTokenDuration,
+        :modifiedAt, :number, :refreshTokenDuration, :serviceOwnerNumber
       ])
 
       # String attributes.
@@ -221,7 +234,7 @@ module Authlete
 
       # String array attributes.
       STRING_ARRAY_ATTRIBUTES = ::Set.new([
-        :supportedAcrs, :supportedClaimLocales, :supportedClaims,
+        :properties, :supportedAcrs, :supportedClaimLocales, :supportedClaims,
         :supportedClaimTypes, :supportedDisplays, :supportedGrantTypes,
         :supportedResponseTypes, :supportedSnses, :supportedTokenAuthMethods,
         :supportedUiLocales
@@ -237,8 +250,10 @@ module Authlete
         :authentication_callback_api_secret => :authenticationCallbackApiSecret,
         :authentication_callback_endpoint   => :authenticationCallbackEndpoint,
         :authorization_endpoint             => :authorizationEndpoint,
+        :created_at                         => :createdAt,
         :id_tokn_duration                   => :idTokenDuration,
         :jwks_uri                           => :jwksUri,
+        :modified_at                        => :modifiedAt,
         :policy_uri                         => :policyUri,
         :refresh_token_duration             => :refreshTokenDuration,
         :registration_endpoint              => :registrationEndpoint,
