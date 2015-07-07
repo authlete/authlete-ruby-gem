@@ -69,6 +69,21 @@ module Authlete
       # The description of this service. (String)
       attr_accessor :description
 
+      # The API key to access the developer authentication callback endpoint. (String)
+      attr_accessor :developerAuthenticationCallbackApiKey
+      alias_method  :developer_authentication_callback_api_key,  :developerAuthenticationCallbackApiKey
+      alias_method  :developer_authentication_callback_api_key=, :developerAuthenticationCallbackApiKey=
+
+      # The API secret to access the developer authentication callback endpoint. (String)
+      attr_accessor :developerAuthenticationCallbackApiSecret
+      alias_method  :developer_authentication_callback_api_secret,  :developerAuthenticationCallbackApiSecret
+      alias_method  :developer_authentication_callback_api_secret=, :developerAuthenticationCallbackApiSecret=
+
+      # The URI of the developer authentication callback endpoint. (URI)
+      attr_accessor :developerAuthenticationCallbackEndpoint
+      alias_method  :developer_authentication_callback_endpoint,  :developerAuthenticationCallbackEndpoint
+      alias_method  :developer_authentication_callback_endpoint=, :developerAuthenticationCallbackEndpoint=
+
       # The duration of ID tokens in seconds. (Integer)
       attr_accessor :idTokenDuration
       alias_method  :id_token_duration,  :idTokenDuration
@@ -227,8 +242,9 @@ module Authlete
       STRING_ATTRIBUTES = ::Set.new([
         :accessTokenType, :apiSecret, :authenticationCallbackApiKey,
         :authenticationCallbackApiSecret, :authenticationCallbackEndpoint,
-        :authorizationEndpoint, :description, :issuer, :jwks, :jwksUri,
-        :policyUri, :registrationEndpoint, :serviceDocumentation,
+        :authorizationEndpoint, :description, :developerAuthenticationCallbackApiKey,
+        :developerAuthenticationCallbackApiSecret, :developerAuthenticationCallbackEndpoint,
+        :issuer, :jwks, :jwksUri, :policyUri, :registrationEndpoint, :serviceDocumentation,
         :serviceName, :tokenEndpoint, :tosUri, :userInfoEndpoint
       ])
 
@@ -242,39 +258,42 @@ module Authlete
 
       # Mapping from snake cases to camel cases.
       SNAKE_TO_CAMEL = {
-        :access_token_duration              => :accessTokenDuration,
-        :access_token_type                  => :accessTokenType,
-        :api_key                            => :apiKey,
-        :api_secret                         => :apiSecret,
-        :authentication_callback_api_key    => :authenticationCallbackApiKey,
-        :authentication_callback_api_secret => :authenticationCallbackApiSecret,
-        :authentication_callback_endpoint   => :authenticationCallbackEndpoint,
-        :authorization_endpoint             => :authorizationEndpoint,
-        :created_at                         => :createdAt,
-        :id_tokn_duration                   => :idTokenDuration,
-        :jwks_uri                           => :jwksUri,
-        :modified_at                        => :modifiedAt,
-        :policy_uri                         => :policyUri,
-        :refresh_token_duration             => :refreshTokenDuration,
-        :registration_endpoint              => :registrationEndpoint,
-        :service_documentation              => :serviceDocumentation,
-        :service_name                       => :serviceName,
-        :service_owner_number               => :serviceOwnerNumber,
-        :sns_credentials                    => :snsCredentials,
-        :supported_acrs                     => :supportedAcrs,
-        :supported_claim_locales            => :supportedClaimLocales,
-        :supported_claims                   => :supportedClaims,
-        :supported_claim_types              => :supportedClaimTypes,
-        :supported_displays                 => :supportedDisplays,
-        :supported_grant_types              => :supportedGrantTypes,
-        :supported_response_types           => :supportedResponseTypes,
-        :supported_scopes                   => :supportedScopes,
-        :supported_snses                    => :supportedSnses,
-        :supported_token_auth_methods       => :supportedTokenAuthMethods,
-        :supported_ui_locales               => :supportedUiLocales,
-        :token_endpoint                     => :tokenEndpoint,
-        :tos_uri                            => :tosUri,
-        :user_info_endpoint                 => :userInfoEndpoint
+        :access_token_duration                        => :accessTokenDuration,
+        :access_token_type                            => :accessTokenType,
+        :api_key                                      => :apiKey,
+        :api_secret                                   => :apiSecret,
+        :authentication_callback_api_key              => :authenticationCallbackApiKey,
+        :authentication_callback_api_secret           => :authenticationCallbackApiSecret,
+        :authentication_callback_endpoint             => :authenticationCallbackEndpoint,
+        :authorization_endpoint                       => :authorizationEndpoint,
+        :developer_authentication_callback_apiKey     => :developerAuthenticationCallbackApiKey,
+        :developer_authentication_callback_api_secret => :developerAuthenticationCallbackApiSecret,
+        :developer_authentication_callback_endpoint   => :developerAuthenticationCallbackEndpoint,
+        :created_at                                   => :createdAt,
+        :id_tokn_duration                             => :idTokenDuration,
+        :jwks_uri                                     => :jwksUri,
+        :modified_at                                  => :modifiedAt,
+        :policy_uri                                   => :policyUri,
+        :refresh_token_duration                       => :refreshTokenDuration,
+        :registration_endpoint                        => :registrationEndpoint,
+        :service_documentation                        => :serviceDocumentation,
+        :service_name                                 => :serviceName,
+        :service_owner_number                         => :serviceOwnerNumber,
+        :sns_credentials                              => :snsCredentials,
+        :supported_acrs                               => :supportedAcrs,
+        :supported_claim_locales                      => :supportedClaimLocales,
+        :supported_claims                             => :supportedClaims,
+        :supported_claim_types                        => :supportedClaimTypes,
+        :supported_displays                           => :supportedDisplays,
+        :supported_grant_types                        => :supportedGrantTypes,
+        :supported_response_types                     => :supportedResponseTypes,
+        :supported_scopes                             => :supportedScopes,
+        :supported_snses                              => :supportedSnses,
+        :supported_token_auth_methods                 => :supportedTokenAuthMethods,
+        :supported_ui_locales                         => :supportedUiLocales,
+        :token_endpoint                               => :tokenEndpoint,
+        :tos_uri                                      => :tosUri,
+        :user_info_endpoint                           => :userInfoEndpoint
       }
 
       # The constructor
