@@ -24,15 +24,18 @@ require 'authlete/version'
 #
 module Authlete
   autoload :AuthenticationServer, 'authlete/authentication-server'
-  autoload :Client, 'authlete/client'
+  autoload :Api, 'authlete/api'
   autoload :Host, 'authlete/host'
   autoload :Utility, 'authlete/utility'
 
   module Model
+    autoload :Client, 'authlete/model/client'
+    autoload :ClientList, 'authlete/model/client-list'
     autoload :Scope, 'authlete/model/scope'
     autoload :Service, 'authlete/model/service'
     autoload :ServiceList, 'authlete/model/service-list'
     autoload :SnsCredentials, 'authlete/model/sns-credentials'
+    autoload :TaggedValue, 'authlete/model/tagged-value'
   end
 
   module Request
