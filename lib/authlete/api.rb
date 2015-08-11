@@ -47,6 +47,8 @@ module Authlete
     # Extra HTTP headers
     attr_accessor :extra_headers
 
+    private
+
     # The constructor which takes a hash containing configuration
     # parameters. Valid configuration parameter names are as follows.
     #
@@ -64,8 +66,6 @@ module Authlete
       @service_api_secret       = extract_value(config, :service_api_secret)
     end
 
-    private
-
     def call_api(method, path, content_type, payload, user, password)
       headers = {}
 
@@ -77,14 +77,14 @@ module Authlete
         headers.merge!(@extra_headers)
       end
 
-      response = RestClient::Request.new(
+      response = execute(
         :method   => method,
         :url      => @host + path,
         :headers  => headers,
         :payload  => payload,
         :user     => user,
         :password => password
-      ).execute
+      )
 
       body = body_as_string(response)
 
@@ -93,6 +93,61 @@ module Authlete
       end
 
       JSON.parse(response.body.to_s, :symbolize_names => true)
+    end
+
+    def execute(parameters)
+      begin
+        return RestClient::Request.new(parameters).execute
+      rescue => e
+        raise_api_exception(e)
+      end
+    end
+
+    def raise_api_exception(exception)
+      message  = exception.message
+      response = exception.response
+
+      if response.nil?
+        # Raise an error without HTTP response information.
+        raise Authlete::Exception.new(:message => message)
+      end
+
+      # Raise an error with HTTP response information.
+      raise_api_exception_with_http_response_info(message, response.code, response.body)
+    end
+
+    def raise_api_exception_with_http_response_info(message, status_code, response_body)
+      # Parse the response body as a json.
+      json = parse_response_body(response_body, message, status_code)
+
+      # If the json has the HTTP response information from an Authlete API.
+      if has_authlete_api_response_info(json)
+        # Raise an error with it.
+        hash = json.merge!(:statusCode => status_code)
+        raise Authlete::Exception.new(hash)
+      end
+
+      # Raise an error with 'status_code' and the original error message.
+      raise Authlete::Exception.new(
+        :message     => message,
+        :status_code => status_code
+      )
+    end
+
+    def parse_response_body(response_body, message, status_code)
+      begin
+        return JSON.parse(response_body.to_s, :symbolize_names => true)
+      rescue
+        # Failed to parse the response body as a json.
+        raise Authlete::Exception.new(
+          :message     => message,
+          :status_code => status_code
+        )
+      end
+    end
+
+    def has_authlete_api_response_info(json)
+      json && json.key?(:resultCode) && json.key?(:resultMessage)
     end
 
     def body_as_string(response)
@@ -340,7 +395,7 @@ module Authlete
     # throws <tt>RestClient::Exception</tt>.
     def introspection(token, scopes = nil, subject = nil)
       hash = call_api_json_service('/api/auth/introspection',
-        :token => token, :scopes => scopes, :subject => subject)
+                                   :token => token, :scopes => scopes, :subject => subject)
 
       Authlete::Response::IntrospectionResponse.new(hash)
     end
