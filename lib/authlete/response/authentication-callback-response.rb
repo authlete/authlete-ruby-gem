@@ -1,6 +1,6 @@
 # :nodoc:
 #
-# Copyright (C) 2014 Authlete, Inc.
+# Copyright (C) 2014-2015 Authlete, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -32,12 +32,16 @@ module Authlete
       # Pieces of information about the end-user in JSON format.
       attr_accessor :claims
 
+      # True to indicate that the authentication endpoint is mock.
+      attr_accessor :mock
+
       # The constructor which takes a hash that represents a JSON response
       # from an authentication callback endpoint.
       def initialize(hash = {})
         @authenticated = extract_boolean_value(hash, :authenticated)
         @subject       = extract_value(hash, :subject)
         @claims        = extract_value(hash, :claims)
+        @mock          = extract_boolean_value(hash, :mock)
       end
 
       # Generate an array which is usable as a Rack response from this instance.
@@ -45,7 +49,8 @@ module Authlete
         to_rack_response_json(200, JSON.generate(
           :authenticated => @authenticated,
           :subject       => @subject,
-          :claims        => @claims
+          :claims        => @claims,
+          :mock          => @mock
         ))
       end
     end
