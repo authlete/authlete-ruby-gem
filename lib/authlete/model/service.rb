@@ -84,6 +84,11 @@ module Authlete
       alias_method  :developer_authentication_callback_endpoint,  :developerAuthenticationCallbackEndpoint
       alias_method  :developer_authentication_callback_endpoint=, :developerAuthenticationCallbackEndpoint=
 
+      # The list of SNS credentials for developer login. (SnsCredentials array)
+      attr_accessor :developerSnsCredentials
+      alias_method  :developer_sns_credentials,  :developerSnsCredentials
+      alias_method  :developer_sns_credentials=, :developerSnsCredentials=
+
       # The duration of ID tokens in seconds. (Integer)
       attr_accessor :idTokenDuration
       alias_method  :id_token_duration,  :idTokenDuration
@@ -168,6 +173,11 @@ module Authlete
       alias_method  :supported_claim_types,  :supportedClaimTypes
       alias_method  :supported_claim_types=, :supportedClaimTypes=
 
+      # The list of supported SNSes for developer login. (Sns array)
+      attr_accessor :supportedDeveloperSnses
+      alias_method  :supported_developer_snses,  :supportedDeveloperSnses
+      alias_method  :supported_developer_snses=, :supportedDeveloperSnses=
+
       # The list of supported values of +display+ parameter. (String array)
       #
       # Valid values are "PAGE", "POPUP", "TOUCH" and "WAP".
@@ -251,9 +261,9 @@ module Authlete
       # String array attributes.
       STRING_ARRAY_ATTRIBUTES = ::Set.new([
         :properties, :supportedAcrs, :supportedClaimLocales, :supportedClaims,
-        :supportedClaimTypes, :supportedDisplays, :supportedGrantTypes,
-        :supportedResponseTypes, :supportedSnses, :supportedTokenAuthMethods,
-        :supportedUiLocales
+        :supportedClaimTypes, :supportedDeveloperSnses, :supportedDisplays,
+        :supportedGrantTypes, :supportedResponseTypes, :supportedSnses,
+        :supportedTokenAuthMethods, :supportedUiLocales
       ])
 
       # Mapping from snake cases to camel cases.
@@ -269,6 +279,7 @@ module Authlete
         :developer_authentication_callback_apiKey     => :developerAuthenticationCallbackApiKey,
         :developer_authentication_callback_api_secret => :developerAuthenticationCallbackApiSecret,
         :developer_authentication_callback_endpoint   => :developerAuthenticationCallbackEndpoint,
+        :developer_sns_credentials                    => :developerSnsCredentials,
         :created_at                                   => :createdAt,
         :id_tokn_duration                             => :idTokenDuration,
         :jwks_uri                                     => :jwksUri,
@@ -284,6 +295,7 @@ module Authlete
         :supported_claim_locales                      => :supportedClaimLocales,
         :supported_claims                             => :supportedClaims,
         :supported_claim_types                        => :supportedClaimTypes,
+        :supported_developer_snses                    => :supportedDeveloperSnses,
         :supported_displays                           => :supportedDisplays,
         :supported_grant_types                        => :supportedGrantTypes,
         :supported_response_types                     => :supportedResponseTypes,
@@ -314,8 +326,9 @@ module Authlete
         end
 
         # Set default values to special objects.
-        @snsCredentials  = nil
-        @supportedScopes = nil
+        @developerSnsCredentials = nil
+        @snsCredentials          = nil
+        @supportedScopes         = nil
 
         # Set attribute values using the given hash.
         authlete_model_service_update(hash)
@@ -352,7 +365,12 @@ module Authlete
             next
           end
 
-          if key == :snsCredentials
+          if key == :developerSnsCredentials
+            # The attribute 'developerSnsCredentials'.
+            @developerSnsCredentials = authlete_model_service_parse_array(value) do |element|
+              Authlete::Model::SnsCredentials.parse(element)
+            end
+          elsif key == :snsCredentials
             # The attribute 'snsCredentials'.
             @snsCredentials = authlete_model_service_parse_array(value) do |element|
               Authlete::Model::SnsCredentials.parse(element)
