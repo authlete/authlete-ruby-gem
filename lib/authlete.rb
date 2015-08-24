@@ -1,6 +1,6 @@
 # :nodoc:
 #
-# Copyright (C) 2014 Authlete, Inc.
+# Copyright (C) 2014-2015 Authlete, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -41,11 +41,13 @@ module Authlete
 
   module Request
     autoload :AuthenticationCallbackRequest, 'authlete/request/authentication-callback-request'
+    autoload :DeveloperAuthenticationCallbackRequest, 'authlete/request/developer-authentication-callback-request'
   end
 
   module Response
     autoload :AuthenticationCallbackResponse, 'authlete/response/authentication-callback-response'
     autoload :BaseResponse, 'authlete/response/base-response'
+    autoload :DeveloperAuthenticationCallbackResponse, 'authlete/response/developer-authentication-callback-response'
     autoload :IntrospectionResponse, 'authlete/response/introspection-response'
   end
 end
