@@ -23,7 +23,7 @@ module Authlete
     # == Authlete::Request::DeveloperAuthenticationCallbackRequest class
     #
     # This class represents a request to a developer authentication callback endpoint.
-    class AuthenticationCallbackRequest
+    class DeveloperAuthenticationCallbackRequest
       include Authlete::Utility
 
       # The API key of the service.
