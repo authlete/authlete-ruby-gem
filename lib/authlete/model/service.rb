@@ -276,7 +276,7 @@ module Authlete
         :authentication_callback_api_secret           => :authenticationCallbackApiSecret,
         :authentication_callback_endpoint             => :authenticationCallbackEndpoint,
         :authorization_endpoint                       => :authorizationEndpoint,
-        :developer_authentication_callback_apiKey     => :developerAuthenticationCallbackApiKey,
+        :developer_authentication_callback_api_key     => :developerAuthenticationCallbackApiKey,
         :developer_authentication_callback_api_secret => :developerAuthenticationCallbackApiSecret,
         :developer_authentication_callback_endpoint   => :developerAuthenticationCallbackEndpoint,
         :developer_sns_credentials                    => :developerSnsCredentials,
