@@ -360,7 +360,7 @@ module Authlete
         end
 
         # Set attribute values using the given hash.
-        authlete_model_service_update(hash)
+        authlete_model_client_update(hash)
       end
 
       def authlete_model_service_to_key(key)
