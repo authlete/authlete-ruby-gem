@@ -363,7 +363,7 @@ module Authlete
         authlete_model_client_update(hash)
       end
 
-      def authlete_model_service_to_key(key)
+      def authlete_model_client_to_key(key)
         key = key.to_sym
 
         # Convert snakecase to camelcase, if necessary.
