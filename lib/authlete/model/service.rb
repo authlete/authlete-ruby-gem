@@ -345,6 +345,7 @@ module Authlete
         :policy_uri                                   => :policyUri,
         :refresh_token_duration                       => :refreshTokenDuration,
         :registration_endpoint                        => :registrationEndpoint,
+        :revocation_endpoint                          => :revocationEndpoint,
         :service_documentation                        => :serviceDocumentation,
         :service_name                                 => :serviceName,
         :service_owner_number                         => :serviceOwnerNumber,
