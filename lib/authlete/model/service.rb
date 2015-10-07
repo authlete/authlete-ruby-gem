@@ -61,6 +61,12 @@ module Authlete
       alias_method  :authorization_endpoint,  :authorizationEndpoint
       alias_method  :authorization_endpoint=, :authorizationEndpoint=
 
+      # The number of client applications that one developer can create.
+      # 0 means no limit.
+      attr_accessor :clientPerDeveloper
+      alias_method  :client_per_developer,  :clientPerDeveloper
+      alias_method  :client_per_developer=, :clientPerDeveloper=
+
       # The timestamp at which the service was created. (Integer)
       attr_accessor :createdAt
       alias_method  :created_at, :createdAt
@@ -88,6 +94,41 @@ module Authlete
       attr_accessor :developerSnsCredentials
       alias_method  :developer_sns_credentials,  :developerSnsCredentials
       alias_method  :developer_sns_credentials=, :developerSnsCredentials=
+
+      # The flag to indicate whether the direct authorization endpoint
+      # is enabled or not. The path of the endpoint is
+      # <code>/api/auth/authorization/direct/{serviceApiKey}</code>
+      attr_accessor :directAuthorizationEndpointEnabled
+      alias_method  :direct_authorization_endpoint_enabled,  :directAuthorizationEndpointEnabled
+      alias_method  :direct_authorization_endpoint_enabled=, :directAuthorizationEndpointEnabled=
+
+      # The flag to indicate whether the direct jwks endpoint
+      # is enabled or not. The path of the endpoint is
+      # <code>/api/service/jwks/get/direct/{serviceApiKey}</code>
+      attr_accessor :directJwksEndpointEnabled
+      alias_method  :direct_jwks_endpoint_enabled,  :directJwksEndpointEnabled
+      alias_method  :direct_jwks_endpoint_enabled=, :directJwksEndpointEnabled=
+
+      # The flag to indicate whether the direct revocation endpoint
+      # is enabled or not. The path of the endpoint is
+      # <code>/api/auth/revocation/direct/{serviceApiKey}</code>
+      attr_accessor :directRevocationEndpointEnabled
+      alias_method  :direct_revocation_endpoint_enabled,  :directRevocationEndpointEnabled
+      alias_method  :direct_revocation_endpoint_enabled=, :directRevocationEndpointEnabled=
+
+      # The flag to indicate whether the direct token endpoint
+      # is enabled or not. The path of the endpoint is
+      # <code>/api/auth/token/direct/{serviceApiKey}</code>
+      attr_accessor :directTokenEndpointEnabled
+      alias_method  :direct_token_endpoint_enabled,  :directTokenEndpointEnabled
+      alias_method  :direct_token_endpoint_enabled=, :directTokenEndpointEnabled=
+
+      # The flag to indicate whether the direct user info endpoint
+      # is enabled or not. The path of the endpoint is
+      # <code>/api/auth/userinfo/direct/{serviceApiKey}</code>
+      attr_accessor :directUserInfoEndpointEnabled
+      alias_method  :direct_user_info_endpoint_enabled,  :directUserInfoEndpointEnabled
+      alias_method  :direct_user_info_endpoint_enabled=, :directUserInfoEndpointEnabled=
 
       # The duration of ID tokens in seconds. (Integer)
       attr_accessor :idTokenDuration
@@ -130,6 +171,11 @@ module Authlete
       attr_accessor :registrationEndpoint
       alias_method  :registration_endpoint,  :registrationEndpoint
       alias_method  :registration_endpoint=, :registrationEndpoint=
+
+      # The URI of the token revocation endpoint. (URI)
+      attr_accessor :revocationEndpoint
+      alias_method  :revocation_endpoint,  :revocationEndpoint
+      alias_method  :revocation_endpoint=, :revocationEndpoint=
 
       # The URI of the service's documentation. (URI)
       attr_accessor :serviceDocumentation
@@ -235,7 +281,7 @@ module Authlete
       alias_method  :tos_uri,  :tosUri
       alias_method  :tos_uri=, :tosUri=
 
-      # The URI of UserInfo endpoint. (URI)
+      # The URI of user info endpoint. (URI)
       attr_accessor :userInfoEndpoint
       alias_method  :user_info_endpoint,  :userInfoEndpoint
       alias_method  :user_info_endpoint=, :userInfoEndpoint=
@@ -244,8 +290,14 @@ module Authlete
 
       # Integer attributes.
       INTEGER_ATTRIBUTES = ::Set.new([
-        :accessTokenDuration, :apiKey, :createdAt, :idTokenDuration,
-        :modifiedAt, :number, :refreshTokenDuration, :serviceOwnerNumber
+        :accessTokenDuration, :apiKey, :clientPerDeveloper, :createdAt,
+        :idTokenDuration, :modifiedAt, :number, :refreshTokenDuration, :serviceOwnerNumber
+      ])
+
+      # Boolean attributes.
+      BOOLEAN_ATTRIBUTES = ::Set.new([
+        :directAuthorizationEndpointEnabled, :directJwksEndpointEnabled, :directRevocationEndpointEnabled,
+        :directTokenEndpointEnabled, :directUserInfoEndpointEnabled
       ])
 
       # String attributes.
@@ -255,7 +307,7 @@ module Authlete
         :authorizationEndpoint, :description, :developerAuthenticationCallbackApiKey,
         :developerAuthenticationCallbackApiSecret, :developerAuthenticationCallbackEndpoint,
         :issuer, :jwks, :jwksUri, :policyUri, :registrationEndpoint, :serviceDocumentation,
-        :serviceName, :tokenEndpoint, :tosUri, :userInfoEndpoint
+        :serviceName, :tokenEndpoint, :tosUri, :userInfoEndpoint, :revocationEndpoint
       ])
 
       # String array attributes.
@@ -276,11 +328,17 @@ module Authlete
         :authentication_callback_api_secret           => :authenticationCallbackApiSecret,
         :authentication_callback_endpoint             => :authenticationCallbackEndpoint,
         :authorization_endpoint                       => :authorizationEndpoint,
-        :developer_authentication_callback_api_key     => :developerAuthenticationCallbackApiKey,
+        :developer_authentication_callback_api_key    => :developerAuthenticationCallbackApiKey,
         :developer_authentication_callback_api_secret => :developerAuthenticationCallbackApiSecret,
         :developer_authentication_callback_endpoint   => :developerAuthenticationCallbackEndpoint,
         :developer_sns_credentials                    => :developerSnsCredentials,
+        :client_per_developer                         => :clientPerDeveloper,
         :created_at                                   => :createdAt,
+        :direct_authorization_endpoint_enabled        => :directAuthorizationEndpointEnabled,
+        :direct_jwks_endpoint_enabled                 => :directJwksEndpointEnabled,
+        :direct_revocation_endpoint_enabled           => :directRevocationEndpointEnabled,
+        :direct_token_endpoint_enabled                => :directTokenEndpointEnabled,
+        :direct_user_info_endpoint_enabled            => :directUserInfoEndpointEnabled,
         :id_tokn_duration                             => :idTokenDuration,
         :jwks_uri                                     => :jwksUri,
         :modified_at                                  => :modifiedAt,
@@ -315,6 +373,11 @@ module Authlete
           send("#{attr}=", 0)
         end
 
+        # Set default values to boolean attributes.
+        BOOLEAN_ATTRIBUTES.each do |attr|
+          send("#{attr}=", false)
+        end
+
         # Set default values to string attributes.
         STRING_ATTRIBUTES.each do |attr|
           send("#{attr}=", nil)
@@ -347,6 +410,7 @@ module Authlete
 
       def authlete_model_service_simple_attribute?(key)
         INTEGER_ATTRIBUTES.include?(key) or
+        BOOLEAN_ATTRIBUTES.include?(key) or
         STRING_ATTRIBUTES.include?(key) or
         STRING_ARRAY_ATTRIBUTES.include?(key)
       end
