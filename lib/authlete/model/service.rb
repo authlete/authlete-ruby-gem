@@ -63,9 +63,9 @@ module Authlete
 
       # The number of client applications that one developer can create.
       # 0 means no limit.
-      attr_accessor :clientPerDeveloper
-      alias_method  :client_per_developer,  :clientPerDeveloper
-      alias_method  :client_per_developer=, :clientPerDeveloper=
+      attr_accessor :clientsPerDeveloper
+      alias_method  :clients_per_developer,  :clientsPerDeveloper
+      alias_method  :clients_per_developer=, :clientsPerDeveloper=
 
       # The timestamp at which the service was created. (Integer)
       attr_accessor :createdAt
@@ -290,7 +290,7 @@ module Authlete
 
       # Integer attributes.
       INTEGER_ATTRIBUTES = ::Set.new([
-        :accessTokenDuration, :apiKey, :clientPerDeveloper, :createdAt,
+        :accessTokenDuration, :apiKey, :clientsPerDeveloper, :createdAt,
         :idTokenDuration, :modifiedAt, :number, :refreshTokenDuration, :serviceOwnerNumber
       ])
 
@@ -332,7 +332,7 @@ module Authlete
         :developer_authentication_callback_api_secret => :developerAuthenticationCallbackApiSecret,
         :developer_authentication_callback_endpoint   => :developerAuthenticationCallbackEndpoint,
         :developer_sns_credentials                    => :developerSnsCredentials,
-        :client_per_developer                         => :clientPerDeveloper,
+        :clients_per_developer                        => :clientsPerDeveloper,
         :created_at                                   => :createdAt,
         :direct_authorization_endpoint_enabled        => :directAuthorizationEndpointEnabled,
         :direct_jwks_endpoint_enabled                 => :directJwksEndpointEnabled,
