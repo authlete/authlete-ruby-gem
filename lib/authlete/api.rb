@@ -303,7 +303,7 @@ module Authlete
     # On success, an instance of Authlete::Model::ServiceOwner is returned.
     # On error, Authlete::Exception is raised.
     def serviceowner_get_self
-      hash = call_api_json_service_owner(:get, "/api/serviceowner/get/self")
+      hash = call_api_service_owner(:get, "/api/serviceowner/get/self", nil, nil)
 
       Authlete::Model::ServiceOwner.new(hash)
     end
