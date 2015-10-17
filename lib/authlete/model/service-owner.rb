@@ -54,7 +54,7 @@ module Authlete
 
       # String attributes.
       STRING_ATTRIBUTES = ::Set.new([
-        :apiSecret, :email, :login_id, :name
+        :apiSecret, :email, :loginId, :name
       ])
 
       # Mapping from snake cases to camel cases.
