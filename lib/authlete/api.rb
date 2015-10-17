@@ -29,7 +29,7 @@ module Authlete
     include Authlete::Utility
 
     # The host which provides Authlete Web APIs.
-    # For example, <tt>https://evaluation-dot-authlete.appspot.com</tt>
+    # For example, <tt>https://dev-api.authlete.com</tt>
     attr_accessor :host
 
     # The API key of a service owner.
