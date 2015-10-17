@@ -226,7 +226,7 @@ module Authlete
     # (which responds to <tt>to_hash</tt>) should be used.
     #
     # On success, an instance of Authlete::Model::ServiceList is returned.
-    # On error, RestClient::Exception (of rest-client GEM) is raised.
+    # On error, Authlete::Exception is raised.
     def service_create(service)
       if service.kind_of?(Hash) == false
         if service.respond_to?('to_hash')
@@ -241,7 +241,7 @@ module Authlete
 
     # Call Authlete's /api/service/delete/{api_key} API.
     #
-    # On error, RestClient::Exception (of rest-client GEM) is raised.
+    # On error, Authlete::Exception is raised.
     def service_delete(api_key)
       call_api_service_owner(:delete, "/api/service/delete/#{api_key}", nil, nil)
     end
@@ -253,7 +253,7 @@ module Authlete
     # you want to get.
     #
     # On success, an instance of Authlete::Model::Service is returned.
-    # On error, RestClient::Exception (of rest-client GEM) is raised.
+    # On error, Authlete::Exception is raised.
     def service_get(api_key)
       hash = call_api_service_owner(:get, "/api/service/get/#{api_key}", nil, nil)
 
@@ -267,13 +267,12 @@ module Authlete
     # a start index (inclusive) and an end index (exclusive), respectively.
     #
     # On success, an instance of Authlete::Model::ServiceList is returned.
-    # On error, RestClient::Exception (of rest-client GEM) is raised.
+    # On error, Authlete::Exception is raised.
     def service_get_list(params = nil)
       hash = call_api_service_owner(:get, "/api/service/get/list#{to_query(params)}", nil, nil)
 
       Authlete::Model::ServiceList.new(hash)
     end
-
 
     # Call Authlete's /api/service/update/{api_key} API.
     #
@@ -286,7 +285,7 @@ module Authlete
     # (which responds to <tt>to_hash</tt>) should be used.
     #
     # On success, an instance of Authlete::Model::Service is returned.
-    # On error, RestClient::Exception (of rest-client GEM) is raised.
+    # On error, Authlete::Exception is raised.
     def service_update(api_key, service)
       if service.kind_of?(Hash) == false
         if service.respond_to?('to_hash')
@@ -299,6 +298,16 @@ module Authlete
       Authlete::Model::Service.new(hash)
     end
 
+    # Call Authlete's /api/serviceowner/get/self API.
+    #
+    # On success, an instance of Authlete::Model::ServiceOwner is returned.
+    # On error, Authlete::Exception is raised.
+    def serviceowner_get_self
+      hash = call_api_json_service_owner(:get, "/api/serviceowner/get/self")
+
+      Authlete::Model::ServiceOwner.new(hash)
+    end
+
     # Call Authlete's /api/client/create API.
     #
     # <tt>client</tt> is the content of a new service to create. The type of
@@ -307,7 +316,7 @@ module Authlete
     # (which responds to <tt>to_hash</tt>) should be used.
     #
     # On success, an instance of Authlete::Model::ClientList is returned.
-    # On error, RestClient::Exception (of rest-client GEM) is raised.
+    # On error, Authlete::Exception is raised.
     def client_create(client)
       if client.kind_of?(Hash) == false
         if client.respond_to?('to_hash')
@@ -322,7 +331,7 @@ module Authlete
 
     # Call Authlete's /api/client/delete/{clientId} API.
     #
-    # On error, RestClient::Exception (of rest-client GEM) is raised.
+    # On error, Authlete::Exception is raised.
     def client_delete(clientId)
       call_api_service(:delete, "/api/client/delete/#{clientId}", nil, nil)
     end
@@ -330,7 +339,7 @@ module Authlete
     # Call Authlete's /api/client/get/{clientId} API.
     #
     # On success, an instance of Authlete::Model::Service is returned.
-    # On error, RestClient::Exception (of rest-client GEM) is raised.
+    # On error, Authlete::Exception is raised.
     def client_get(clientId)
       hash = call_api_service(:get, "/api/client/get/#{clientId}", nil, nil)
 
@@ -344,7 +353,7 @@ module Authlete
     # a start index (inclusive) and an end index (exclusive), respectively.
     #
     # On success, an instance of Authlete::Model::ClientList is returned.
-    # On error, RestClient::Exception (of rest-client GEM) is raised.
+    # On error, Authlete::Exception is raised.
     def client_get_list(params = nil)
       hash = call_api_service(:get, "/api/client/get/list#{to_query(params)}", nil, nil)
 
@@ -359,7 +368,7 @@ module Authlete
     # (which responds to <tt>to_hash</tt>) should be used.
     #
     # On success, an instance of Authlete::Model::Client is returned.
-    # On error, RestClient::Exception (of rest-client GEM) is raised.
+    # On error, Authlete::Exception is raised.
     def client_update(client)
       if client.kind_of?(Hash) == false
         if client.respond_to?('to_hash')
