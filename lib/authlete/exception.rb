@@ -46,7 +46,7 @@ module Authlete
     end
 
     def to_s
-      "#{self.name} => { status_code:'#{@status_code}', message:'#{@message}'," +
+      "#{self.class.default_message} => { status_code:'#{@status_code}', message:'#{@message}'," +
       " result_code:'#{@result_code}', result_message:'#{@result_message}' }"
     end
   end
