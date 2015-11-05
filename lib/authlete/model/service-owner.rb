@@ -45,6 +45,9 @@ module Authlete
       # The service owner number. (Integer)
       attr_accessor :number
 
+      # The plan. (String)
+      attr_accessor :plan
+
       private
 
       # Integer attributes.
@@ -54,7 +57,7 @@ module Authlete
 
       # String attributes.
       STRING_ATTRIBUTES = ::Set.new([
-        :apiSecret, :email, :loginId, :name
+        :apiSecret, :email, :loginId, :name, :plan
       ])
 
       # Mapping from snake cases to camel cases.
