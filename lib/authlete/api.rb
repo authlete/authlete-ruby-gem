@@ -218,6 +218,16 @@ module Authlete
 
     public
 
+    # Call Authlete's /api/service/creatable API.
+    #
+    # On success, an instance of Authlete::Response::ServiceCreatableResponse is returned.
+    # On error, Authlete::Exception is raised.
+    def service_creatable(api_key)
+      hash = call_api_service_owner(:get, "/api/service/creatable", nil, nil)
+
+      Authlete::Response::ServiceCreatableResponse.new(hash)
+    end
+
     # Call Authlete's /api/service/create API.
     #
     # <tt>service</tt> is the content of a new service to create. The type of
@@ -245,7 +255,6 @@ module Authlete
     def service_delete(api_key)
       call_api_service_owner(:delete, "/api/service/delete/#{api_key}", nil, nil)
     end
-
 
     # Call Authlete's /api/service/get/{api_key} API.
     #

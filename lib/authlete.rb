@@ -50,5 +50,6 @@ module Authlete
     autoload :BaseResponse, 'authlete/response/base-response'
     autoload :DeveloperAuthenticationCallbackResponse, 'authlete/response/developer-authentication-callback-response'
     autoload :IntrospectionResponse, 'authlete/response/introspection-response'
+    autoload :ServiceCreatableResponse, 'authlete/response/service-creatable-response'
   end
 end

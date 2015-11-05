@@ -20,8 +20,7 @@ module Authlete
     # == Authlete::Response::IntrospectionResponse class
     #
     # A class that represents a response from Authlete's
-    # {/auth/introspection}[https://www.authlete.com/authlete_web_apis_introspection.html#auth_introspection]
-    # API.
+    # /api/auth/introspection API.
     #
     class IntrospectionResponse < Authlete::Response::BaseResponse
       include Authlete::Utility
@@ -58,9 +57,8 @@ module Authlete
       # should return to the client application.
       attr_accessor :response_content
 
-      # The constructor which takes a hash that represents a JSON response from
-      # {/auth/introspection}[https://www.authlete.com/authlete_web_apis_introspection.html#auth_introspection]
-      # API.
+      # The constructor which takes a hash that represents a JSON response
+      # from /api/auth/introspection API.
       def initialize(hash = {})
         super(hash)
 
