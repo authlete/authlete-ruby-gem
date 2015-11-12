@@ -20,7 +20,7 @@ require 'set'
 
 module Authlete
   module Model
-    class Scope
+    class Scope < Authlete::Model::Hashable
       # The description about this scope. (String)
       attr_accessor :description
 
@@ -36,13 +36,13 @@ module Authlete
       private
 
       # Boolean attributes.
-      BOOLEAN_ATTRIBUTES = ::Set.new([:defaultEntry])
+      BOOLEAN_ATTRIBUTES = ::Set.new([ :defaultEntry ])
 
       # String attributes.
-      STRING_ATTRIBUTES = ::Set.new([:description, :name])
+      STRING_ATTRIBUTES = ::Set.new([ :description, :name ])
 
       # Mapping from snake cases to camel cases.
-      SNAKE_TO_CAMEL = {:default_entry => :defaultEntry}
+      SNAKE_TO_CAMEL = { :default_entry => :defaultEntry }
 
       # The constructor
       def initialize(hash = new)
@@ -57,10 +57,10 @@ module Authlete
         end
 
         # Set attribute values using the given hash.
-        authlete_model_scope_update(hash)
+        authlete_model_update(hash)
       end
 
-      def authlete_model_scope_to_key(key)
+      def authlete_model_convert_key(key)
         key = key.to_sym
 
         # Convert snakecase to camelcase, if necessary.
@@ -68,30 +68,26 @@ module Authlete
           key = SNAKE_TO_CAMEL[key]
         end
 
-        return key
+        key
       end
 
-      def authlete_model_scope_simple_attribute?(key)
+      def authlete_model_simple_attribute?(key)
         BOOLEAN_ATTRIBUTES.include?(key) or
         STRING_ATTRIBUTES.include?(key)
       end
 
-      def authlete_model_scope_update(hash)
-        if hash.nil?
-          return
-        end
+      def authlete_model_update(hash)
+        return if hash.nil?
 
         hash.each do |key, value|
-          key = authlete_model_scope_to_key(key)
+          key = authlete_model_convert_key(key)
 
-          # If the attribute is a simple one.
-          if authlete_model_scope_simple_attribute?(key)
+          if authlete_model_simple_attribute?(key)
             send("#{key}=", value)
-            next
           end
         end
 
-        return self
+        self
       end
 
       public
@@ -105,12 +101,12 @@ module Authlete
           return nil
         end
 
-        return Authlete::Model::Scope.new(hash)
+        Authlete::Model::Scope.new(hash)
       end
 
       # Set attribute values using the given hash.
       def update(hash)
-        authlete_model_scope_update(hash)
+        authlete_model_update(hash)
       end
 
       # Convert this object into a hash.
@@ -124,28 +120,7 @@ module Authlete
           hash[key] = val
         end
 
-        return hash
-      end
-
-      def [](key)
-        key = authlete_model_scope_to_key(key)
-
-        if respond_to?(key)
-          return send(key)
-        else
-          return nil
-        end
-      end
-
-      def []=(key, value)
-        key = authlete_model_scope_to_key(key)
-        method = "#{key}="
-
-        if respond_to?(method)
-          return send(method, value)
-        else
-          return nil
-        end
+        hash
       end
     end
   end

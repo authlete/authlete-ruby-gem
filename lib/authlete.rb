@@ -20,8 +20,7 @@ require 'authlete/version'
 
 # == Authlete Module
 #
-# A library for {Authlete Web APIs}[https://www.authlete.com/authlete_web_apis.html].
-#
+# A library for Authlete Web APIs.
 module Authlete
   autoload :AuthenticationServer, 'authlete/authentication-server'
   autoload :Api, 'authlete/api'
@@ -30,6 +29,7 @@ module Authlete
   autoload :Utility, 'authlete/utility'
 
   module Model
+    autoload :Hashable, 'authlete/model/hashable'
     autoload :Client, 'authlete/model/client'
     autoload :ClientList, 'authlete/model/client-list'
     autoload :Scope, 'authlete/model/scope'
@@ -38,18 +38,18 @@ module Authlete
     autoload :ServiceOwner, 'authlete/model/service-owner'
     autoload :SnsCredentials, 'authlete/model/sns-credentials'
     autoload :TaggedValue, 'authlete/model/tagged-value'
-  end
 
-  module Request
-    autoload :AuthenticationCallbackRequest, 'authlete/request/authentication-callback-request'
-    autoload :DeveloperAuthenticationCallbackRequest, 'authlete/request/developer-authentication-callback-request'
-  end
+    module Request
+      autoload :AuthenticationCallbackRequest, 'authlete/model/request/authentication-callback-request'
+      autoload :DeveloperAuthenticationCallbackRequest, 'authlete/model/request/developer-authentication-callback-request'
+    end
 
-  module Response
-    autoload :AuthenticationCallbackResponse, 'authlete/response/authentication-callback-response'
-    autoload :BaseResponse, 'authlete/response/base-response'
-    autoload :DeveloperAuthenticationCallbackResponse, 'authlete/response/developer-authentication-callback-response'
-    autoload :IntrospectionResponse, 'authlete/response/introspection-response'
-    autoload :ServiceCreatableResponse, 'authlete/response/service-creatable-response'
+    module Response
+      autoload :AuthenticationCallbackResponse, 'authlete/model/response/authentication-callback-response'
+      autoload :Result, 'authlete/model/response/result'
+      autoload :DeveloperAuthenticationCallbackResponse, 'authlete/model/response/developer-authentication-callback-response'
+      autoload :IntrospectionResponse, 'authlete/model/response/introspection-response'
+      autoload :ServiceCreatableResponse, 'authlete/model/response/service-creatable-response'
+    end
   end
 end

@@ -20,7 +20,7 @@ require 'set'
 
 module Authlete
   module Model
-    class SnsCredentials
+    class SnsCredentials < Authlete::Model::Hashable
       # The API key. (String)
       attr_accessor :apiKey
       alias_method  :api_key,  :apiKey
@@ -33,13 +33,13 @@ module Authlete
 
       # The SNS. (String)
       #
-      # Valid values are "FACEBOOK".
+      # Currently, the only valid value is "FACEBOOK".
       attr_accessor :sns
 
       private
 
       # String attributes.
-      STRING_ATTRIBUTES = ::Set.new([:apiKey, :apiSecret, :sns])
+      STRING_ATTRIBUTES = ::Set.new([ :apiKey, :apiSecret, :sns ])
 
       # Mapping from snake cases to camel cases.
       SNAKE_TO_CAMEL = {
@@ -55,10 +55,10 @@ module Authlete
         end
 
         # Set attribute values using the given hash.
-        authlete_model_snsCredentials_update(hash)
+        authlete_model_update(hash)
       end
 
-      def authlete_model_snsCredentials_to_key(key)
+      def authlete_model_convert_key(key)
         key = key.to_sym
 
         # Convert snakecase to camelcase, if necessary.
@@ -66,29 +66,25 @@ module Authlete
           key = SNAKE_TO_CAMEL[key]
         end
 
-        return key
+        key
       end
 
-      def authlete_model_snsCredentials_simple_attribute?(key)
+      def authlete_model_simple_attribute?(key)
         STRING_ATTRIBUTES.include?(key)
       end
 
-      def authlete_model_snsCredentials_update(hash)
-        if hash.nil?
-          return
-        end
+      def authlete_model_update(hash)
+        return if hash.nil?
 
         hash.each do |key, value|
-          key = authlete_model_snsCredentials_to_key(key)
+          key = authlete_model_convert_key(key)
 
-          # If the attribute is a simple one.
-          if authlete_model_snsCredentials_simple_attribute?(key)
+          if authlete_model_simple_attribute?(key)
             send("#{key}=", value)
-            next
           end
         end
 
-        return self
+        self
       end
 
       public
@@ -102,12 +98,12 @@ module Authlete
           return nil
         end
 
-        return Authlete::Model::SnsCredentials.new(hash)
+        Authlete::Model::SnsCredentials.new(hash)
       end
 
       # Set attribute values using the given hash.
       def update(hash)
-        authlete_model_snsCredentials_update(hash)
+        authlete_model_update(hash)
       end
 
       # Convert this object into a hash.
@@ -121,28 +117,7 @@ module Authlete
           hash[key] = val
         end
 
-        return hash
-      end
-
-      def [](key)
-        key = authlete_model_snsCredentials_to_key(key)
-
-        if respond_to?(key)
-          return send(key)
-        else
-          return nil
-        end
-      end
-
-      def []=(key, value)
-        key = authlete_model_snsCredentials_to_key(key)
-        method = "#{key}="
-
-        if respond_to?(method)
-          return send(method, value)
-        else
-          return nil
-        end
+        hash
       end
     end
   end

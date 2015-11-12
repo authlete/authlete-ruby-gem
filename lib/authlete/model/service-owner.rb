@@ -20,7 +20,7 @@ require 'set'
 
 module Authlete
   module Model
-    class ServiceOwner
+    class ServiceOwner < Authlete::Model::Hashable
       # The API key of the service owner. (Long)
       attr_accessor :apiKey
       alias_method  :api_key,  :apiKey
@@ -55,6 +55,7 @@ module Authlete
         :apiKey, :number
       ])
 
+
       # String attributes.
       STRING_ATTRIBUTES = ::Set.new([
         :apiSecret, :email, :loginId, :name, :plan
@@ -80,10 +81,10 @@ module Authlete
         end
 
         # Set attribute values using the given hash.
-        authlete_model_service_update(hash)
+        authlete_model_update(hash)
       end
 
-      def authlete_model_service_to_key(key)
+      def authlete_model_convert_key(key)
         key = key.to_sym
 
         # Convert snakecase to camelcase, if necessary.
@@ -94,27 +95,23 @@ module Authlete
         return key
       end
 
-      def authlete_model_service_simple_attribute?(key)
+      def authlete_model_simple_attribute?(key)
         INTEGER_ATTRIBUTES.include?(key) or
         STRING_ATTRIBUTES.include?(key)
       end
 
-      def authlete_model_service_update(hash)
-        if hash.nil?
-          return
-        end
+      def authlete_model_update(hash)
+        return if hash.nil?
 
         hash.each do |key, value|
-          key = authlete_model_service_to_key(key)
+          key = authlete_model_convert_key(key)
 
-          # If the attribute is a simple one.
-          if authlete_model_service_simple_attribute?(key)
+          if authlete_model_simple_attribute?(key)
             send("#{key}=", value)
-            next
           end
         end
 
-        return self
+        self
       end
 
       public
@@ -122,18 +119,18 @@ module Authlete
       # Construct an instance from the given hash.
       #
       # If the given argument is nil or is not a Hash, nil is returned.
-      # Otherwise, Service.new(hash) is returned.
+      # Otherwise, ServiceOwner.new(hash) is returned.
       def self.parse(hash)
         if hash.nil? or (hash.kind_of?(Hash) == false)
           return nil
         end
 
-        return Service.new(hash)
+        ServiceOwner.new(hash)
       end
 
       # Set attribute values using the given hash.
       def update(hash)
-        authlete_model_service_update(hash)
+        authlete_model_update(hash)
       end
 
       # Convert this object into a hash.
@@ -144,33 +141,12 @@ module Authlete
           key = var.to_s.delete("@").to_sym
           val = instance_variable_get(var)
 
-          if authlete_model_service_simple_attribute?(key) or val.nil?
+          if authlete_model_simple_attribute?(key) or val.nil?
             hash[key] = val
           end
         end
 
-        return hash
-      end
-
-      def [](key)
-        key = authlete_model_service_to_key(key)
-
-        if respond_to?(key)
-          return send(key)
-        else
-          return nil
-        end
-      end
-
-      def []=(key, value)
-        key = authlete_model_service_to_key(key)
-        method = "#{key}="
-
-        if respond_to?(method)
-          return send(method, value)
-        else
-          return nil
-        end
+        hash
       end
     end
   end

@@ -20,7 +20,8 @@ require 'set'
 
 module Authlete
   module Model
-    class ClientList
+    class ClientList < Authlete::Model::Hashable
+      include Authlete::Utility
       # The start index (inclusive) of the clients in this list.
       attr_accessor :start
 
@@ -38,7 +39,7 @@ module Authlete
       private
 
       # Integer attributes.
-      INTEGER_ATTRIBUTES = ::Set.new([:start, :end, :totalCount])
+      INTEGER_ATTRIBUTES = ::Set.new([ :start, :end, :totalCount ])
 
       # Mapping from snake cases to camel cases.
       SNAKE_TO_CAMEL = { :total_count => :totalCount }
@@ -53,10 +54,10 @@ module Authlete
         @clients = nil
 
         # Set attribute values using the given hash.
-        authlete_model_clientList_update(hash)
+        authlete_model_update(hash)
       end
 
-      def authlete_model_clientList_to_key(key)
+      def authlete_model_convert_key(key)
         key = key.to_sym
 
         # Convert snakecase to camelcase, if necessary.
@@ -64,58 +65,30 @@ module Authlete
           key = SNAKE_TO_CAMEL[key]
         end
 
-        return key
+        key
       end
 
-      def authlete_model_clientList_simple_attribute?(key)
+      def authlete_model_simple_attribute?(key)
         INTEGER_ATTRIBUTES.include?(key)
       end
 
-      def authlete_model_clientList_update(hash)
-        if hash.nil?
-          return
-        end
+      def authlete_model_update(hash)
+        return if hash.nil?
 
         hash.each do |key, value|
-          key = authlete_model_clientList_to_key(key)
+          key = authlete_model_convert_key(key)
 
-          # If the attribute is a simple one.
-          if authlete_model_clientList_simple_attribute?(key)
+          if authlete_model_simple_attribute?(key)
             send("#{key}=", value)
-            next
-          end
-
-          if key == :clients
-            # The attribute 'clients'.
-            @clients = authlete_model_clientList_parse_array(value) do |element|
+          elsif key == :clients
+            # Get an array consisting of "Client" objects.
+            @clients = get_parsed_array(value) do |element|
               Authlete::Model::Client.parse(element)
             end
           end
         end
 
-        return self
-      end
-
-      def authlete_model_clientList_parse_array(array)
-        if array.nil? or (array.kind_of?(Array) == false) or (array.length == 0)
-          return nil
-        end
-
-        elements = []
-
-        array.each do |element|
-          parsed_element = yield(element)
-
-          if parsed_element.nil? == false
-            elements.push(parsed_element)
-          end
-        end
-
-        if elements.length == 0
-          return nil
-        end
-
-        return elements
+        self
       end
 
       public
@@ -132,11 +105,6 @@ module Authlete
         return ClientList.new(hash)
       end
 
-      # Set attribute values using the given hash.
-      def update(hash)
-        authlete_model_clientList_update(hash)
-      end
-
       # Convert this object into a hash.
       def to_hash
         hash = {}
@@ -145,37 +113,15 @@ module Authlete
           key = var.to_s.delete("@").to_sym
           val = instance_variable_get(var)
 
-          if authlete_model_clientList_simple_attribute?(key) or val.nil?
+          if authlete_model_simple_attribute?(key) or val.nil?
             hash[key] = val
           elsif val.kind_of?(Array)
-            hash[key] = val.map {|element| element.to_hash}
+            hash[key] = val.map { |element| element.to_hash }
           end
         end
 
-        return hash
-      end
-
-      def [](key)
-        key = authlete_model_clientList_to_key(key)
-
-        if respond_to?(key)
-          return send(key)
-        else
-          return nil
-        end
-      end
-
-      def []=(key, value)
-        key = authlete_model_clientList_to_key(key)
-        method = "#{key}="
-
-        if respond_to?(method)
-          return send(method, value)
-        else
-          return nil
-        end
+        hash
       end
     end
   end
 end
-

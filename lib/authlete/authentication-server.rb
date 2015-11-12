@@ -67,7 +67,7 @@ module Authlete
       end
 
       # Prepare an empty response.
-      res = Authlete::Response::AuthenticationCallbackResponse.new
+      res = Authlete::Model::Response::AuthenticationCallbackResponse.new
 
       # Let the subclass authenticate the end-user.
       # When authenticated successfully, a non-nil value is returned.
@@ -163,7 +163,7 @@ module Authlete
       json = request.body.read
 
       # Parse the authentication callback request.
-      Authlete::Request::AuthenticationCallbackRequest.parse(json)
+      Authlete::Model::Request::AuthenticationCallbackRequest.parse(json)
     end
 
     protected
@@ -184,7 +184,7 @@ module Authlete
     # This default implementation returns nil, meaning 'invalid end-user'.
     #
     # The argument of this method is an instance of
-    # <tt>Authlete::Request::AuthenticationCallbackRequest</tt>.
+    # <tt>Authlete::Model::Request::AuthenticationCallbackRequest</tt>.
     # When the end-user is successfully authenticated, this method must
     # return a unique identifier (= subject) of the end-user. Otherwise,
     # nil must be returned to indicate authentication failure.
@@ -197,7 +197,7 @@ module Authlete
     # method. This default implementation returns nil, meaning 'no claim values'.
     #
     # The argument of this method is an instance of
-    # <tt>Authlete::Request::AuthenticationCallbackRequest</tt> and the subject
+    # <tt>Authlete::Model::Request::AuthenticationCallbackRequest</tt> and the subject
     # which has been returned from the preceding call of <tt>authenticate_user</tt>
     # method.
     #

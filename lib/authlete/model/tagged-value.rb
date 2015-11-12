@@ -20,13 +20,12 @@ require 'set'
 
 module Authlete
   module Model
-    class TaggedValue
+    class TaggedValue < Authlete::Model::Hashable
       # The language tag part. (String)
       attr_accessor :tag
 
       # The value part. (String)
       attr_accessor :value
-
 
       private
 
@@ -41,10 +40,10 @@ module Authlete
         end
 
         # Set attribute values using the given hash.
-        authlete_model_taggedValue_update(hash)
+        authlete_model_update(hash)
       end
 
-      def authlete_model_taggedValue_to_key(key)
+      def authlete_model_convert_key(key)
         key = key.to_sym
 
         # Convert snakecase to camelcase, if necessary.
@@ -52,29 +51,26 @@ module Authlete
           key = SNAKE_TO_CAMEL[key]
         end
 
-        return key
+        key
       end
 
-      def authlete_model_taggedValue_simple_attribute?(key)
+      def authlete_model_simple_attribute?(key)
         STRING_ATTRIBUTES.include?(key)
       end
 
-      def authlete_model_taggedValue_update(hash)
-        if hash.nil?
-          return
-        end
+      def authlete_model_update(hash)
+        return if hash.nil?
 
         hash.each do |key, value|
-          key = authlete_model_taggedValue_to_key(key)
+          key = authlete_model_convert_key(key)
 
           # If the attribute is a simple one.
-          if authlete_model_taggedValue_simple_attribute?(key)
+          if authlete_model_simple_attribute?(key)
             send("#{key}=", value)
-            next
           end
         end
 
-        return self
+        self
       end
 
       public
@@ -88,12 +84,7 @@ module Authlete
           return nil
         end
 
-        return Authlete::Model::TaggedValue.new(hash)
-      end
-
-      # Set attribute values using the given hash.
-      def update(hash)
-        authlete_model_taggedValue_update(hash)
+        Authlete::Model::TaggedValue.new(hash)
       end
 
       # Convert this object into a hash.
@@ -107,28 +98,7 @@ module Authlete
           hash[key] = val
         end
 
-        return hash
-      end
-
-      def [](key)
-        key = authlete_model_taggedValue_to_key(key)
-
-        if respond_to?(key)
-          return send(key)
-        else
-          return nil
-        end
-      end
-
-      def []=(key, value)
-        key = authlete_model_taggedValue_to_key(key)
-        method = "#{key}="
-
-        if respond_to?(method)
-          return send(method, value)
-        else
-          return nil
-        end
+        hash
       end
     end
   end

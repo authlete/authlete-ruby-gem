@@ -20,7 +20,8 @@ require 'set'
 
 module Authlete
   module Model
-    class Service
+    class Service < Authlete::Model::Hashable
+      include Authlete::Utility
       # The duration of access tokens in seconds. (Integer)
       attr_accessor :accessTokenDuration
       alias_method  :access_token_duration,  :accessTokenDuration
@@ -395,10 +396,10 @@ module Authlete
         @supportedScopes         = nil
 
         # Set attribute values using the given hash.
-        authlete_model_service_update(hash)
+        authlete_model_update(hash)
       end
 
-      def authlete_model_service_to_key(key)
+      def authlete_model_convert_key(key)
         key = key.to_sym
 
         # Convert snakecase to camelcase, if necessary.
@@ -406,71 +407,40 @@ module Authlete
           key = SNAKE_TO_CAMEL[key]
         end
 
-        return key
+        key
       end
 
-      def authlete_model_service_simple_attribute?(key)
+      def authlete_model_simple_attribute?(key)
         INTEGER_ATTRIBUTES.include?(key) or
         BOOLEAN_ATTRIBUTES.include?(key) or
         STRING_ATTRIBUTES.include?(key) or
         STRING_ARRAY_ATTRIBUTES.include?(key)
       end
 
-      def authlete_model_service_update(hash)
-        if hash.nil?
-          return
-        end
+      def authlete_model_update(hash)
+        return if hash.nil?
 
         hash.each do |key, value|
-          key = authlete_model_service_to_key(key)
+          key = authlete_model_convert_key(key)
 
-          # If the attribute is a simple one.
-          if authlete_model_service_simple_attribute?(key)
+          if authlete_model_simple_attribute?(key)
             send("#{key}=", value)
-            next
-          end
-
-          if key == :developerSnsCredentials
-            # The attribute 'developerSnsCredentials'.
-            @developerSnsCredentials = authlete_model_service_parse_array(value) do |element|
+          elsif key == :developerSnsCredentials
+            @developerSnsCredentials = get_parsed_array(value) do |element|
               Authlete::Model::SnsCredentials.parse(element)
             end
           elsif key == :snsCredentials
-            # The attribute 'snsCredentials'.
-            @snsCredentials = authlete_model_service_parse_array(value) do |element|
+            @snsCredentials = get_parsed_array(value) do |element|
               Authlete::Model::SnsCredentials.parse(element)
             end
           elsif key == :supportedScopes
-            # The attribute 'supportedScopes'.
-            @supportedScopes = authlete_model_service_parse_array(value) do |element|
+            @supportedScopes = get_parsed_array(value) do |element|
               Authlete::Model::Scope.parse(element)
             end
           end
         end
 
-        return self
-      end
-
-      def authlete_model_service_parse_array(array)
-        if array.nil? or (array.kind_of?(Array) == false) or (array.length == 0)
-          return nil
-        end
-
-        elements = []
-
-        array.each do |element|
-          parsed_element = yield(element)
-
-          if parsed_element.nil? == false
-            elements.push(parsed_element)
-          end
-        end
-
-        if elements.length == 0
-          return nil
-        end
-
-        return elements
+        self
       end
 
       public
@@ -484,12 +454,7 @@ module Authlete
           return nil
         end
 
-        return Service.new(hash)
-      end
-
-      # Set attribute values using the given hash.
-      def update(hash)
-        authlete_model_service_update(hash)
+        Service.new(hash)
       end
 
       # Convert this object into a hash.
@@ -500,35 +465,14 @@ module Authlete
           key = var.to_s.delete("@").to_sym
           val = instance_variable_get(var)
 
-          if authlete_model_service_simple_attribute?(key) or val.nil?
+          if authlete_model_simple_attribute?(key) or val.nil?
             hash[key] = val
           elsif val.kind_of?(Array)
-            hash[key] = val.map {|element| element.to_hash}
+            hash[key] = val.map { |element| element.to_hash }
           end
         end
 
-        return hash
-      end
-
-      def [](key)
-        key = authlete_model_service_to_key(key)
-
-        if respond_to?(key)
-          return send(key)
-        else
-          return nil
-        end
-      end
-
-      def []=(key, value)
-        key = authlete_model_service_to_key(key)
-        method = "#{key}="
-
-        if respond_to?(method)
-          return send(method, value)
-        else
-          return nil
-        end
+        hash
       end
     end
   end

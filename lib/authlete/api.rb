@@ -220,12 +220,12 @@ module Authlete
 
     # Call Authlete's /api/service/creatable API.
     #
-    # On success, an instance of Authlete::Response::ServiceCreatableResponse is returned.
+    # On success, an instance of Authlete::Model::Response::ServiceCreatableResponse is returned.
     # On error, Authlete::Exception is raised.
     def service_creatable(api_key)
       hash = call_api_service_owner(:get, "/api/service/creatable", nil, nil)
 
-      Authlete::Response::ServiceCreatableResponse.new(hash)
+      Authlete::Model::Response::ServiceCreatableResponse.new(hash)
     end
 
     # Call Authlete's /api/service/create API.
@@ -390,9 +390,7 @@ module Authlete
       Authlete::Model::Client.new(hash)
     end
 
-    # Call Authlete's {/auth/introspection}
-    # [https://www.authlete.com/authlete_web_apis_introspection.html#auth_introspection]
-    # API.
+    # Call Authlete's /api/auth/introspection API.
     #
     # <tt>token</tt> is an access token presented by a client application.
     # This is a must parameter. In a typical case, a client application uses
@@ -409,13 +407,13 @@ module Authlete
     # subject, Authlete prepares the content of the error response.
     #
     # On success, this method returns an instance of
-    # <tt>Authlete::Response::IntrospectionResponse</tt>. On error, this method
+    # <tt>Authlete::Model::Response::IntrospectionResponse</tt>. On error, this method
     # throws <tt>RestClient::Exception</tt>.
     def introspection(token, scopes = nil, subject = nil)
       hash = call_api_json_service('/api/auth/introspection',
                                    :token => token, :scopes => scopes, :subject => subject)
 
-      Authlete::Response::IntrospectionResponse.new(hash)
+      Authlete::Model::Response::IntrospectionResponse.new(hash)
     end
 
 
@@ -423,7 +421,7 @@ module Authlete
     #
     # This method extracts an access token from the given request based on the
     # rules described in RFC 6750 and introspects the access token by calling
-    # Authlete's /auth/introspection API.
+    # Authlete's /api/auth/introspection API.
     #
     # The first argument <tt>request</tt> is a Rack request.
     #
@@ -435,7 +433,7 @@ module Authlete
     # is optional.
     #
     # This method returns an instance of
-    # <tt>Authlete::Response::IntrospectionResponse</tt>. If its <tt>action</tt>
+    # <tt>Authlete::Model::Response::IntrospectionResponse</tt>. If its <tt>action</tt>
     # method returns 'OK', it means that the access token exists, has not
     # expired, covers the requested scopes (if specified), and is associated
     # with the requested subject (if specified). Otherwise, it means that the
@@ -448,30 +446,30 @@ module Authlete
       # If the request does not contain any access token.
       if access_token.nil?
         # The request does not contain a valid access token.
-        return Authlete::Response::IntrospectionResponse.new(
+        return Authlete::Model::Response::IntrospectionResponse.new(
           :action          => 'BAD_REQUEST',
           :responseContent => 'Bearer error="invalid_token",error_description="The request does not contain a valid access token."'
         )
       end
 
       begin
-        # Call Authlete's /auth/introspection API to introspect the access token.
+        # Call Authlete's /api/auth/introspection API to introspect the access token.
         result = introspection(access_token, scopes, subject)
       rescue => e
         # Error message.
-        message = build_error_message('/auth/introspection', e)
+        message = build_error_message('/api/auth/introspection', e)
 
         # Emit a Rack error message.
         emit_rack_error_message(request, message)
 
         # Failed to introspect the access token.
-        return Authlete::Response::IntrospectionResponse.new(
+        return Authlete::Model::Response::IntrospectionResponse.new(
           :action          => 'INTERNAL_SERVER_ERROR',
           :responseContent => "Bearer error=\"server_error\",error_description=\"#{message}\""
         )
       end
 
-      # Return the response from Authlete's /auth/introspection API.
+      # Return the response from Authlete's /api/auth/introspection API.
       result
     end
   end
