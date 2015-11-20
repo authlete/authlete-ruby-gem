@@ -34,16 +34,12 @@ module Authlete
         alias_method  :display_name,  :displayName
         alias_method  :display_name=, :displayName=
 
-        # True to indicate that the developer authentication endpoint is mock.
-        attr_accessor :mock
-
         # The constructor which takes a hash that represents a JSON response
         # from a developer authentication callback endpoint.
         def initialize(hash = {})
           @authenticated = extract_boolean_value(hash, :authenticated)
           @subject       = extract_value(hash, :subject)
           @displayName   = extract_value(hash, :displayName)
-          @mock          = extract_boolean_value(hash, :mock)
         end
 
         # Generate an array which is usable as a Rack response from this instance.
@@ -51,8 +47,7 @@ module Authlete
           to_rack_response_json(200, JSON.generate(
             :authenticated => @authenticated,
             :subject       => @subject,
-            :displayName   => @displayName,
-            :mock          => @mock
+            :displayName   => @displayName
           ))
         end
       end

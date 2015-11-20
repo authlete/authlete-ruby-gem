@@ -69,13 +69,9 @@ module Authlete
     def call_api(method, path, content_type, payload, user, password)
       headers = {}
 
-      if content_type.nil? == false
-        headers.merge!(:content_type => content_type)
-      end
+      headers.merge!(:content_type => content_type) unless content_type.nil?
 
-      if @extra_headers.nil? == false
-        headers.merge!(@extra_headers)
-      end
+      headers.merge!(@extra_headers) unless @extra_headers.nil?
 
       response = execute(
         :method   => method,
@@ -88,11 +84,7 @@ module Authlete
 
       body = body_as_string(response)
 
-      if body.nil?
-        return nil
-      end
-
-      JSON.parse(response.body.to_s, :symbolize_names => true)
+      body.nil? ? nil : JSON.parse(response.body.to_s, :symbolize_names => true)
     end
 
     def execute(parameters)
@@ -151,17 +143,11 @@ module Authlete
     end
 
     def body_as_string(response)
-      if response.body.nil?
-        return nil
-      end
+      return nil if response.body.nil?
 
       body = response.body.to_s
 
-      if body.length == 0
-        return nil
-      end
-
-      return body
+      body.length == 0 ? nil : body
     end
 
     def call_api_service_owner(method, path, content_type, payload)
@@ -213,7 +199,7 @@ module Authlete
         array.push("#{key}=#{value}")
       end
 
-      return "?" + array.join("&")
+      "?" + array.join("&")
     end
 
     public
@@ -388,6 +374,102 @@ module Authlete
       hash = call_api_json_service("/api/client/update/#{client[:clientId]}", client)
 
       Authlete::Model::Client.new(hash)
+    end
+
+    # Call Authlete's /api/auth/authorization API.
+    #
+    # On success, an instance of Authlete::Model::Response::AuthorizationResponse is returned.
+    # On error, Authlete::Exception is raised.
+    def authorization(request)
+      if request.kind_of?(Hash) == false
+        if request.respond_to?('to_hash')
+          request = request.to_hash
+        end
+      end
+
+      hash = call_api_json_service("/api/auth/authorization", request)
+
+      Authlete::Model::Response::AuthorizationResponse.new(hash)
+    end
+
+    # Call Authlete's /api/auth/authorization/issue API.
+    #
+    # On success, an instance of Authlete::Model::Response::AuthorizationIssueResponse is returned.
+    # On error, Authlete::Exception is raised.
+    def authorization_Issue(request)
+      if request.kind_of?(Hash) == false
+        if request.respond_to?('to_hash')
+          request = request.to_hash
+        end
+      end
+
+      hash = call_api_json_service("/api/auth/authorization/issue", request)
+
+      Authlete::Model::Response::AuthorizationIssueResponse.new(hash)
+    end
+
+    # Call Authlete's /api/auth/authorization/fail API.
+    #
+    # On success, an instance of Authlete::Model::Response::AuthorizationFailResponse is returned.
+    # On error, Authlete::Exception is raised.
+    def authorization_fail(request)
+      if request.kind_of?(Hash) == false
+        if request.respond_to?('to_hash')
+          request = request.to_hash
+        end
+      end
+
+      hash = call_api_json_service("/api/auth/authorization/fail", request)
+
+      Authlete::Model::Response::AuthorizationFailResponse.new(hash)
+    end
+
+    # Call Authlete's /api/auth/token API.
+    #
+    # On success, an instance of Authlete::Model::Response::TokenResponse is returned.
+    # On error, Authlete::Exception is raised.
+    def token(request)
+      if request.kind_of?(Hash) == false
+        if request.respond_to?('to_hash')
+          request = request.to_hash
+        end
+      end
+
+      hash = call_api_json_service("/api/auth/token", request)
+
+      Authlete::Model::Response::TokenResponse.new(hash)
+    end
+
+    # Call Authlete's /api/auth/token/issue API.
+    #
+    # On success, an instance of Authlete::Model::Response::TokenIssueResponse is returned.
+    # On error, Authlete::Exception is raised.
+    def token_issue(request)
+      if request.kind_of?(Hash) == false
+        if request.respond_to?('to_hash')
+          request = request.to_hash
+        end
+      end
+
+      hash = call_api_json_service("/api/auth/token/issue", request)
+
+      Authlete::Model::Response::TokenIssueResponse.new(hash)
+    end
+
+    # Call Authlete's /api/auth/token/fail API.
+    #
+    # On success, an instance of Authlete::Model::Response::TokenFailResponse is returned.
+    # On error, Authlete::Exception is raised.
+    def token_fail(request)
+      if request.kind_of?(Hash) == false
+        if request.respond_to?('to_hash')
+          request = request.to_hash
+        end
+      end
+
+      hash = call_api_json_service("/api/auth/token/fail", request)
+
+      Authlete::Model::Response::TokenFailResponse.new(hash)
     end
 
     # Call Authlete's /api/auth/introspection API.
