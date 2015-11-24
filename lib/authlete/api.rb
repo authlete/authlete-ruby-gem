@@ -396,7 +396,7 @@ module Authlete
     #
     # On success, an instance of Authlete::Model::Response::AuthorizationIssueResponse is returned.
     # On error, Authlete::Exception is raised.
-    def authorization_Issue(request)
+    def authorization_issue(request)
       if request.kind_of?(Hash) == false
         if request.respond_to?('to_hash')
           request = request.to_hash
