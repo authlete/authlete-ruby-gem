@@ -28,7 +28,7 @@ module Authlete
       attr_accessor :name
 
       # The flag to indicate whether this scope is included in the
-      # default scope set. (boolean)
+      # default scope set. (Boolean)
       attr_accessor :defaultEntry
       alias_method  :default_entry,  :defaultEntry
       alias_method  :default_entry=, :defaultEntry=

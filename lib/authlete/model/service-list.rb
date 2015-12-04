@@ -23,17 +23,19 @@ module Authlete
     class ServiceList < Authlete::Model::Hashable
       include Authlete::Utility
       # The start index (inclusive) of the services in this list.
+      # (Integer)
       attr_accessor :start
 
       # The end index (exclusive) of the services in this list.
+      # (Integer)
       attr_accessor :end
 
-      # The total count of services.
+      # The total count of services. (Integer)
       attr_accessor :totalCount
       alias_method  :total_count,  :totalCount
       alias_method  :total_count=, :totalCount=
 
-      # The list of services.
+      # The list of services. (Service array)
       attr_accessor :services
 
       private

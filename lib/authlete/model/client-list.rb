@@ -23,17 +23,19 @@ module Authlete
     class ClientList < Authlete::Model::Hashable
       include Authlete::Utility
       # The start index (inclusive) of the clients in this list.
+      # (Integer)
       attr_accessor :start
 
       # The end index (exclusive) of the clients in this list.
+      # (Integer)
       attr_accessor :end
 
-      # The total count of clients.
+      # The total count of clients. (Integer)
       attr_accessor :totalCount
       alias_method  :total_count,  :totalCount
       alias_method  :total_count=, :totalCount=
 
-      # The list of clients.
+      # The list of clients. (Client array)
       attr_accessor :clients
 
       private

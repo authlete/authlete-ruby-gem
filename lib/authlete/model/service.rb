@@ -99,6 +99,7 @@ module Authlete
       # The flag to indicate whether the direct authorization endpoint
       # is enabled or not. The path of the endpoint is
       # <code>/api/auth/authorization/direct/{serviceApiKey}</code>
+      # (Boolean)
       attr_accessor :directAuthorizationEndpointEnabled
       alias_method  :direct_authorization_endpoint_enabled,  :directAuthorizationEndpointEnabled
       alias_method  :direct_authorization_endpoint_enabled=, :directAuthorizationEndpointEnabled=
@@ -106,6 +107,7 @@ module Authlete
       # The flag to indicate whether the direct jwks endpoint
       # is enabled or not. The path of the endpoint is
       # <code>/api/service/jwks/get/direct/{serviceApiKey}</code>
+      # (Boolean)
       attr_accessor :directJwksEndpointEnabled
       alias_method  :direct_jwks_endpoint_enabled,  :directJwksEndpointEnabled
       alias_method  :direct_jwks_endpoint_enabled=, :directJwksEndpointEnabled=
@@ -113,6 +115,7 @@ module Authlete
       # The flag to indicate whether the direct revocation endpoint
       # is enabled or not. The path of the endpoint is
       # <code>/api/auth/revocation/direct/{serviceApiKey}</code>
+      # (Boolean)
       attr_accessor :directRevocationEndpointEnabled
       alias_method  :direct_revocation_endpoint_enabled,  :directRevocationEndpointEnabled
       alias_method  :direct_revocation_endpoint_enabled=, :directRevocationEndpointEnabled=
@@ -120,6 +123,7 @@ module Authlete
       # The flag to indicate whether the direct token endpoint
       # is enabled or not. The path of the endpoint is
       # <code>/api/auth/token/direct/{serviceApiKey}</code>
+      # (Boolean)
       attr_accessor :directTokenEndpointEnabled
       alias_method  :direct_token_endpoint_enabled,  :directTokenEndpointEnabled
       alias_method  :direct_token_endpoint_enabled=, :directTokenEndpointEnabled=
@@ -127,6 +131,7 @@ module Authlete
       # The flag to indicate whether the direct user info endpoint
       # is enabled or not. The path of the endpoint is
       # <code>/api/auth/userinfo/direct/{serviceApiKey}</code>
+      # (Boolean)
       attr_accessor :directUserInfoEndpointEnabled
       alias_method  :direct_user_info_endpoint_enabled,  :directUserInfoEndpointEnabled
       alias_method  :direct_user_info_endpoint_enabled=, :directUserInfoEndpointEnabled=
@@ -192,6 +197,12 @@ module Authlete
       attr_accessor :serviceOwnerNumber
       alias_method  :service_owner_number,  :serviceOwnerNumber
       alias_method  :service_owner_number=, :serviceOwnerNumber=
+
+      # The flag to indicate whether the number of access tokens
+      # per subject (and per client) is at most one or can be more. (Boolean)
+      attr_accessor :singleAccessTokenPerSubject
+      alias_method  :single_access_token_per_subject, :singleAccessTokenPerSubject
+      alias_method  :single_access_token_per_subject=, :singleAccessTokenPerSubject=
 
       # The list of SNS credentials. (SnsCredentials array)
       attr_accessor :snsCredentials
@@ -298,7 +309,7 @@ module Authlete
       # Boolean attributes.
       BOOLEAN_ATTRIBUTES = ::Set.new([
         :directAuthorizationEndpointEnabled, :directJwksEndpointEnabled, :directRevocationEndpointEnabled,
-        :directTokenEndpointEnabled, :directUserInfoEndpointEnabled
+        :directTokenEndpointEnabled, :directUserInfoEndpointEnabled, :singleAccessTokenPerSubject
       ])
 
       # String attributes.
@@ -350,6 +361,7 @@ module Authlete
         :service_documentation                        => :serviceDocumentation,
         :service_name                                 => :serviceName,
         :service_owner_number                         => :serviceOwnerNumber,
+        :single_access_token_per_subject              => :singleAccessTokenPerSubject,
         :sns_credentials                              => :snsCredentials,
         :supported_acrs                               => :supportedAcrs,
         :supported_claim_locales                      => :supportedClaimLocales,
