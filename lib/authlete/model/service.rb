@@ -154,11 +154,19 @@ module Authlete
 
       # The timestamp at which the service was modified. (Integer)
       attr_accessor :modifiedAt
-      alias_method  :modified_at, :modifiedAt
+      alias_method  :modified_at,  :modifiedAt
       alias_method  :modified_at=, :modifiedAt=
 
       # The service number. (Integer)
       attr_accessor :number
+
+      # The flag to indicate whether the use of Proof Key for Code
+      # Exchange (PKCE) is always required for authorization requests
+      # Authorization Code Flow.
+      # (Boolean)
+      attr_accessor :pkceRequired
+      alias_method  :pkce_required,  :pkceRequired
+      alias_method  :pkce_required=, :pkceRequired=
 
       # The URI of the service's policy page. (URI)
       attr_accessor :policyUri
@@ -309,7 +317,7 @@ module Authlete
       # Boolean attributes.
       BOOLEAN_ATTRIBUTES = ::Set.new([
         :directAuthorizationEndpointEnabled, :directJwksEndpointEnabled, :directRevocationEndpointEnabled,
-        :directTokenEndpointEnabled, :directUserInfoEndpointEnabled, :singleAccessTokenPerSubject
+        :directTokenEndpointEnabled, :directUserInfoEndpointEnabled, :pkceRequired, :singleAccessTokenPerSubject
       ])
 
       # String attributes.
@@ -354,6 +362,7 @@ module Authlete
         :id_tokn_duration                             => :idTokenDuration,
         :jwks_uri                                     => :jwksUri,
         :modified_at                                  => :modifiedAt,
+        :pkce_required                                => :pkceRequired,
         :policy_uri                                   => :policyUri,
         :refresh_token_duration                       => :refreshTokenDuration,
         :registration_endpoint                        => :registrationEndpoint,
