@@ -45,7 +45,7 @@ module Authlete
       SNAKE_TO_CAMEL = { :default_entry => :defaultEntry }
 
       # The constructor
-      def initialize(hash = new)
+      def initialize(hash = nil)
         # Set default values to boolean attributes.
         BOOLEAN_ATTRIBUTES.each do |attr|
           send("#{attr}=", false)

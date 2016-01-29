@@ -121,8 +121,8 @@ module Authlete
 
       # Raise an error with 'status_code' and the original error message.
       raise Authlete::Exception.new(
-        :message     => message,
-        :status_code => status_code
+        :message    => message,
+        :statusCode => status_code
       )
     end
 
@@ -132,8 +132,8 @@ module Authlete
       rescue
         # Failed to parse the response body as a json.
         raise Authlete::Exception.new(
-          :message     => message,
-          :status_code => status_code
+          :message    => message,
+          :statusCode => status_code
         )
       end
     end

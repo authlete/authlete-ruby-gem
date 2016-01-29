@@ -17,28 +17,29 @@
 
 module Authlete
   class Exception < StandardError
+    include Authlete::Utility
+
     # The HTTP status code of the error.
-    attr_reader :status_code
+    attr_accessor :statusCode
+    alias_method  :status_code, :statusCode
+    alias_method  :status_code=, :statusCode=
 
-    # The code of the result of an Authlete API call.
-    attr_reader :result_code
-
-    # The messasge of the result of an Authlete API call.
-    attr_reader :result_message
+    # The result of the API call.
+    attr_accessor :result
 
     private
 
     def initialize(hash = {})
-      @message        = hash[:message]
-      @status_code    = hash[:statusCode]
-      @result_code    = hash[:resultCode]
-      @result_message = hash[:resultMessage]
+      # The error message from RestClient or the other general exceptions.
+      @message    = extract_value(hash, :message)
+      @statusCode = extract_integer_value(hash, :statusCode)
+      @result     = Authlete::Model::Result.new(hash)
     end
 
     public
 
     def message
-      @result_message || @message || self.class.default_message
+      @result.resultMessage || @message || self.class.default_message
     end
 
     def self.default_message
@@ -46,8 +47,8 @@ module Authlete
     end
 
     def to_s
-      "#{self.class.default_message} => { status_code:'#{@status_code}', message:'#{@message}'," +
-      " result_code:'#{@result_code}', result_message:'#{@result_message}' }"
+      "#{self.class.default_message} => { message:'#{@message}', status_code:'#{@statusCode}', " +
+      "result_code:'#{@result.resultCode}', result_message:'#{@result.resultMessage}' }"
     end
   end
 end

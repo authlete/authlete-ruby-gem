@@ -54,9 +54,7 @@ module Authlete
 
         # The constructor which takes a hash that represents a JSON request to
         # Authlete's /api/auth/authorization/issue API.
-        def initialize(hash = {})
-          super
-
+        def initialize(hash = nil)
           # Set default values to integer attributes.
           INTEGER_ATTRIBUTES.each do |attr|
             send("#{attr}=", 0)

@@ -21,10 +21,12 @@ module Authlete
       # == Authlete::Model::Response::AuthorizationResponse class
       #
       # This class represents a response from Authlete's /api/auth/authorization API.
-      class AuthorizationResponse < Authlete::Model::Response::Result
+      class AuthorizationResponse < Authlete::Model::Result
         # The flag which indicates whether the end-user authentication
         # must satisfy one of the requested ACRs. (BOOLEAN)
-        attr_accessor :acr_essential
+        attr_accessor :acrEssential
+        alias_method  :acr_essential,  :acrEssential
+        alias_method  :acr_essential=, :acrEssential=
 
         # The list of ACRs (Authentication Context Class References)
         # requested by the client application.
@@ -41,7 +43,9 @@ module Authlete
         # The list of preferred languages and scripts for claim
         # values contained in the ID token. The value comes from
         # "claims_locales" request parameter. (String array)
-        attr_accessor :claim_locales
+        attr_accessor :claimLocales
+        alias_method  :claim_locales,  :claimLocales
+        alias_method  :claim_locales=, :claimLocales=
 
         # The list of claims that the client application requests
         # to be embedded in the ID token. The value comes from
@@ -63,14 +67,18 @@ module Authlete
         # The value of login hint, which is specified by the client
         # application using "login_hint" request parameter.
         # (String)
-        attr_accessor :login_hint
+        attr_accessor :loginHint
+        alias_method  :login_hint,  :loginHint
+        alias_method  :login_hint=, :loginHint=
 
         # The prompt that the UI displayed to the end-user must satisfy
         # at least. The value comes from "prompt" request parameter.
         # When the authorization request does not contain "prompt"
         # parameter, this method returns "CONSENT CONSENT" as
         # the default value. (String)
-        attr_accessor :lowest_prompt
+        attr_accessor :lowestPrompt
+        alias_method  :lowest_prompt,  :lowestPrompt
+        alias_method  :lowest_prompt=, :lowestPrompt=
 
         # The maximum authentication age which is the allowable
         # elapsed time in seconds since the last time the end-user
@@ -80,12 +88,20 @@ module Authlete
         # the client application. 0 may be returned which means
         # that the max age constraint does not have to be imposed.
         # (Integer)
-        attr_accessor :max_age
+        attr_accessor :maxAge
+        alias_method  :max_age,  :maxAge
+        alias_method  :max_age=, :maxAge=
 
         # The response content which can be used to generate a response
         # to the client application. The format of the value varies
         # depending on the value of "action". (String)
-        attr_accessor :response_content
+        attr_accessor :responseContent
+        alias_method  :response_content,  :responseContent
+        alias_method  :response_content=, :responseContent=
+
+        # The information about the service to which the authorization request
+        # has been made. (Service)
+        attr_accessor :service
 
         # The scopes which the client application requests by "scope"
         # request parameter. When the authorization request does
@@ -113,7 +129,9 @@ module Authlete
         # The list of preferred languages and scripts for the user
         # interface. The value comes from "ui_locales" request
         # parameter. (String array)
-        attr_accessor :ui_locales
+        attr_accessor :uiLocales
+        alias_method  :ui_locales,  :uiLocales
+        alias_method  :ui_locales=, :uiLocales=
 
         private
 
@@ -122,23 +140,24 @@ module Authlete
         def initialize(hash = {})
           super(hash)
 
-          @acr_essential    = extract_value(hash, :acrEssential)
-          @acrs             = extract_value(hash, :acrs)
-          @action           = extract_value(hash, :action)
-          @claim_locales    = extract_value(hash, :claimLocales)
-          @claims           = extract_value(hash, :claims)
-          @client           = Authlete::Model::Client.new(extract_value(hash, :client))
-          @display          = extract_value(hash, :display)
-          @login_hint       = extract_value(hash, :loginHint)
-          @lowest_prompt    = extract_value(hash, :lowestPrompt)
-          @max_age          = extract_value(hash, :maxAge)
-          @response_content = extract_value(hash, :responseContent)
-          @scopes           = extract_array_value(hash, :scopes) do |element|
+          @acrEssential    = extract_value(hash, :acrEssential)
+          @acrs            = extract_value(hash, :acrs)
+          @action          = extract_value(hash, :action)
+          @claimLocales    = extract_value(hash, :claimLocales)
+          @claims          = extract_value(hash, :claims)
+          @client          = Authlete::Model::Client.new(extract_value(hash, :client))
+          @display         = extract_value(hash, :display)
+          @loginHint       = extract_value(hash, :loginHint)
+          @lowestPrompt    = extract_value(hash, :lowestPrompt)
+          @maxAge          = extract_value(hash, :maxAge)
+          @responseContent = extract_value(hash, :responseContent)
+          @service         = Authlete::Model::Service.new(extract_value(hash, :service))
+          @scopes          = extract_array_value(hash, :scopes) do |element|
             Authlete::Model::Scope.parse(element)
           end
-          @subject          = extract_value(hash, :subject)
-          @ticket           = extract_value(hash, :ticket)
-          @ui_locales       = extract_value(hash, :uiLocales)
+          @subject         = extract_value(hash, :subject)
+          @ticket          = extract_value(hash, :ticket)
+          @uiLocales       = extract_value(hash, :uiLocales)
         end
       end
     end

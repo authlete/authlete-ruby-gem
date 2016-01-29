@@ -33,7 +33,7 @@ module Authlete
       STRING_ATTRIBUTES = ::Set.new([:tag, :value])
 
       # The constructor
-      def initialize(hash = new)
+      def initialize(hash = nil)
         # Set default values to string attributes.
         STRING_ATTRIBUTES.each do |attr|
           send("#{attr}=", nil)

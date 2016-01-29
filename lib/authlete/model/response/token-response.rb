@@ -21,7 +21,7 @@ module Authlete
       # == Authlete::Model::Response::TokenResponse class
       #
       # This class represents a response from Authlete's /api/auth/token API.
-      class TokenResponse < Authlete::Model::Response::Result
+      class TokenResponse < Authlete::Model::Result
         include Authlete::Utility
         # The next action that the service implementation should take.
         # (String)
@@ -36,7 +36,9 @@ module Authlete
         # The response content which can be used to generate a response
         # to the client application. The format of the value varies
         # depending on the value of "action". (String)
-        attr_accessor :response_content
+        attr_accessor :responseContent
+        alias_method  :response_content,  :responseContent
+        alias_method  :response_content=, :responseContent=
 
         # The ticket issued from Authlete's /api/auth/token endpoint.
         # This parameter is to be used as "ticket" request parameter
@@ -57,11 +59,11 @@ module Authlete
         def initialize(hash = {})
           super(hash)
 
-          @action           = extract_value(hash, :action)
-          @response_content = extract_value(hash, :responseContent)
-          @password         = extract_value(hash, :password)
-          @ticket           = extract_value(hash, :ticket)
-          @username         = extract_value(hash, :username)
+          @action          = extract_value(hash, :action)
+          @responseContent = extract_value(hash, :responseContent)
+          @password        = extract_value(hash, :password)
+          @ticket          = extract_value(hash, :ticket)
+          @username        = extract_value(hash, :username)
         end
       end
     end

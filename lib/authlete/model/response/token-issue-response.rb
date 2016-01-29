@@ -21,7 +21,7 @@ module Authlete
       # == Authlete::Model::Response::TokenIssueResponse class
       #
       # This class represents a response from Authlete's /api/auth/token/issue API.
-      class TokenIssueResponse < Authlete::Model::Response::Result
+      class TokenIssueResponse < Authlete::Model::Result
         include Authlete::Utility
         # The next action that the service implementation should take.
         # (String)
@@ -30,7 +30,9 @@ module Authlete
         # The response content which can be used to generate a response
         # to the client application. The format of the value varies
         # depending on the value of "action". (String)
-        attr_accessor :response_content
+        attr_accessor :responseContent
+        alias_method  :response_content,  :responseContent
+        alias_method  :response_content=, :responseContent=
 
         private
 
@@ -40,7 +42,7 @@ module Authlete
           super(hash)
 
           @action           = extract_value(hash, :action)
-          @response_content = extract_value(hash, :responseContent)
+          @responseContent = extract_value(hash, :responseContent)
         end
       end
     end

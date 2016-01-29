@@ -22,13 +22,15 @@ module Authlete
       #
       # A class that represents a response from Authlete's
       # /api/auth/introspection API.
-      class IntrospectionResponse < Authlete::Model::Response::Result
+      class IntrospectionResponse < Authlete::Model::Result
         # The next action which the caller of the API should take next.
         attr_accessor :action
 
         # The ID of the client application which is associated with
         # the access token.
-        attr_accessor :client_id
+        attr_accessor :clientId
+        alias_method  :client_id,  :clientId
+        alias_method  :client_id=, :clientId=
 
         # The subject which is associated with the access token.
         # This is <tt>nil</tt> if the access token was created
@@ -54,21 +56,23 @@ module Authlete
         # The content of the error response that the service implementation
         # should return to the client application.
         attr_accessor :response_content
+        alias_method  :response_content,  :responseContent
+        alias_method  :response_content=, :responseContent=
 
         # The constructor which takes a hash that represents a JSON response
         # from /api/auth/introspection API.
         def initialize(hash = {})
           super(hash)
 
-          @action           = extract_value(hash, :action)
-          @client_id        = extract_value(hash, :clientId)
-          @subject          = extract_value(hash, :subject)
-          @scopes           = extract_value(hash, :scopes)
-          @existent         = extract_boolean_value(hash, :existent)
-          @usable           = extract_boolean_value(hash, :usable)
-          @sufficient       = extract_boolean_value(hash, :sufficient)
-          @refreshable      = extract_boolean_value(hash, :refreshable)
-          @response_content = extract_value(hash, :responseContent)
+          @action          = extract_value(hash, :action)
+          @clientId        = extract_value(hash, :clientId)
+          @subject         = extract_value(hash, :subject)
+          @scopes          = extract_value(hash, :scopes)
+          @existent        = extract_boolean_value(hash, :existent)
+          @usable          = extract_boolean_value(hash, :usable)
+          @sufficient      = extract_boolean_value(hash, :sufficient)
+          @refreshable     = extract_boolean_value(hash, :refreshable)
+          @responseContent = extract_value(hash, :responseContent)
         end
 
         alias_method :existent?,    :existent

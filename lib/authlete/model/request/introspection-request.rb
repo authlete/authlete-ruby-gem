@@ -25,7 +25,7 @@ module Authlete
         include Authlete::Utility
         # The constructor which takes a hash that represents a JSON request
         # to Authlete's /api/auth/introspection API.
-        def initialize(hash = {})
+        def initialize(hash = nil)
         end
 
         # Parse a JSON string which represents a request to

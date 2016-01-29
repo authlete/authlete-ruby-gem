@@ -56,7 +56,7 @@ module Authlete
     end
 
     def get_parsed_array(array)
-      if array.nil? or (array.kind_of?(Array) == false) or (array.length == 0)
+      if array.nil? or (array.kind_of?(Array) == false) or (array.empty?)
         return nil
       end
 
@@ -67,7 +67,7 @@ module Authlete
         elements.push(parsed_element) unless parsed_element.nil?
       end
 
-      elements.length == 0 ? nil : elements
+      elements.empty? ? nil : elements
     end
 
     def to_rack_response_json(status_code, content)

@@ -32,6 +32,7 @@ module Authlete
     autoload :Hashable, 'authlete/model/hashable'
     autoload :Client, 'authlete/model/client'
     autoload :ClientList, 'authlete/model/client-list'
+    autoload :Result, 'authlete/model/result'
     autoload :Scope, 'authlete/model/scope'
     autoload :Service, 'authlete/model/service'
     autoload :ServiceList, 'authlete/model/service-list'
@@ -41,15 +42,27 @@ module Authlete
 
     module Request
       autoload :AuthenticationCallbackRequest, 'authlete/model/request/authentication-callback-request'
+      autoload :AuthorizationFailRequest, 'authlete/model/request/authorization-fail-request'
+      autoload :AuthorizationIssueRequest, 'authlete/model/request/authorization-issue-request'
+      autoload :AuthorizationRequest, 'authlete/model/request/authorization-request'
       autoload :DeveloperAuthenticationCallbackRequest, 'authlete/model/request/developer-authentication-callback-request'
+      autoload :IntrospectionRequest, 'authlete/model/request/introspection-request'
+      autoload :TokenFailRequest, 'authlete/model/request/token-fail-request'
+      autoload :TokenIssueRequest, 'authlete/model/request/token-issue-request'
+      autoload :TokenReqeust, 'authlete/model/request/token-request'
     end
 
     module Response
       autoload :AuthenticationCallbackResponse, 'authlete/model/response/authentication-callback-response'
-      autoload :Result, 'authlete/model/response/result'
+      autoload :AuthorizationFailResponse, 'authlete/model/response/authorization-fail-response'
+      autoload :AuthorizationIssueResponse, 'authlete/model/response/authorization-issue-response'
+      autoload :AuthorizationResponse, 'authlete/model/response/authorization-response'
       autoload :DeveloperAuthenticationCallbackResponse, 'authlete/model/response/developer-authentication-callback-response'
       autoload :IntrospectionResponse, 'authlete/model/response/introspection-response'
       autoload :ServiceCreatableResponse, 'authlete/model/response/service-creatable-response'
+      autoload :TokenFailResponse, 'authlete/model/response/token-fail-response'
+      autoload :TokenIssueResponse, 'authlete/model/response/token-issue-response'
+      autoload :TokenResponse, 'authlete/model/response/token-response'
     end
   end
 end

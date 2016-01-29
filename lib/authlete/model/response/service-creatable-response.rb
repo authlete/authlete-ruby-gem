@@ -39,9 +39,9 @@ module Authlete
         # response from /api/service/creatable API.
         def initialize(hash = {})
           @creatable = extract_boolean_value(hash, :creatable)
-          @count     = extract_value(hash, :count);
-          @limit     = extract_value(hash, :limit);
-          @plan      = extract_value(hash, :plan);
+          @count     = extract_value(hash, :count)
+          @limit     = extract_value(hash, :limit)
+          @plan      = extract_value(hash, :plan)
         end
 
         alias_method :creatable?, :creatable
