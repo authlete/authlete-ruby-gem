@@ -41,7 +41,7 @@ module Authlete
         def initialize(hash = {})
           super(hash)
 
-          @action           = extract_value(hash, :action)
+          @action          = extract_value(hash, :action)
           @responseContent = extract_value(hash, :responseContent)
         end
       end

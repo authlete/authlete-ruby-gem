@@ -181,6 +181,13 @@ module Authlete
       alias_method  :refresh_token_duration,  :refreshTokenDuration
       alias_method  :refresh_token_duration=, :refreshTokenDuration=
 
+      # The flag to indicate whether a refresh token remains unchanged
+      # or gets renewed after its use.
+      # (Boolean)
+      attr_accessor :refreshTokenKept
+      alias_method  :refresh_token_kept,  :refreshTokenKept
+      alias_method  :refresh_token_kept=, :refreshTokenKept=
+
       # The URI of the registration endpoint. (URI)
       attr_accessor :registrationEndpoint
       alias_method  :registration_endpoint,  :registrationEndpoint
@@ -317,7 +324,8 @@ module Authlete
       # Boolean attributes.
       BOOLEAN_ATTRIBUTES = ::Set.new([
         :directAuthorizationEndpointEnabled, :directJwksEndpointEnabled, :directRevocationEndpointEnabled,
-        :directTokenEndpointEnabled, :directUserInfoEndpointEnabled, :pkceRequired, :singleAccessTokenPerSubject
+        :directTokenEndpointEnabled, :directUserInfoEndpointEnabled, :pkceRequired, :refreshTokenKept,
+        :singleAccessTokenPerSubject
       ])
 
       # String attributes.
@@ -365,6 +373,7 @@ module Authlete
         :pkce_required                                => :pkceRequired,
         :policy_uri                                   => :policyUri,
         :refresh_token_duration                       => :refreshTokenDuration,
+        :refresh_token_kept                           => :refreshTokenKept,
         :registration_endpoint                        => :registrationEndpoint,
         :revocation_endpoint                          => :revocationEndpoint,
         :service_documentation                        => :serviceDocumentation,
