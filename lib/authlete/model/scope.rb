@@ -21,8 +21,13 @@ require 'set'
 module Authlete
   module Model
     class Scope < Authlete::Model::Hashable
+      include Authlete::Utility
       # The description about this scope. (String)
       attr_accessor :description
+
+      # The descriptions about this scope with language tags.
+      # (TaggedValue array)
+      attr_accessor :descriptions
 
       # The name of this scope. (String)
       attr_accessor :name
@@ -41,6 +46,9 @@ module Authlete
       # String attributes.
       STRING_ATTRIBUTES = ::Set.new([ :description, :name ])
 
+      # Tagged value array attributes.
+      TAGGED_VALUE_ARRAY_ATTRIBUTES = ::Set.new([ :descriptions ])
+
       # Mapping from snake cases to camel cases.
       SNAKE_TO_CAMEL = { :default_entry => :defaultEntry }
 
@@ -53,6 +61,11 @@ module Authlete
 
         # Set default values to string attributes.
         STRING_ATTRIBUTES.each do |attr|
+          send("#{attr}=", nil)
+        end
+
+        # Set default values to tagged value array attributes.
+        TAGGED_VALUE_ARRAY_ATTRIBUTES.each do |attr|
           send("#{attr}=", nil)
         end
 
@@ -84,6 +97,13 @@ module Authlete
 
           if authlete_model_simple_attribute?(key)
             send("#{key}=", value)
+          elsif TAGGED_VALUE_ARRAY_ATTRIBUTES.include?(key)
+            # Get an array consisting of "TaggedValue" objects.
+            parsed = get_parsed_array(value) do |element|
+              Authlete::Model::TaggedValue.parse(element)
+            end
+
+            send("#{key}=", parsed)
           end
         end
 
@@ -117,7 +137,11 @@ module Authlete
           key = var.to_s.delete("@").to_sym
           val = instance_variable_get(var)
 
-          hash[key] = val
+          if authlete_model_simple_attribute?(key) or val.nil?
+            hash[key] = val
+          elsif val.kind_of?(Array)
+            hash[key] = val.map { |element| element.to_hash }
+          end
         end
 
         hash

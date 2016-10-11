@@ -25,7 +25,6 @@ module Authlete
   autoload :AuthenticationServer, 'authlete/authentication-server'
   autoload :Api, 'authlete/api'
   autoload :Exception, 'authlete/exception'
-  autoload :Host, 'authlete/host'
   autoload :Utility, 'authlete/utility'
 
   module Model

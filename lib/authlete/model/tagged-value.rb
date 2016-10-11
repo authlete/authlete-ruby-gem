@@ -30,7 +30,7 @@ module Authlete
       private
 
       # String attributes.
-      STRING_ATTRIBUTES = ::Set.new([:tag, :value])
+      STRING_ATTRIBUTES = ::Set.new([ :tag, :value ])
 
       # The constructor
       def initialize(hash = nil)
@@ -44,14 +44,7 @@ module Authlete
       end
 
       def authlete_model_convert_key(key)
-        key = key.to_sym
-
-        # Convert snakecase to camelcase, if necessary.
-        if SNAKE_TO_CAMEL.has_key?(key)
-          key = SNAKE_TO_CAMEL[key]
-        end
-
-        key
+        key.to_sym
       end
 
       def authlete_model_simple_attribute?(key)

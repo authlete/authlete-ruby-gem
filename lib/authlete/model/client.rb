@@ -247,7 +247,7 @@ module Authlete
       # (String)
       attr_accessor :description
 
-      # Descriptions about the client application with language tags. (TaggesValue array)
+      # Descriptions about the client application with language tags. (TaggedValue array)
       attr_accessor :descriptions
 
       # The timestamp at which the client was created. (Integer)
