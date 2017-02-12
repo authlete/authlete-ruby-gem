@@ -260,7 +260,7 @@ module Authlete
       alias_method  :modified_at, :modifiedAt
       alias_method  :modified_at=, :modifiedAt=
 
-      # (ClientExtension)
+      # The special information that extends the client. (ClientExtension)
       attr_accessor :extension
 
       private
