@@ -31,6 +31,7 @@ module Authlete
     autoload :Hashable, 'authlete/model/hashable'
     autoload :Client, 'authlete/model/client'
     autoload :ClientList, 'authlete/model/client-list'
+    autoload :ClientExtension, 'authlete/model/client-extension'
     autoload :Result, 'authlete/model/result'
     autoload :Scope, 'authlete/model/scope'
     autoload :Service, 'authlete/model/service'

@@ -260,6 +260,9 @@ module Authlete
       alias_method  :modified_at, :modifiedAt
       alias_method  :modified_at=, :modifiedAt=
 
+      # (ClientExtension)
+      attr_accessor :extension
+
       private
 
       # Integer attributes.
@@ -360,6 +363,8 @@ module Authlete
           send("#{attr}=", nil)
         end
 
+        @extension = nil
+
         # Set attribute values using the given hash.
         authlete_model_update(hash)
       end
@@ -397,6 +402,8 @@ module Authlete
             end
 
             send("#{key}=", parsed)
+          elsif key == :extension
+            @extension = Authlete::Model::ClientExtension.new(value)
           end
         end
 
@@ -434,6 +441,9 @@ module Authlete
             hash[key] = val
           elsif val.kind_of?(Array)
             hash[key] = val.map { |element| element.to_hash }
+          else
+            # For attributes such as :extension
+            hash[key] = val.to_hash
           end
         end
 
