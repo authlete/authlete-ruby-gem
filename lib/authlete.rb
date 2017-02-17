@@ -28,11 +28,12 @@ module Authlete
   autoload :Utility, 'authlete/utility'
 
   module Model
-    autoload :Hashable, 'authlete/model/hashable'
     autoload :Client, 'authlete/model/client'
     autoload :ClientList, 'authlete/model/client-list'
     autoload :ClientExtension, 'authlete/model/client-extension'
+    autoload :Hashable, 'authlete/model/hashable'
     autoload :Result, 'authlete/model/result'
+    autoload :Pair, 'authlete/model/pair'
     autoload :Scope, 'authlete/model/scope'
     autoload :Service, 'authlete/model/service'
     autoload :ServiceList, 'authlete/model/service-list'
@@ -49,7 +50,7 @@ module Authlete
       autoload :IntrospectionRequest, 'authlete/model/request/introspection-request'
       autoload :TokenFailRequest, 'authlete/model/request/token-fail-request'
       autoload :TokenIssueRequest, 'authlete/model/request/token-issue-request'
-      autoload :TokenReqeust, 'authlete/model/request/token-request'
+      autoload :TokenRequest, 'authlete/model/request/token-request'
     end
 
     module Response

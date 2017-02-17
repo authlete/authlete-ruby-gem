@@ -152,6 +152,9 @@ module Authlete
       alias_method  :jwks_uri,  :jwksUri
       alias_method  :jwks_uri=, :jwksUri=
 
+      # The metadata of the service. (Pair Array)
+      attr_accessor :metadata
+
       # The timestamp at which the service was modified. (Integer)
       attr_accessor :modifiedAt
       alias_method  :modified_at,  :modifiedAt
@@ -172,9 +175,6 @@ module Authlete
       attr_accessor :policyUri
       alias_method  :policy_uri,  :policyUri
       alias_method  :policy_uri=, :policyUri=
-
-      # The service properties. (Array)
-      attr_accessor :properties
 
       # The duration of refresh tokens in seconds. (Integer)
       attr_accessor :refreshTokenDuration
@@ -340,7 +340,7 @@ module Authlete
 
       # String array attributes.
       STRING_ARRAY_ATTRIBUTES = ::Set.new([
-        :properties, :supportedAcrs, :supportedClaimLocales, :supportedClaims,
+        :supportedAcrs, :supportedClaimLocales, :supportedClaims,
         :supportedClaimTypes, :supportedDeveloperSnses, :supportedDisplays,
         :supportedGrantTypes, :supportedResponseTypes, :supportedSnses,
         :supportedTokenAuthMethods, :supportedUiLocales
@@ -422,6 +422,7 @@ module Authlete
 
         # Set default values to special objects.
         @developerSnsCredentials = nil
+        @metadata                = nil
         @snsCredentials          = nil
         @supportedScopes         = nil
 
@@ -458,6 +459,10 @@ module Authlete
           elsif key == :developerSnsCredentials
             @developerSnsCredentials = get_parsed_array(value) do |element|
               Authlete::Model::SnsCredentials.parse(element)
+            end
+          elsif key == :metadata
+            @metadata = get_parsed_array(value) do |element|
+              Authlete::Model::Pair.parse(element)
             end
           elsif key == :snsCredentials
             @snsCredentials = get_parsed_array(value) do |element|
