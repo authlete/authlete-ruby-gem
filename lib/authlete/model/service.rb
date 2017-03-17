@@ -367,7 +367,7 @@ module Authlete
         :direct_revocation_endpoint_enabled           => :directRevocationEndpointEnabled,
         :direct_token_endpoint_enabled                => :directTokenEndpointEnabled,
         :direct_user_info_endpoint_enabled            => :directUserInfoEndpointEnabled,
-        :id_tokn_duration                             => :idTokenDuration,
+        :id_token_duration                            => :idTokenDuration,
         :jwks_uri                                     => :jwksUri,
         :modified_at                                  => :modifiedAt,
         :pkce_required                                => :pkceRequired,
