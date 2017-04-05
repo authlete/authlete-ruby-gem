@@ -62,8 +62,14 @@ module Authlete
       alias_method  :authorization_endpoint,  :authorizationEndpoint
       alias_method  :authorization_endpoint=, :authorizationEndpoint=
 
+      # The flag which indicates whether the 'Client ID Alias' feature
+      # is enabled or not. (Boolean)
+      attr_accessor :clientIdAliasEnabled
+      alias_method  :client_id_alias_enabled,  :clientIdAliasEnabled
+      alias_method  :client_id_alias_enabled=, :clientIdAliasEnabled=
+
       # The number of client applications that one developer can create.
-      # 0 means no limit.
+      # 0 means no limit. (Integer)
       attr_accessor :clientsPerDeveloper
       alias_method  :clients_per_developer,  :clientsPerDeveloper
       alias_method  :clients_per_developer=, :clientsPerDeveloper=
@@ -323,9 +329,10 @@ module Authlete
 
       # Boolean attributes.
       BOOLEAN_ATTRIBUTES = ::Set.new([
-        :directAuthorizationEndpointEnabled, :directJwksEndpointEnabled, :directRevocationEndpointEnabled,
-        :directTokenEndpointEnabled, :directUserInfoEndpointEnabled, :pkceRequired, :refreshTokenKept,
-        :singleAccessTokenPerSubject
+        :clientIdAliasEnabled, :directAuthorizationEndpointEnabled,
+        :directJwksEndpointEnabled, :directRevocationEndpointEnabled,
+        :directTokenEndpointEnabled, :directUserInfoEndpointEnabled,
+        :pkceRequired, :refreshTokenKept, :singleAccessTokenPerSubject
       ])
 
       # String attributes.
@@ -360,6 +367,7 @@ module Authlete
         :developer_authentication_callback_api_secret => :developerAuthenticationCallbackApiSecret,
         :developer_authentication_callback_endpoint   => :developerAuthenticationCallbackEndpoint,
         :developer_sns_credentials                    => :developerSnsCredentials,
+        :client_id_alias_enabled                      => :clientIdAliasEnabled,
         :clients_per_developer                        => :clientsPerDeveloper,
         :created_at                                   => :createdAt,
         :direct_authorization_endpoint_enabled        => :directAuthorizationEndpointEnabled,

@@ -39,6 +39,17 @@ module Authlete
       alias_method  :client_id, :clientId
       alias_method  :client_id=, :clientId=
 
+      # Alias of client ID. (String)
+      attr_accessor :clientIdAlias
+      alias_method  :client_id_alias,  :clientIdAlias
+      alias_method  :client_id_alias=, :clientIdAlias=
+
+      # The flag which indicates whether the 'Client ID Alias' feature
+      # is enabled or not. (Boolean)
+      attr_accessor :clientIdAliasEnabled
+      alias_method  :client_id_alias_enabled,  :clientIdAliasEnabled
+      alias_method  :client_id_alias_enabled=, :clientIdAliasEnabled=
+
       # The client secret. (String)
       attr_accessor :clientSecret
       alias_method  :client_secret, :clientSecret
@@ -271,16 +282,18 @@ module Authlete
       ])
 
       # Boolean attributes.
-      BOOLEAN_ATTRIBUTES = ::Set.new([ :authTimeRequired ])
+      BOOLEAN_ATTRIBUTES = ::Set.new([
+        :authTimeRequired, :clientIdAliasEnabled
+      ])
 
       # String attributes.
       STRING_ATTRIBUTES = ::Set.new([
         :developer, :clientSecret, :clientType, :responseTypes, :applicationType,
-        :clientName, :logoUri, :clientUri, :policyUri, :tosUri, :jwksUri, :jwks,
-        :sectorIdentifier, :subjectType, :idTokenSignAlg, :idTokenEncryptionAlg,
-        :idTokenEncryptionEnc, :userInfoSignAlg, :userInfoEncryptionAlg, :userInfoEncryptionEnc,
-        :requestSignAlg, :requestEncryptionAlg, :requestEncryptionEnc, :tokenAuthMethod,
-        :tokenAuthSignAlg, :loginUri, :description
+        :clientIdAlias, :clientName, :logoUri, :clientUri, :policyUri, :tosUri,
+        :jwksUri, :jwks, :sectorIdentifier, :subjectType, :idTokenSignAlg,
+        :idTokenEncryptionAlg, :idTokenEncryptionEnc, :userInfoSignAlg, :userInfoEncryptionAlg,
+        :userInfoEncryptionEnc, :requestSignAlg, :requestEncryptionAlg, :requestEncryptionEnc,
+        :tokenAuthMethod, :tokenAuthSignAlg, :loginUri, :description
       ])
 
       # String array attributes.
@@ -297,6 +310,8 @@ module Authlete
       SNAKE_TO_CAMEL = {
         :service_number           => :serviceNumber,
         :client_id                => :clientId,
+        :client_id_alias          => :clientIdAlias,
+        :client_id_alias_enabled  => :clientIdAliasEnabled,
         :client_secret            => :clientSecret,
         :client_type              => :clientType,
         :redirect_uris            => :redirectUris,
