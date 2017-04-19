@@ -147,6 +147,12 @@ module Authlete
       alias_method  :id_token_duration,  :idTokenDuration
       alias_method  :id_token_duration=, :idTokenDuration=
 
+      # The key ID to identify a JWK used for ID token signature using an
+      # asymmetric key. (String)
+      attr_accessor :idTokenSignatureKeyId
+      alias_method :id_token_signature_key_id, :idTokenSignatureKeyId
+      alias_method :id_token_signature_key_id=, :idTokenSignatureKeyId=
+
       # The issuer identifier of this OpenID Provider. (URI)
       attr_accessor :issuer
 
@@ -319,6 +325,12 @@ module Authlete
       alias_method  :user_info_endpoint,  :userInfoEndpoint
       alias_method  :user_info_endpoint=, :userInfoEndpoint=
 
+      # The key ID to identify a JWK used for user info signature using an
+      # asymmetric key. (String)
+      attr_accessor :userInfoSignatureKeyId
+      alias_method :user_info_signature_key_id, :userInfoSignatureKeyId
+      alias_method :user_info_signature_key_id=, :userInfoSignatureKeyId=
+
       private
 
       # Integer attributes.
@@ -341,8 +353,9 @@ module Authlete
         :authenticationCallbackApiSecret, :authenticationCallbackEndpoint,
         :authorizationEndpoint, :description, :developerAuthenticationCallbackApiKey,
         :developerAuthenticationCallbackApiSecret, :developerAuthenticationCallbackEndpoint,
-        :issuer, :jwks, :jwksUri, :policyUri, :registrationEndpoint, :serviceDocumentation,
-        :serviceName, :tokenEndpoint, :tosUri, :userInfoEndpoint, :revocationEndpoint
+        :idTokenSignatureKeyId, :issuer, :jwks, :jwksUri, :policyUri, :registrationEndpoint,
+        :serviceDocumentation, :serviceName, :tokenEndpoint, :tosUri, :userInfoEndpoint,
+        :userInfoSignatureKeyId, :revocationEndpoint
       ])
 
       # String array attributes.
@@ -376,6 +389,7 @@ module Authlete
         :direct_token_endpoint_enabled                => :directTokenEndpointEnabled,
         :direct_user_info_endpoint_enabled            => :directUserInfoEndpointEnabled,
         :id_token_duration                            => :idTokenDuration,
+        :id_token_signature_key_id                    => :idTokenSignatureKeyId,
         :jwks_uri                                     => :jwksUri,
         :modified_at                                  => :modifiedAt,
         :pkce_required                                => :pkceRequired,
@@ -403,7 +417,8 @@ module Authlete
         :supported_ui_locales                         => :supportedUiLocales,
         :token_endpoint                               => :tokenEndpoint,
         :tos_uri                                      => :tosUri,
-        :user_info_endpoint                           => :userInfoEndpoint
+        :user_info_endpoint                           => :userInfoEndpoint,
+        :user_info_signature_key_id                   => :usrInfoSignatureKeyId
       }
 
       # The constructor
