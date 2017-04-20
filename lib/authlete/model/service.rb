@@ -418,7 +418,7 @@ module Authlete
         :token_endpoint                               => :tokenEndpoint,
         :tos_uri                                      => :tosUri,
         :user_info_endpoint                           => :userInfoEndpoint,
-        :user_info_signature_key_id                   => :usrInfoSignatureKeyId
+        :user_info_signature_key_id                   => :userInfoSignatureKeyId
       }
 
       # The constructor
