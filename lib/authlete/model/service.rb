@@ -110,6 +110,14 @@ module Authlete
       alias_method  :direct_authorization_endpoint_enabled,  :directAuthorizationEndpointEnabled
       alias_method  :direct_authorization_endpoint_enabled=, :directAuthorizationEndpointEnabled=
 
+      # The flag to indicate whether the direct introspection endpoint
+      # is enabled or not. The path of the endpoint is
+      # <code>/api/auth/introspection/direct/{serviceApiKey}</code>
+      # (Boolean)
+      attr_accessor :directIntrospectionEndpointEnabled
+      alias_method  :direct_introspection_endpoint_enabled,  :directIntrospectionEndpointEnabled
+      alias_method  :direct_introspection_endpoint_enabled=, :directIntrospectionEndpointEnabled=
+
       # The flag to indicate whether the direct jwks endpoint
       # is enabled or not. The path of the endpoint is
       # <code>/api/service/jwks/get/direct/{serviceApiKey}</code>
@@ -342,9 +350,10 @@ module Authlete
       # Boolean attributes.
       BOOLEAN_ATTRIBUTES = ::Set.new([
         :clientIdAliasEnabled, :directAuthorizationEndpointEnabled,
-        :directJwksEndpointEnabled, :directRevocationEndpointEnabled,
-        :directTokenEndpointEnabled, :directUserInfoEndpointEnabled,
-        :pkceRequired, :refreshTokenKept, :singleAccessTokenPerSubject
+        :directIntrospectionEndpointEnabled, :directJwksEndpointEnabled,
+        :directRevocationEndpointEnabled, :directTokenEndpointEnabled,
+        :directUserInfoEndpointEnabled, :pkceRequired, :refreshTokenKept,
+        :singleAccessTokenPerSubject
       ])
 
       # String attributes.
@@ -384,6 +393,7 @@ module Authlete
         :clients_per_developer                        => :clientsPerDeveloper,
         :created_at                                   => :createdAt,
         :direct_authorization_endpoint_enabled        => :directAuthorizationEndpointEnabled,
+        :direct_introspection_endpoint_enabled        => :directIntrospectionEndpointEnabled,
         :direct_jwks_endpoint_enabled                 => :directJwksEndpointEnabled,
         :direct_revocation_endpoint_enabled           => :directRevocationEndpointEnabled,
         :direct_token_endpoint_enabled                => :directTokenEndpointEnabled,
