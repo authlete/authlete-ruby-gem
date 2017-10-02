@@ -104,7 +104,7 @@ module Authlete
 
       # The flag to indicate whether the direct authorization endpoint
       # is enabled or not. The path of the endpoint is
-      # <code>/api/auth/authorization/direct/{serviceApiKey}</code>
+      # <code>/api/auth/authorization/direct/{serviceApiKey}</code>.
       # (Boolean)
       attr_accessor :directAuthorizationEndpointEnabled
       alias_method  :direct_authorization_endpoint_enabled,  :directAuthorizationEndpointEnabled
@@ -112,7 +112,7 @@ module Authlete
 
       # The flag to indicate whether the direct introspection endpoint
       # is enabled or not. The path of the endpoint is
-      # <code>/api/auth/introspection/direct/{serviceApiKey}</code>
+      # <code>/api/auth/introspection/direct/{serviceApiKey}</code>.
       # (Boolean)
       attr_accessor :directIntrospectionEndpointEnabled
       alias_method  :direct_introspection_endpoint_enabled,  :directIntrospectionEndpointEnabled
@@ -120,7 +120,7 @@ module Authlete
 
       # The flag to indicate whether the direct jwks endpoint
       # is enabled or not. The path of the endpoint is
-      # <code>/api/service/jwks/get/direct/{serviceApiKey}</code>
+      # <code>/api/service/jwks/get/direct/{serviceApiKey}</code>.
       # (Boolean)
       attr_accessor :directJwksEndpointEnabled
       alias_method  :direct_jwks_endpoint_enabled,  :directJwksEndpointEnabled
@@ -128,7 +128,7 @@ module Authlete
 
       # The flag to indicate whether the direct revocation endpoint
       # is enabled or not. The path of the endpoint is
-      # <code>/api/auth/revocation/direct/{serviceApiKey}</code>
+      # <code>/api/auth/revocation/direct/{serviceApiKey}</code>.
       # (Boolean)
       attr_accessor :directRevocationEndpointEnabled
       alias_method  :direct_revocation_endpoint_enabled,  :directRevocationEndpointEnabled
@@ -136,7 +136,7 @@ module Authlete
 
       # The flag to indicate whether the direct token endpoint
       # is enabled or not. The path of the endpoint is
-      # <code>/api/auth/token/direct/{serviceApiKey}</code>
+      # <code>/api/auth/token/direct/{serviceApiKey}</code>.
       # (Boolean)
       attr_accessor :directTokenEndpointEnabled
       alias_method  :direct_token_endpoint_enabled,  :directTokenEndpointEnabled
@@ -144,11 +144,23 @@ module Authlete
 
       # The flag to indicate whether the direct user info endpoint
       # is enabled or not. The path of the endpoint is
-      # <code>/api/auth/userinfo/direct/{serviceApiKey}</code>
+      # <code>/api/auth/userinfo/direct/{serviceApiKey}</code>.
       # (Boolean)
       attr_accessor :directUserInfoEndpointEnabled
       alias_method  :direct_user_info_endpoint_enabled,  :directUserInfoEndpointEnabled
       alias_method  :direct_user_info_endpoint_enabled=, :directUserInfoEndpointEnabled=
+
+      # The flag to indicate whether the <code>error_description</code>
+      # response parameter is omitted. (Boolean)
+      attr_accessor :errorDescriptionOmitted
+      alias_method  :error_description_omitted,  :errorDescriptionOmitted
+      alias_method  :error_description_omitted=, :errorDescriptionOmitted=
+
+      # The flag to indicate whether the <code>error_uri</code>
+      # response parameter is omitted. (Boolean)
+      attr_accessor :errorUriOmitted
+      alias_method  :error_uri_omitted,  :errorUriOmitted
+      alias_method  :error_uri_omitted=, :errorUriOmitted=
 
       # The duration of ID tokens in seconds. (Integer)
       attr_accessor :idTokenDuration
@@ -158,8 +170,8 @@ module Authlete
       # The key ID to identify a JWK used for ID token signature using an
       # asymmetric key. (String)
       attr_accessor :idTokenSignatureKeyId
-      alias_method :id_token_signature_key_id, :idTokenSignatureKeyId
-      alias_method :id_token_signature_key_id=, :idTokenSignatureKeyId=
+      alias_method  :id_token_signature_key_id, :idTokenSignatureKeyId
+      alias_method  :id_token_signature_key_id=, :idTokenSignatureKeyId=
 
       # The issuer identifier of this OpenID Provider. (URI)
       attr_accessor :issuer
@@ -352,8 +364,8 @@ module Authlete
         :clientIdAliasEnabled, :directAuthorizationEndpointEnabled,
         :directIntrospectionEndpointEnabled, :directJwksEndpointEnabled,
         :directRevocationEndpointEnabled, :directTokenEndpointEnabled,
-        :directUserInfoEndpointEnabled, :pkceRequired, :refreshTokenKept,
-        :singleAccessTokenPerSubject
+        :directUserInfoEndpointEnabled, :errorDescriptionOmitted, :errorUriOmitted,
+        :pkceRequired, :refreshTokenKept, :singleAccessTokenPerSubject
       ])
 
       # String attributes.
@@ -398,6 +410,8 @@ module Authlete
         :direct_revocation_endpoint_enabled           => :directRevocationEndpointEnabled,
         :direct_token_endpoint_enabled                => :directTokenEndpointEnabled,
         :direct_user_info_endpoint_enabled            => :directUserInfoEndpointEnabled,
+        :error_description_omitted                    => :errorDescriptionOmitted,
+        :error_uri_omitted                            => :errorUriOmitted,
         :id_token_duration                            => :idTokenDuration,
         :id_token_signature_key_id                    => :idTokenSignatureKeyId,
         :jwks_uri                                     => :jwksUri,
