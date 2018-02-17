@@ -91,54 +91,50 @@ module Authlete
       begin
         return RestClient::Request.new(parameters).execute
       rescue => e
-        raise_api_exception(e)
+        raise create_api_exception(e)
       end
     end
 
-    def raise_api_exception(exception)
+    def create_api_exception(exception)
       message  = exception.message
       response = exception.response
 
+      # Create a base exception.
+      authlete_exception = Authlete::Exception.new(:message => message)
+
       if response.nil?
-        # Raise an error without HTTP response information.
-        raise Authlete::Exception.new(:message => message)
+        # No response information. Then, return an exception without HTTP
+        # response information.
+        return authlete_exception
       end
 
-      # Raise an error with HTTP response information.
-      raise_api_exception_with_http_response_info(message, response.code, response.body)
-    end
+      # Extract information from the HTTP response.
+      status_code   = response.code
+      response_body = response.body
 
-    def raise_api_exception_with_http_response_info(message, status_code, response_body)
-      # Parse the response body as a json.
-      json = parse_response_body(response_body, message, status_code)
+      # Set the status code.
+      authlete_exception.status_code = status_code
 
-      # If the json has the HTTP response information from an Authlete API.
-      if has_authlete_api_response_info(json)
-        # Raise an error with it.
-        hash = json.merge!(:statusCode => status_code)
-        raise Authlete::Exception.new(hash)
-      end
+      response_body_json = nil
 
-      # Raise an error with 'status_code' and the original error message.
-      raise Authlete::Exception.new(
-        :message    => message,
-        :statusCode => status_code
-      )
-    end
-
-    def parse_response_body(response_body, message, status_code)
       begin
-        return JSON.parse(response_body.to_s, :symbolize_names => true)
+        # Parse the response body as a json.
+        response_body_json = JSON.parse(response_body.to_s, :symbolize_names => true)
       rescue
-        # Failed to parse the response body as a json.
-        raise Authlete::Exception.new(
-          :message    => message,
-          :statusCode => status_code
-        )
+        # Failed to parse the response body as a json. Then, return an exception
+        # without HTTP response information.
+        return authlete_exception
       end
+
+      # Set the Authlete API result info if it's available.
+      if has_authlete_api_result?(json)
+        authlete_exception.result = Authlete::Model::Result.new(response_body_json)
+      end
+
+      authlete_exception
     end
 
-    def has_authlete_api_response_info(json)
+    def has_authlete_api_result?(json)
       json && json.key?(:resultCode) && json.key?(:resultMessage)
     end
 
@@ -202,13 +198,24 @@ module Authlete
       "?" + array.join("&")
     end
 
+    def to_hash(object)
+      # Return the object if it's already a hash.
+      return object if object.kind_of?(Hash)
+
+      # Convert the object to a hash if possible and return it.
+      return object.to_hash if object.respond_to?('to_hash')
+
+      # Otherwise, raise an exception.
+      Authlete::Exception.new(:message => "Failed to convert the object to a hash.")
+    end
+
     public
 
     # Call Authlete's /api/service/creatable API.
     #
     # On success, an instance of Authlete::Model::Response::ServiceCreatableResponse is returned.
     # On error, Authlete::Exception is raised.
-    def service_creatable(api_key)
+    def service_creatable
       hash = call_api_service_owner(:get, "/api/service/creatable", nil, nil)
 
       Authlete::Model::Response::ServiceCreatableResponse.new(hash)
@@ -224,13 +231,7 @@ module Authlete
     # On success, an instance of Authlete::Model::ServiceList is returned.
     # On error, Authlete::Exception is raised.
     def service_create(service)
-      if service.kind_of?(Hash) == false
-        if service.respond_to?('to_hash')
-          service = service.to_hash
-        end
-      end
-
-      hash = call_api_json_service_owner("/api/service/create", service)
+      hash = call_api_json_service_owner("/api/service/create", to_hash(service))
 
       Authlete::Model::Service.new(hash)
     end
@@ -282,13 +283,7 @@ module Authlete
     # On success, an instance of Authlete::Model::Service is returned.
     # On error, Authlete::Exception is raised.
     def service_update(api_key, service)
-      if service.kind_of?(Hash) == false
-        if service.respond_to?('to_hash')
-          service = service.to_hash
-        end
-      end
-
-      hash = call_api_json_service_owner("/api/service/update/#{api_key}", service)
+      hash = call_api_json_service_owner("/api/service/update/#{api_key}", to_hash(service))
 
       Authlete::Model::Service.new(hash)
     end
@@ -313,13 +308,7 @@ module Authlete
     # On success, an instance of Authlete::Model::ClientList is returned.
     # On error, Authlete::Exception is raised.
     def client_create(client)
-      if client.kind_of?(Hash) == false
-        if client.respond_to?('to_hash')
-          client = client.to_hash
-        end
-      end
-
-      hash = call_api_json_service("/api/client/create", client)
+      hash = call_api_json_service("/api/client/create", to_hash(client))
 
       Authlete::Model::Client.new(hash)
     end
@@ -327,16 +316,16 @@ module Authlete
     # Call Authlete's /api/client/delete/{clientId} API.
     #
     # On error, Authlete::Exception is raised.
-    def client_delete(clientId)
-      call_api_service(:delete, "/api/client/delete/#{clientId}", nil, nil)
+    def client_delete(client_id)
+      call_api_service(:delete, "/api/client/delete/#{client_id}", nil, nil)
     end
 
     # Call Authlete's /api/client/get/{clientId} API.
     #
-    # On success, an instance of Authlete::Model::Service is returned.
+    # On success, an instance of Authlete::Model::Client is returned.
     # On error, Authlete::Exception is raised.
-    def client_get(clientId)
-      hash = call_api_service(:get, "/api/client/get/#{clientId}", nil, nil)
+    def client_get(client_id)
+      hash = call_api_service(:get, "/api/client/get/#{client_id}", nil, nil)
 
       Authlete::Model::Client.new(hash)
     end
@@ -365,15 +354,97 @@ module Authlete
     # On success, an instance of Authlete::Model::Client is returned.
     # On error, Authlete::Exception is raised.
     def client_update(client)
-      if client.kind_of?(Hash) == false
-        if client.respond_to?('to_hash')
-          client = client.to_hash
-        end
-      end
-
-      hash = call_api_json_service("/api/client/update/#{client[:clientId]}", client)
+      hash = call_api_json_service("/api/client/update/#{client[:clientId]}", to_hash(client))
 
       Authlete::Model::Client.new(hash)
+    end
+
+    # Call Authlete's /api/client/secret/refresh/{clientIdentifier} API.
+    #
+    # <tt>clientIdentifier</tt> is the client ID or the client ID alias of a client.
+    #
+    # On success, an instance of Authlete::Model::Response::ClientSecretRefreshResponse is returned.
+    # On error, Authlete::Exception is raised.
+    def refresh_client_secret(client_identifier)
+      hash = call_api_service(:get, "/api/client/secret/refresh/#{client_identifier}", nil, nil)
+
+      Authlete::Model::ClientSecretRefreshResponse.new(hash)
+    end
+
+    def update_client_secret(client_identifier, client_secret)
+      request = Authlete::Model::ClientSecretUpdateRequest.new(:client_secret => client_secret)
+
+      hash = call_api_json_service("/api/client/secret/update/#{client_identifier}", request.to_hash)
+
+      Authlete::Model::ClientSecretUpdateResponse.new(hash)
+    end
+
+    def get_client_authorization_list(request)
+      hash = call_api_json_service("/api/client/authorization/get/list", to_hash(request))
+
+      Authlete::Model::ClientAuthorizationListResponse.new(hash)
+    end
+
+    def update_client_authorization(client_id, request)
+      call_api_json_service("/api/client/authorization/update/#{client_id}", to_hash(request))
+    end
+
+    def delete_client_authorization(client_id, subject)
+      request = Authlete::Model::ClientAuthorizationDeleteRequest.new(:subject => subject)
+
+      call_api_json_service("/api/client/authorization/delete/#{client_id}", request.to_hash)
+    end
+
+    def revocation(request)
+      hash = call_api_json_service("/api/auth/revocation", to_hash(request))
+
+      Authlete::Model::RevocationResponse.new(hash)
+    end
+
+    def user_info(request)
+      hash = call_api_json_service("/api/auth/userinfo", to_hash(request))
+
+      Authlete::Model::UserInfoResponse.new(hash)
+    end
+
+    def user_info_issue(request)
+      hash = call_api_json_service("/api/auth/userinfo/issue", to_hash(request))
+
+      Authlete::Model::UserInfoIssueResponse.new(hash)
+    end
+
+    def get_service_jwks(params = nil)
+      call_api_service(:get, "/api/service/jwks/get#{to_query(params)}", nil, nil)
+    end
+
+    def get_service_configuration(params = nil)
+      call_api_service(:get, "/api/service/configuration#{to_query(params)}", nil, nil)
+    end
+
+    def token_create(request)
+      hash = call_api_json_service("/api/auth/token/create", to_hash(request))
+
+      Authlete::Model::TokenCreateResponse.new(hash)
+    end
+
+    def token_update(request)
+      hash = call_api_json_service("/api/auth/token/update", to_hash(request))
+
+      Authlete::Model::TokenUpdateResponse.new(hash)
+    end
+
+    def get_granted_scopes(client_id, subject)
+      request = Authlete::Model::GrantedScopesRequest.new(:subject => subject)
+
+      hash = call_api_json_service("/api/client/granted_scopes/get/#{client_id}", request.to_hash)
+
+      Authlete::Model::Response::GrantedScopesGetResponse.new(hash)
+    end
+
+    def delete_granted_scopes(client_id, subject)
+      request = Authlete::Model::GrantedScopesRequest.new(:subject => subject)
+
+      call_api_json_service("/api/client/granted_scopes/delete/#{client_id}", request.to_hash)
     end
 
     # Call Authlete's /api/auth/authorization API.
@@ -381,13 +452,7 @@ module Authlete
     # On success, an instance of Authlete::Model::Response::AuthorizationResponse is returned.
     # On error, Authlete::Exception is raised.
     def authorization(request)
-      if request.kind_of?(Hash) == false
-        if request.respond_to?('to_hash')
-          request = request.to_hash
-        end
-      end
-
-      hash = call_api_json_service("/api/auth/authorization", request)
+      hash = call_api_json_service("/api/auth/authorization", to_hash(request))
 
       Authlete::Model::Response::AuthorizationResponse.new(hash)
     end
@@ -397,13 +462,7 @@ module Authlete
     # On success, an instance of Authlete::Model::Response::AuthorizationIssueResponse is returned.
     # On error, Authlete::Exception is raised.
     def authorization_issue(request)
-      if request.kind_of?(Hash) == false
-        if request.respond_to?('to_hash')
-          request = request.to_hash
-        end
-      end
-
-      hash = call_api_json_service("/api/auth/authorization/issue", request)
+      hash = call_api_json_service("/api/auth/authorization/issue", to_hash(request))
 
       Authlete::Model::Response::AuthorizationIssueResponse.new(hash)
     end
@@ -413,13 +472,7 @@ module Authlete
     # On success, an instance of Authlete::Model::Response::AuthorizationFailResponse is returned.
     # On error, Authlete::Exception is raised.
     def authorization_fail(request)
-      if request.kind_of?(Hash) == false
-        if request.respond_to?('to_hash')
-          request = request.to_hash
-        end
-      end
-
-      hash = call_api_json_service("/api/auth/authorization/fail", request)
+      hash = call_api_json_service("/api/auth/authorization/fail", to_hash(request))
 
       Authlete::Model::Response::AuthorizationFailResponse.new(hash)
     end
@@ -429,13 +482,7 @@ module Authlete
     # On success, an instance of Authlete::Model::Response::TokenResponse is returned.
     # On error, Authlete::Exception is raised.
     def token(request)
-      if request.kind_of?(Hash) == false
-        if request.respond_to?('to_hash')
-          request = request.to_hash
-        end
-      end
-
-      hash = call_api_json_service("/api/auth/token", request)
+      hash = call_api_json_service("/api/auth/token", to_hash(request))
 
       Authlete::Model::Response::TokenResponse.new(hash)
     end
@@ -445,13 +492,7 @@ module Authlete
     # On success, an instance of Authlete::Model::Response::TokenIssueResponse is returned.
     # On error, Authlete::Exception is raised.
     def token_issue(request)
-      if request.kind_of?(Hash) == false
-        if request.respond_to?('to_hash')
-          request = request.to_hash
-        end
-      end
-
-      hash = call_api_json_service("/api/auth/token/issue", request)
+      hash = call_api_json_service("/api/auth/token/issue", to_hash(request))
 
       Authlete::Model::Response::TokenIssueResponse.new(hash)
     end
@@ -461,43 +502,30 @@ module Authlete
     # On success, an instance of Authlete::Model::Response::TokenFailResponse is returned.
     # On error, Authlete::Exception is raised.
     def token_fail(request)
-      if request.kind_of?(Hash) == false
-        if request.respond_to?('to_hash')
-          request = request.to_hash
-        end
-      end
-
-      hash = call_api_json_service("/api/auth/token/fail", request)
+      hash = call_api_json_service("/api/auth/token/fail", to_hash(request))
 
       Authlete::Model::Response::TokenFailResponse.new(hash)
     end
 
     # Call Authlete's /api/auth/introspection API.
     #
-    # <tt>token</tt> is an access token presented by a client application.
-    # This is a must parameter. In a typical case, a client application uses
-    # one of the means listed in {RFC 6750}[https://tools.ietf.org/html/rfc6750]
-    # to present an access token to a {protected resource endpoint}
-    # [https://tools.ietf.org/html/rfc6749#section-7].
-    #
-    # <tt>scopes</tt> is an array of scope names. This is an optional parameter.
-    # When the specified scopes are not covered by the access token, Authlete
-    # prepares the content of the error response.
-    #
-    # <tt>subject</tt> is a unique identifier of an end-user. This is an optional
-    # parameter. When the access token is not associated with the specified
-    # subject, Authlete prepares the content of the error response.
-    #
-    # On success, this method returns an instance of
-    # <tt>Authlete::Model::Response::IntrospectionResponse</tt>. On error, this method
-    # throws <tt>RestClient::Exception</tt>.
-    def introspection(token, scopes = nil, subject = nil)
-      hash = call_api_json_service('/api/auth/introspection',
-                                   :token => token, :scopes => scopes, :subject => subject)
+    # On success, an instance of Authlete::Model::Response::IntrospectionResponse is returned.
+    # On error, Authlete::Exception is raised.
+    def introspection(request)
+      hash = call_api_json_service('/api/auth/introspection', to_hash(request))
 
       Authlete::Model::Response::IntrospectionResponse.new(hash)
     end
 
+    # Call Authlete's /api/auth/introspection/standard API.
+    #
+    # On success, an instance of Authlete::Model::Response::StandardIntrospectionResponse is returned.
+    # On error, Authlete::Exception is raised.
+    def standard_introspection(request)
+      hash = call_api_json_service('/api/auth/introspection/standard', to_hash(request))
+
+      Authlete::Model::Response::StandardIntrospectionResopnse.new(hash)
+    end
 
     # Ensure that the request contains a valid access token.
     #
@@ -534,9 +562,16 @@ module Authlete
         )
       end
 
+      # Create a request for Authlete's /api/auth/introspection API.
+      request = Authlete::Model::Request::IntrospectionRequest.new(
+        :token   => access_token,
+        :scopes  => scopes,
+        :subject => subject
+      )
+
       begin
         # Call Authlete's /api/auth/introspection API to introspect the access token.
-        result = introspection(access_token, scopes, subject)
+        result = introspection(request)
       rescue => e
         # Error message.
         message = build_error_message('/api/auth/introspection', e)

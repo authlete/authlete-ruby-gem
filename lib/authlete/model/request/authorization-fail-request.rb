@@ -15,6 +15,9 @@
 # limitations under the License.
 
 
+require 'set'
+
+
 module Authlete
   module Model
     module Request

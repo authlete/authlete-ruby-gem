@@ -549,8 +549,10 @@ module Authlete
 
           if authlete_model_simple_attribute?(key) or val.nil?
             hash[key] = val
-          elsif val.kind_of?(Array)
+          elsif key == :developerSnsCredentials or key == :snsCredentials or key == :supportedScopes
             hash[key] = val.map { |element| element.to_hash }
+          elsif key == :metadata
+            hash[key] = val.to_hash
           end
         end
 

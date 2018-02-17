@@ -15,6 +15,9 @@
 # limitations under the License.
 
 
+require 'set'
+
+
 module Authlete
   module Model
     module Request
@@ -28,6 +31,10 @@ module Authlete
         # The subject (end-user) managed by the service. (String)
         attr_accessor :subject
 
+        # Extra properties to associate with a newly created access token.
+        # (String)
+        attr_accessor :properties
+
         private
 
         # String attributes.
@@ -40,6 +47,8 @@ module Authlete
           STRING_ATTRIBUTES.each do |attr|
             send("#{attr}=", nil)
           end
+
+          @properties = nil
 
           # Set attribute values using the given hash.
           authlete_model_update(hash)
@@ -61,6 +70,10 @@ module Authlete
 
             if authlete_model_simple_attribute?(key)
               send("#{key}=", value)
+            elsif key == :properties
+              @properties = get_parsed_array(value) do |element|
+                Authlete::Model::Property.parse(element)
+              end
             end
           end
 
@@ -91,6 +104,8 @@ module Authlete
 
             if authlete_model_simple_attribute?(key) or val.nil?
               hash[key] = val
+            elsif key == :properties
+              hash[key] = val.map { |element| element.to_hash }
             end
           end
 

@@ -33,6 +33,38 @@ module Authlete
         alias_method  :response_content,  :responseContent
         alias_method  :response_content=, :responseContent=
 
+        # The newly issued access token. Note that an access token is issued
+        # from an Authorization Endpoint only when "response_type" contains "token".
+        # (String)
+        attr_accessor :accessToken
+        alias_method  :access_token,  :accessToken
+        alias_method  :access_token=, :accessToken=
+
+        # The datetime at which the newly issued access token will expire.
+        # The value is represented in milliseconds since the Unix epoch (1970-01-01).
+        # (Integer)
+        attr_accessor :accessTokenExpiresAt
+        alias_method  :access_token_expires_at,  :accessTokenExpiresAt
+        alias_method  :access_token_expires_at=, :accessTokenExpiresAt=
+
+        # The duration of the newly issued access token in seconds. (Integer)
+        attr_accessor :accessTokenDuration
+        alias_method  :access_token_duration,  :accessTokenDuration
+        alias_method  :access_token_duration=, :accessTokenDuration=
+
+        # The newly issued ID token. Note that an ID token is issued from
+        # an Authorization Endpoint only when "response_type" contains "id_token".
+        # (String)
+        attr_accessor :idToken
+        alias_method  :id_token,  :idToken
+        alias_method  :id_token=, :idToken=
+
+        # The newly issued authorization code. Note that an authorization code
+        # is issued only when "response_type" contains "code". (String)
+        attr_accessor :authorizationCode
+        alias_method  :authorization_code,  :authorizationCode
+        alias_method  :authorization_code=, :authorizationCode=
+
         private
 
         # The constructor which takes a hash that represents a JSON response
@@ -40,8 +72,13 @@ module Authlete
         def initialize(hash = {})
           super(hash)
 
-          @action          = extract_value(hash, :action)
-          @responseContent = extract_value(hash, :responseContent)
+          @action               = extract_value(hash, :action)
+          @responseContent      = extract_value(hash, :responseContent)
+          @accessToken          = extract_value(hash, :accessToken)
+          @accessTokenExpiresAt = extract_integer_value(hash, :accessTokenExpiresAt)
+          @accessTokenDuration  = extract_integer_value(hash, :accessTokenDuration)
+          @idToken              = extract_value(hash, :idToken)
+          @authorizationCode    = extract_value(hash, :authorizationCode)
         end
       end
     end

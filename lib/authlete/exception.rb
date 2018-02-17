@@ -19,6 +19,9 @@ module Authlete
   class Exception < StandardError
     include Authlete::Utility
 
+    # The error message.
+    attr_accessor :message
+
     # The HTTP status code of the error.
     attr_accessor :statusCode
     alias_method  :status_code, :statusCode
@@ -33,12 +36,12 @@ module Authlete
       # The error message from RestClient or the other general exceptions.
       @message    = extract_value(hash, :message)
       @statusCode = extract_integer_value(hash, :statusCode)
-      @result     = Authlete::Model::Result.new(hash)
+      @result     = Authlete::Model::Result.new(extract_value(hash, :result))
     end
 
     public
 
-    def message
+    def available_message
       @result.resultMessage || @message || self.class.default_message
     end
 

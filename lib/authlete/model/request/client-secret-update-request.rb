@@ -21,38 +21,35 @@ require 'set'
 module Authlete
   module Model
     module Request
-      # == Authlete::Model::Request::IntrospectionRequest class
+      # == Authlete::Model::Request::ClientSecretUpdateRequest class
       #
-      # This class represents a request to Authlete's /api/auth/introspection API.
-      class IntrospectionRequest < Authlete::Model::Hashable
-        # An access token to introspect. (String)
-        attr_accessor :token
+      # This class represents a request to Authlete's /api/client/secret/update/{clientIdentifier} API.
+      class ClientSecretUpdateRequest < Authlete::Model::Hashable
 
-        # Scopes which are required to access the target protected resource.
-        # (String array)
-        attr_accessor :scopes
-
-        # Unique user ID. (String)
-        attr_accessor :subject
+        # Client secret. (String)
+        #
+        # The new value of the client secret. Valid characters for a client
+        # secret are A-Z, a-z, 0-9, -, and _. The maximum length of a client
+        # secret is 86.
+        attr_accessor :clientSecret
+        alias_method  :client_secret,  :clientSecret
+        alias_method  :client_secret=, :clientSecret=
 
         private
 
         # String attributes.
-        STRING_ATTRIBUTES = ::Set.new([ :token, :subject ])
+        STRING_ATTRIBUTES = ::Set.new([ :clientSecret ])
 
-        # String array attributes.
-        STRING_ARRAY_ATTRIBUTES = ::Set.new([ :scopes ])
+        # Mapping from snake cases to camel cases.
+        SNAKE_TO_CAMEL = {
+          :client_secret => :clientSecret
+        }
 
-        # The constructor which takes a hash that represents a JSON request to
-        # Authlete's /api/auth/introspection API.
+        # The constructor which takes a hash that represents a JSON request
+        # to Authlete's /api/client/secret/update/{clientIdentifier} API.
         def initialize(hash = nil)
           # Set default values to string attributes.
           STRING_ATTRIBUTES.each do |attr|
-            send("#{attr}=", nil)
-          end
-
-          # Set default values to string array attributes.
-          STRING_ARRAY_ATTRIBUTES.each do |attr|
             send("#{attr}=", nil)
           end
 
@@ -61,12 +58,18 @@ module Authlete
         end
 
         def authlete_model_convert_key(key)
-          key.to_sym
+          key = key.to_sym
+
+          # Convert snakecase to camelcase, if necessary.
+          if SNAKE_TO_CAMEL.has_key?(key)
+            key = SNAKE_TO_CAMEL[key]
+          end
+
+          key
         end
 
         def authlete_model_simple_attribute?(key)
-          STRING_ATTRIBUTES.include?(key) or
-          STRING_ARRAY_ATTRIBUTES.include?(key)
+          STRING_ATTRIBUTES.include?(key)
         end
 
         def authlete_model_update(hash)
@@ -88,13 +91,13 @@ module Authlete
         # Construct an instance from the given hash.
         #
         # If the given argument is nil or is not a Hash, nil is returned.
-        # Otherwise, IntrospectionRequest.new(hash) is returned.
+        # Otherwise, ClientSecretUpdateRequest.new(hash) is returned.
         def self.parse(hash)
           if hash.nil? or (hash.kind_of?(Hash) == false)
             return nil
           end
 
-          return IntrospectionRequest.new(hash)
+          return ClientSecretUpdateRequest.new(hash)
         end
 
         # Convert this object into a hash.

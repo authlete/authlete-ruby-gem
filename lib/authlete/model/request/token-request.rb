@@ -15,6 +15,9 @@
 # limitations under the License.
 
 
+require 'set'
+
+
 module Authlete
   module Model
     module Request
@@ -35,10 +38,13 @@ module Authlete
         alias_method  :client_secret,  :clientSecret
         alias_method  :client_secret=, :clientSecret=
 
+        # Extra properties to associate with an access token. (String)
+        attr_accessor :properties
+
         private
 
         # String attributes.
-        STRING_ATTRIBUTES = ::Set.new([ :parameters, :clientId, :clientSecret ])
+        STRING_ATTRIBUTES = ::Set.new([ :parameters, :clientId, :clientSecret, :properties ])
 
         # Mapping from snake cases to camel cases.
         SNAKE_TO_CAMEL = {

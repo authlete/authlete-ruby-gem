@@ -454,9 +454,9 @@ module Authlete
 
           if authlete_model_simple_attribute?(key) or val.nil?
             hash[key] = val
-          elsif val.kind_of?(Array)
+          elsif TAGGED_VALUE_ARRAY_ATTRIBUTES.include?(key)
             hash[key] = val.map { |element| element.to_hash }
-          else
+          elsif key == :extension
             # For attributes such as :extension
             hash[key] = val.to_hash
           end
