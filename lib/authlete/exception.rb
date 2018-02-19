@@ -34,24 +34,37 @@ module Authlete
 
     def initialize(hash = {})
       # The error message from RestClient or the other general exceptions.
-      @message    = extract_value(hash, :message)
+      @message = extract_value(hash, :message)
+
+      # HTTP status code.
       @statusCode = extract_integer_value(hash, :statusCode)
-      @result     = Authlete::Model::Result.new(extract_value(hash, :result))
+
+      # Set result.
+      result = extract_value(hash, :result)
+      @result = result.nil? ? nil : Authlete::Model::Result.new(result)
     end
 
     public
 
-    def available_message
-      @result.resultMessage || @message || self.class.default_message
+    def result_code
+      @result && @result.resultCode
     end
 
-    def self.default_message
-      self.name
+    def result_message
+      @result && @result.resultMessage
+    end
+
+    def available_message
+      result_message || @message || self.class.default_message
     end
 
     def to_s
       "#{self.class.default_message} => { message:'#{@message}', status_code:'#{@statusCode}', " +
-      "result_code:'#{@result.resultCode}', result_message:'#{@result.resultMessage}' }"
+      "result_code:'#{result_code}', result_message:'#{result_message}' }"
+    end
+
+    def self.default_message
+      self.name
     end
   end
 end
