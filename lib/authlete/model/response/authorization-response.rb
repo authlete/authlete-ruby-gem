@@ -1,6 +1,6 @@
 # :nodoc:
 #
-# Copyright (C) 2014-2015 Authlete, Inc.
+# Copyright (C) 2014-2018 Authlete, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -100,7 +100,7 @@ module Authlete
         alias_method  :max_age=, :maxAge=
 
         # The list of values of prompt request parameter. Possible element
-        # values are "CONSENT", "LOGIN", "SELECT_ACCOUNT" and "NONE". (String)
+        # values are "CONSENT", "LOGIN", "SELECT_ACCOUNT" and "NONE". (String array)
         attr_accessor :prompts
 
         # The response content which can be used to generate a response
