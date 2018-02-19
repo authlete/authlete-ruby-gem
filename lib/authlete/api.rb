@@ -89,7 +89,6 @@ module Authlete
 
     def execute(parameters)
       begin
-        puts "calling....."
         return RestClient::Request.new(parameters).execute
       rescue => e
         raise create_api_exception(e)
@@ -100,12 +99,8 @@ module Authlete
       message  = exception.message
       response = exception.response
 
-      puts "HOGE!!!!"
-
       # Create a base exception.
       authlete_exception = Authlete::Exception.new(:message => message)
-
-      puts "After exception"
 
       if response.nil?
         # No response information. Then, return an exception without HTTP
@@ -130,8 +125,6 @@ module Authlete
         # without HTTP response information.
         return authlete_exception
       end
-
-      puts "after json parse"
 
       # Set the Authlete API result info if it's available.
       if has_authlete_api_result?(response_body_json)
