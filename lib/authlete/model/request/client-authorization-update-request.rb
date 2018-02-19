@@ -21,30 +21,28 @@ require 'set'
 module Authlete
   module Model
     module Request
-      # == Authlete::Model::Request::IntrospectionRequest class
+      # == Authlete::Model::Request::ClientAuthorizationUpdateRequest class
       #
-      # This class represents a request to Authlete's /api/auth/introspection API.
-      class IntrospectionRequest < Authlete::Model::Hashable
-        # An access token to introspect. (String)
-        attr_accessor :token
-
-        # Scopes which are required to access the target protected resource.
-        # (String array)
-        attr_accessor :scopes
+      # This class represents a request to Authlete's /api/client/authorization/update API.
+      class ClientAuthorizationUpdateRequest < Authlete::Model::Hashable
 
         # Unique user ID. (String)
         attr_accessor :subject
 
+        # The new value of scopes that is set to existing access tokens.
+        # "nil" means that scopes are not changed. (String array)
+        attr_accessor :scopes
+
         private
 
         # String attributes.
-        STRING_ATTRIBUTES = ::Set.new([ :token, :subject ])
+        STRING_ATTRIBUTES = ::Set.new([ :subject ])
 
         # String array attributes.
         STRING_ARRAY_ATTRIBUTES = ::Set.new([ :scopes ])
 
-        # The constructor which takes a hash that represents a JSON request to
-        # Authlete's /api/auth/introspection API.
+        # The constructor which takes a hash that represents a JSON request
+        # to Authlete's /api/client/authorization/update API.
         def initialize(hash = nil)
           # Set default values to string attributes.
           STRING_ATTRIBUTES.each do |attr|
@@ -88,13 +86,13 @@ module Authlete
         # Construct an instance from the given hash.
         #
         # If the given argument is nil or is not a Hash, nil is returned.
-        # Otherwise, IntrospectionRequest.new(hash) is returned.
+        # Otherwise, ClientAuthorizationUpdateRequest.new(hash) is returned.
         def self.parse(hash)
           if hash.nil? or (hash.kind_of?(Hash) == false)
             return nil
           end
 
-          return IntrospectionRequest.new(hash)
+          return ClientAuthorizationUpdateRequest.new(hash)
         end
 
         # Convert this object into a hash.
@@ -107,6 +105,8 @@ module Authlete
 
             if authlete_model_simple_attribute?(key) or val.nil?
               hash[key] = val
+            elsif val.kind_of?(Array)
+              hash[key] = val.map { |element| element.to_hash }
             end
           end
 

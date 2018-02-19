@@ -18,10 +18,10 @@
 module Authlete
   module Model
     module Response
-      # == Authlete::Model::Response::AuthorizationFailResponse class
+      # == Authlete::Model::Response::RevicationResponse class
       #
-      # This class represents a response from Authlete's /api/auth/authorization/fail API.
-      class AuthorizationFailResponse < Authlete::Model::Result
+      # This class represents a response from Authlete's /api/auth/revocation API.
+      class RevocationResponse < Authlete::Model::Result
         # The next action that the service implementation should take.
         # (String)
         attr_accessor :action
@@ -36,7 +36,7 @@ module Authlete
         private
 
         # The constructor which takes a hash that represents a JSON response
-        # from Authlete's /api/auth/authorization/fail API.
+        # from Authlete's /api/auth/revocation API.
         def initialize(hash = {})
           super(hash)
 

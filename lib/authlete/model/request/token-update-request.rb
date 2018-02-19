@@ -21,59 +21,56 @@ require 'set'
 module Authlete
   module Model
     module Request
-      # == Authlete::Model::Request::AuthorizationIssueRequest class
+      # == Authlete::Model::Request::TokenUpdateRequest class
       #
-      # This class represents a request to Authlete's /api/auth/authorization/issue API.
-      class AuthorizationIssueRequest < Authlete::Model::Hashable
-        # The ticket issued by Authlete's /api/auth/authorization API. (String)
-        attr_accessor :ticket
+      # This class represents a request to Authlete's /api/auth/token/update API.
+      class TokenUpdateRequest < Authlete::Model::Hashable
+        # An existing access token. (String)
+        attr_accessor :accessToken
+        alias_method  :access_token,  :accessToken
+        alias_method  :access_token=, :accessToken=
 
-        # The subject (end-user) managed by the service. (String)
-        attr_accessor :subject
+        #A new date at which the access token will expire in milliseconds
+        # since the Unix epoch (1970-01-01). If the accessTokenExpiresAt request
+        # parameter is not included in a request or its value is 0 (or negative),
+        # the expiration date of the access token is not changed. (Integer)
+        attr_accessor :accessTokenExpiresAt
+        alias_method  :access_token_expires_at,  :accessTokenExpiresAt
+        alias_method  :access_token_expires_at=, :accessTokenExpiresAt=
 
-        # The time when the end-user was authenticated. (Integer)
-        attr_accessor :authTime
-        alias_method  :auth_time, :authTime
-        alias_method  :auth_time=, :authTime=
-
-        # The authentication context class reference. (String)
-        attr_accessor :acr
-
-        # Claims in JSON format. (String)
-        attr_accessor :claims
-
-        # Extra properties to associate with an access token and/or an
-        # authorization code. (String)
-        attr_accessor :properties
-
-        # Scopes to associate with an access token and/or an authorization code.
-        # If a non-empty string array is given, it replaces the scopes specified
-        # by the original authorization request. (String array)
+        # A new set of scopes assigned to the access token. Scopes that are not
+        # supported by the service and those that the client application associated
+        # with the access token is not allowed to request are ignored on the
+        # server side. If the scopes request parameter is not included in a
+        # request or its value is nil, the scopes of the access token are not
+        # changed. (String array)
         attr_accessor :scopes
 
-        # The value of the "sub" claim to embed in an ID token. If this request
-        # parameter is "nil" or empty, the value of the subject request parameter
-        # is used as the value of the "sub" claim. (String)
-        attr_accessor :sub
+        # A new set of properties assigned to the access token. If the properties
+        # request parameter is not included in a request or its value is nil,
+        # the properties of the access token are not changed.
+        # (Property array)
+        attr_accessor :properties
 
         private
 
         # Integer attributes.
-        INTEGER_ATTRIBUTES = ::Set.new([ :authTime ])
+        INTEGER_ATTRIBUTES = ::Set.new([ :accessTokenExpiresAt ])
 
         # String attributes.
-        STRING_ATTRIBUTES = ::Set.new([ :ticket, :subject, :acr, :claims, :sub ])
+        STRING_ATTRIBUTES = ::Set.new([ :accessToken ])
 
         # String array attributes.
         STRING_ARRAY_ATTRIBUTES = ::Set.new([ :scopes ])
 
         # Mapping from snake cases to camel cases.
         SNAKE_TO_CAMEL = {
-          :auth_time => :authTime
+          :access_token      => :accessToken,
+          :access_expires_at => :accessTokenExpiresAt
         }
 
         # The constructor which takes a hash that represents a JSON request to
-        # Authlete's /api/auth/authorization/issue API.
+        # Authlete's /api/auth/token/update API.
         def initialize(hash = nil)
           # Set default values to integer attributes.
           INTEGER_ATTRIBUTES.each do |attr|
@@ -136,13 +133,13 @@ module Authlete
         # Construct an instance from the given hash.
         #
         # If the given argument is nil or is not a Hash, nil is returned.
-        # Otherwise, AuthorizationIssueRequest.new(hash) is returned.
+        # Otherwise, TokenUpdateRequest.new(hash) is returned.
         def self.parse(hash)
           if hash.nil? or (hash.kind_of?(Hash) == false)
             return nil
           end
 
-          return AuthorizationIssueRequest.new(hash)
+          return TokenUpdateRequest.new(hash)
         end
 
         # Convert this object into a hash.

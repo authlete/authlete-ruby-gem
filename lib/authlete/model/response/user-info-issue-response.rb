@@ -18,25 +18,23 @@
 module Authlete
   module Model
     module Response
-      # == Authlete::Model::Response::AuthorizationFailResponse class
+      # == Authlete::Model::Response::UserInfoIssueResponse class
       #
-      # This class represents a response from Authlete's /api/auth/authorization/fail API.
-      class AuthorizationFailResponse < Authlete::Model::Result
-        # The next action that the service implementation should take.
+      # A class that represents a response from Authlete's
+      # /api/auth/userinfo/issue API.
+      class UserInfoIssueResponse < Authlete::Model::Result
+        # The next action which the caller of the API should take next.
         # (String)
         attr_accessor :action
 
-        # The response content which can be used to generate a response
-        # to the client application. The format of the value varies
-        # depending on the value of "action". (String)
-        attr_accessor :responseContent
+        # The content of the error response that the service implementation
+        # should return to the client application. (String)
+        attr_accessor :response_content
         alias_method  :response_content,  :responseContent
         alias_method  :response_content=, :responseContent=
 
-        private
-
         # The constructor which takes a hash that represents a JSON response
-        # from Authlete's /api/auth/authorization/fail API.
+        # from /api/auth/userinfo/issue API.
         def initialize(hash = {})
           super(hash)
 

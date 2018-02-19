@@ -1,6 +1,6 @@
 # :nodoc:
 #
-# Copyright (C) 2014-2015 Authlete, Inc.
+# Copyright (C) 2014-2018 Authlete, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -549,8 +549,10 @@ module Authlete
 
           if authlete_model_simple_attribute?(key) or val.nil?
             hash[key] = val
-          elsif val.kind_of?(Array)
+          elsif key == :developerSnsCredentials or key == :snsCredentials or key == :supportedScopes
             hash[key] = val.map { |element| element.to_hash }
+          elsif key == :metadata
+            hash[key] = val.to_hash
           end
         end
 

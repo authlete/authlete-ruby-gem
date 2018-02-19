@@ -20,21 +20,33 @@ require 'set'
 
 module Authlete
   module Model
-    class Pair < Authlete::Model::Hashable
+    class Property < Authlete::Model::Hashable
       include Authlete::Utility
-      # The key of this pair. (String)
+      # The key part. (String)
       attr_accessor :key
 
-      # The value of this pair. (String)
+      # The value part. (String)
       attr_accessor :value
 
+      # The flag to indicate whether this property hidden from or visible
+      # to client applications. (Boolean)
+      attr_accessor :hidden
+
       private
+
+      # Boolean attributes.
+      BOOLEAN_ATTRIBUTES = ::Set.new([ :hidden ])
 
       # String attributes.
       STRING_ATTRIBUTES = ::Set.new([ :key, :value ])
 
       # The constructor
       def initialize(hash = nil)
+        # Set default values to boolean attributes.
+        BOOLEAN_ATTRIBUTES.each do |attr|
+          send("#{attr}=", false)
+        end
+
         # Set default values to string attributes.
         STRING_ATTRIBUTES.each do |attr|
           send("#{attr}=", nil)
@@ -49,6 +61,7 @@ module Authlete
       end
 
       def authlete_model_simple_attribute?(key)
+        BOOLEAN_ATTRIBUTES.include?(key) or
         STRING_ATTRIBUTES.include?(key)
       end
 
@@ -71,13 +84,13 @@ module Authlete
       # Construct an instance from the given hash.
       #
       # If the given argument is nil or is not a Hash, nil is returned.
-      # Otherwise, Pair.new(hash) is returned.
+      # Otherwise, Property.new(hash) is returned.
       def self.parse(hash)
         if hash.nil? or (hash.kind_of?(Hash) == false)
           return nil
         end
 
-        Authlete::Model::Pair.new(hash)
+        Authlete::Model::Property.new(hash)
       end
 
       # Set attribute values using the given hash.

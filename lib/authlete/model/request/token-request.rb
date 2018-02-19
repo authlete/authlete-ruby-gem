@@ -1,6 +1,6 @@
 # :nodoc:
 #
-# Copyright (C) 2014-2015 Authlete, Inc.
+# Copyright (C) 2014-2018 Authlete, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -13,6 +13,9 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+
+
+require 'set'
 
 
 module Authlete
@@ -35,10 +38,13 @@ module Authlete
         alias_method  :client_secret,  :clientSecret
         alias_method  :client_secret=, :clientSecret=
 
+        # Extra properties to associate with an access token. (String)
+        attr_accessor :properties
+
         private
 
         # String attributes.
-        STRING_ATTRIBUTES = ::Set.new([ :parameters, :clientId, :clientSecret ])
+        STRING_ATTRIBUTES = ::Set.new([ :parameters, :clientId, :clientSecret, :properties ])
 
         # Mapping from snake cases to camel cases.
         SNAKE_TO_CAMEL = {

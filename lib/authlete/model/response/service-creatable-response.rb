@@ -1,6 +1,6 @@
 # :nodoc:
 #
-# Copyright (C) 2015 Authlete, Inc.
+# Copyright (C) 2014-2018 Authlete, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -39,8 +39,8 @@ module Authlete
         # response from /api/service/creatable API.
         def initialize(hash = {})
           @creatable = extract_boolean_value(hash, :creatable)
-          @count     = extract_value(hash, :count)
-          @limit     = extract_value(hash, :limit)
+          @count     = extract_integer_value(hash, :count)
+          @limit     = extract_integer_value(hash, :limit)
           @plan      = extract_value(hash, :plan)
         end
 

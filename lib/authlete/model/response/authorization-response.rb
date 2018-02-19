@@ -1,6 +1,6 @@
 # :nodoc:
 #
-# Copyright (C) 2014-2015 Authlete, Inc.
+# Copyright (C) 2014-2018 Authlete, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -57,6 +57,13 @@ module Authlete
         # the authorization request. (Client)
         attr_accessor :client
 
+        # "true" if the value of the client_id request parameter included in
+        # the authorization request is the client ID alias. "false" if the
+        # value is the original numeric client ID.. (Boolean)
+        attr_accessor :clientIdAliasUsed
+        alias_method  :client_id_alias_used,  :clientIdAliasUsed
+        alias_method  :client_id_alias_used=, :clientIdAliasUsed=
+
         # The display mode which the client application requests
         # by "display" request parameter. When the authorization
         # request does not contain "display" request parameter,
@@ -92,6 +99,10 @@ module Authlete
         alias_method  :max_age,  :maxAge
         alias_method  :max_age=, :maxAge=
 
+        # The list of values of prompt request parameter. Possible element
+        # values are "CONSENT", "LOGIN", "SELECT_ACCOUNT" and "NONE". (String array)
+        attr_accessor :prompts
+
         # The response content which can be used to generate a response
         # to the client application. The format of the value varies
         # depending on the value of "action". (String)
@@ -107,7 +118,7 @@ module Authlete
         # request parameter. When the authorization request does
         # not contain "scope" request parameter, this method
         # returns a list of scopes which are marked as default by the
-        # service implementation. "null" may be returned if the
+        # service implementation. "nil" may be returned if the
         # authorization request does not contain valid scopes and none
         # of registered scopes is marked as default.
         # (Scope array)
@@ -116,7 +127,7 @@ module Authlete
         # The subject (= end-user's login ID) that the client
         # application requests. The value comes from "sub"
         # claim in "claims" request parameter. This method
-        # may return null (probably in most cases).
+        # may return "nil" (probably in most cases).
         # (String)
         attr_accessor :subject
 
@@ -140,24 +151,26 @@ module Authlete
         def initialize(hash = {})
           super(hash)
 
-          @acrEssential    = extract_value(hash, :acrEssential)
-          @acrs            = extract_value(hash, :acrs)
-          @action          = extract_value(hash, :action)
-          @claimLocales    = extract_value(hash, :claimLocales)
-          @claims          = extract_value(hash, :claims)
-          @client          = Authlete::Model::Client.new(extract_value(hash, :client))
-          @display         = extract_value(hash, :display)
-          @loginHint       = extract_value(hash, :loginHint)
-          @lowestPrompt    = extract_value(hash, :lowestPrompt)
-          @maxAge          = extract_value(hash, :maxAge)
-          @responseContent = extract_value(hash, :responseContent)
-          @service         = Authlete::Model::Service.new(extract_value(hash, :service))
-          @scopes          = extract_array_value(hash, :scopes) do |element|
+          @acrEssential      = extract_value(hash, :acrEssential)
+          @acrs              = extract_value(hash, :acrs)
+          @action            = extract_value(hash, :action)
+          @claimLocales      = extract_value(hash, :claimLocales)
+          @claims            = extract_value(hash, :claims)
+          @client            = Authlete::Model::Client.new(extract_value(hash, :client))
+          @clientIdAliasUsed = extract_boolean_value(hash, :clientIdAliasUsed)
+          @display           = extract_value(hash, :display)
+          @loginHint         = extract_value(hash, :loginHint)
+          @lowestPrompt      = extract_value(hash, :lowestPrompt)
+          @maxAge            = extract_integer_value(hash, :maxAge)
+          @prompts           = extract_value(hash, :prompts)
+          @responseContent   = extract_value(hash, :responseContent)
+          @service           = Authlete::Model::Service.new(extract_value(hash, :service))
+          @scopes            = extract_array_value(hash, :scopes) do |element|
             Authlete::Model::Scope.parse(element)
           end
-          @subject         = extract_value(hash, :subject)
-          @ticket          = extract_value(hash, :ticket)
-          @uiLocales       = extract_value(hash, :uiLocales)
+          @subject           = extract_value(hash, :subject)
+          @ticket            = extract_value(hash, :ticket)
+          @uiLocales         = extract_value(hash, :uiLocales)
         end
       end
     end
