@@ -275,6 +275,12 @@ module Authlete
       attr_accessor :modifiedAt
       alias_method  :modified_at, :modifiedAt
       alias_method  :modified_at=, :modifiedAt=
+      
+      # The flag that indicates whether the client uses sender authenticated MTLS bound
+      # access tokens.
+      attr_accessor :mutualTlsSenderConstrainedAccessTokens
+      alias_method  :mutual_tls_sender_constrained_access_tokens, :mutualTlsSenderConstrainedAccessTokens
+      alias_method  :mutual_tls_sender_constrained_access_tokens=, :mutualTlsSenderConstrainedAccessTokens=
 
       # The special information that extends the client. (ClientExtension)
       attr_accessor :extension
@@ -288,7 +294,7 @@ module Authlete
 
       # Boolean attributes.
       BOOLEAN_ATTRIBUTES = ::Set.new([
-        :authTimeRequired, :clientIdAliasEnabled
+        :authTimeRequired, :clientIdAliasEnabled, :mutualTlsSenderConstrainedAccessTokens
       ])
 
       # String attributes.
@@ -313,48 +319,49 @@ module Authlete
 
       # Mapping from snake cases to camel cases.
       SNAKE_TO_CAMEL = {
-        :service_number             => :serviceNumber,
-        :client_id                  => :clientId,
-        :client_id_alias            => :clientIdAlias,
-        :client_id_alias_enabled    => :clientIdAliasEnabled,
-        :client_secret              => :clientSecret,
-        :client_type                => :clientType,
-        :redirect_uris              => :redirectUris,
-        :response_types             => :responseTypes,
-        :grant_types                => :grantTypes,
-        :application_type           => :applicationType,
-        :client_name                => :clientName,
-        :client_names               => :clientNames,
-        :logo_uri                   => :logoUri,
-        :logo_uris                  => :logoUris,
-        :client_uri                 => :clientUri,
-        :client_uris                => :clientUris,
-        :policy_uri                 => :policyUri,
-        :policy_uris                => :policyUris,
-        :tos_uri                    => :tosUri,
-        :tos_uris                   => :tosUris,
-        :jwks_uri                   => :jwksUri,
-        :sector_identifier          => :sectorIdentifier,
-        :subject_type               => :subjectType,
-        :id_token_sign_alg          => :idTokenSignAlg,
-        :id_token_encryption_alg    => :idTokenEncryptionAlg,
-        :id_token_encryption_enc    => :idTokenEncryptionEnc,
-        :user_info_sign_alg         => :userInfoSignAlg,
-        :user_info_encryption_alg   => :userInfoEncryptionAlg,
-        :user_info_encryption_enc   => :userInfoEncryptionEnc,
-        :request_sign_alg           => :requestSignAlg,
-        :request_encryption_alg     => :requestEncryptionAlg,
-        :request_encryption_enc     => :requestEncryptionEnc,
-        :token_auth_method          => :tokenAuthMethod,
-        :token_auth_sign_alg        => :tokenAuthSignAlg,
-        :default_max_age            => :defaultMaxAge,
-        :default_acrs               => :defaultAcrs,
-        :auth_time_required         => :authTimeRequired,
-        :login_uri                  => :loginUri,
-        :request_uris               => :requestUris,
-        :created_at                 => :createdAt,
-        :modified_at                => :modifiedAt,
-        :tls_client_auth_subject_dn => :tlsClientAuthSubjectDn
+        :service_number                              => :serviceNumber,
+        :client_id                                   => :clientId,
+        :client_id_alias                             => :clientIdAlias,
+        :client_id_alias_enabled                     => :clientIdAliasEnabled,
+        :client_secret                               => :clientSecret,
+        :client_type                                 => :clientType,
+        :redirect_uris                               => :redirectUris,
+        :response_types                              => :responseTypes,
+        :grant_types                                 => :grantTypes,
+        :application_type                            => :applicationType,
+        :client_name                                 => :clientName,
+        :client_names                                => :clientNames,
+        :logo_uri                                    => :logoUri,
+        :logo_uris                                   => :logoUris,
+        :client_uri                                  => :clientUri,
+        :client_uris                                 => :clientUris,
+        :policy_uri                                  => :policyUri,
+        :policy_uris                                 => :policyUris,
+        :tos_uri                                     => :tosUri,
+        :tos_uris                                    => :tosUris,
+        :jwks_uri                                    => :jwksUri,
+        :sector_identifier                           => :sectorIdentifier,
+        :subject_type                                => :subjectType,
+        :id_token_sign_alg                           => :idTokenSignAlg,
+        :id_token_encryption_alg                     => :idTokenEncryptionAlg,
+        :id_token_encryption_enc                     => :idTokenEncryptionEnc,
+        :user_info_sign_alg                          => :userInfoSignAlg,
+        :user_info_encryption_alg                    => :userInfoEncryptionAlg,
+        :user_info_encryption_enc                    => :userInfoEncryptionEnc,
+        :request_sign_alg                            => :requestSignAlg,
+        :request_encryption_alg                      => :requestEncryptionAlg,
+        :request_encryption_enc                      => :requestEncryptionEnc,
+        :token_auth_method                           => :tokenAuthMethod,
+        :token_auth_sign_alg                         => :tokenAuthSignAlg,
+        :default_max_age                             => :defaultMaxAge,
+        :default_acrs                                => :defaultAcrs,
+        :auth_time_required                          => :authTimeRequired,
+        :login_uri                                   => :loginUri,
+        :request_uris                                => :requestUris,
+        :created_at                                  => :createdAt,
+        :modified_at                                 => :modifiedAt,
+        :tls_client_auth_subject_dn                  => :tlsClientAuthSubjectDn,
+        :mutual_tls_sender_constrained_access_tokens => :mutualTlsSenderConstrainedAccessTokens
       }
 
       # The constructor

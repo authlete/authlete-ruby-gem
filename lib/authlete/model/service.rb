@@ -351,6 +351,12 @@ module Authlete
       alias_method :user_info_signature_key_id, :userInfoSignatureKeyId
       alias_method :user_info_signature_key_id=, :userInfoSignatureKeyId=
 
+      # The flag that indicates whether the service offers sender authenticated MTLS bound
+      # access tokens.
+      attr_accessor :mutualTlsSenderConstrainedAccessTokens
+      alias_method  :mutual_tls_sender_constrained_access_tokens, :mutualTlsSenderConstrainedAccessTokens
+      alias_method  :mutual_tls_sender_constrained_access_tokens=, :mutualTlsSenderConstrainedAccessTokens=
+
       private
 
       # Integer attributes.
@@ -365,7 +371,8 @@ module Authlete
         :directIntrospectionEndpointEnabled, :directJwksEndpointEnabled,
         :directRevocationEndpointEnabled, :directTokenEndpointEnabled,
         :directUserInfoEndpointEnabled, :errorDescriptionOmitted, :errorUriOmitted,
-        :pkceRequired, :refreshTokenKept, :singleAccessTokenPerSubject
+        :pkceRequired, :refreshTokenKept, :singleAccessTokenPerSubject, 
+        :mutualTlsSenderConstrainedAccessTokens
       ])
 
       # String attributes.
@@ -442,7 +449,8 @@ module Authlete
         :token_endpoint                               => :tokenEndpoint,
         :tos_uri                                      => :tosUri,
         :user_info_endpoint                           => :userInfoEndpoint,
-        :user_info_signature_key_id                   => :userInfoSignatureKeyId
+        :user_info_signature_key_id                   => :userInfoSignatureKeyId,
+        :mutual_tls_sender_constrained_access_tokens  => :mutualTlsSenderConstrainedAccessTokens
       }
 
       # The constructor
