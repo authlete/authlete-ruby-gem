@@ -108,7 +108,7 @@ module Authlete
 
             send("#{key}=", parsed)
           elsif key == :attributes
-            @metadata = get_parsed_array(value) do |element|
+            @attributes = get_parsed_array(value) do |element|
               Authlete::Model::Pair.parse(element)
             end
           end
