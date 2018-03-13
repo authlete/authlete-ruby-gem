@@ -353,8 +353,8 @@ module Authlete
       # The key ID to identify a JWK used for user info signature using an
       # asymmetric key. (String)
       attr_accessor :userInfoSignatureKeyId
-      alias_method :user_info_signature_key_id, :userInfoSignatureKeyId
-      alias_method :user_info_signature_key_id=, :userInfoSignatureKeyId=
+      alias_method  :user_info_signature_key_id,  :userInfoSignatureKeyId
+      alias_method  :user_info_signature_key_id=, :userInfoSignatureKeyId=
 
       # The flag that indicates whether the service offers sender authenticated MTLS bound
       # access tokens.
