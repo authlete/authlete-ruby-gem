@@ -312,6 +312,11 @@ module Authlete
       alias_method  :supported_scopes,  :supportedScopes
       alias_method  :supported_scopes=, :supportedScopes=
 
+      # The list of supported service profiles. (String array)
+      attr_accessor :supportedServiceProfiles
+      alias_method  :supported_service_profiles,  :supportedServiceProfiles
+      alias_method  :supported_service_profiles=, :supportedServiceProfiles=
+
       # The list of supported SNSes. (Sns array)
       attr_accessor :supportedSnses
       alias_method  :supported_snses,  :supportedSnses
@@ -371,7 +376,7 @@ module Authlete
         :directIntrospectionEndpointEnabled, :directJwksEndpointEnabled,
         :directRevocationEndpointEnabled, :directTokenEndpointEnabled,
         :directUserInfoEndpointEnabled, :errorDescriptionOmitted, :errorUriOmitted,
-        :pkceRequired, :refreshTokenKept, :singleAccessTokenPerSubject, 
+        :pkceRequired, :refreshTokenKept, :singleAccessTokenPerSubject,
         :mutualTlsSenderConstrainedAccessTokens
       ])
 
@@ -390,8 +395,8 @@ module Authlete
       STRING_ARRAY_ATTRIBUTES = ::Set.new([
         :supportedAcrs, :supportedClaimLocales, :supportedClaims,
         :supportedClaimTypes, :supportedDeveloperSnses, :supportedDisplays,
-        :supportedGrantTypes, :supportedResponseTypes, :supportedSnses,
-        :supportedTokenAuthMethods, :supportedUiLocales
+        :supportedGrantTypes, :supportedResponseTypes, :supportedServiceProfiles,
+        :supportedSnses, :supportedTokenAuthMethods, :supportedUiLocales
       ])
 
       # Mapping from snake cases to camel cases.
@@ -443,6 +448,7 @@ module Authlete
         :supported_grant_types                        => :supportedGrantTypes,
         :supported_response_types                     => :supportedResponseTypes,
         :supported_scopes                             => :supportedScopes,
+        :supported_service_profiles                   => :supportedServiceProfiles,
         :supported_snses                              => :supportedSnses,
         :supported_token_auth_methods                 => :supportedTokenAuthMethods,
         :supported_ui_locales                         => :supportedUiLocales,
