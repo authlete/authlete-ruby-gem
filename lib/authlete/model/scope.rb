@@ -22,6 +22,9 @@ module Authlete
   module Model
     class Scope < Authlete::Model::Hashable
       include Authlete::Utility
+      # The attributes of this scopes. (Pair array)
+      attr_accessor :attributes
+
       # The description about this scope. (String)
       attr_accessor :description
 
@@ -104,6 +107,10 @@ module Authlete
             end
 
             send("#{key}=", parsed)
+          elsif key == :attributes
+            @metadata = get_parsed_array(value) do |element|
+              Authlete::Model::Pair.parse(element)
+            end
           end
         end
 
@@ -139,7 +146,7 @@ module Authlete
 
           if authlete_model_simple_attribute?(key) or val.nil?
             hash[key] = val
-          elsif val.kind_of?(Array)
+          elsif key == :attributes or key == :descriptions
             hash[key] = val.map { |element| element.to_hash }
           end
         end
