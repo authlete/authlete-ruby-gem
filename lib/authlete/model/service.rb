@@ -399,6 +399,11 @@ module Authlete
         :supportedSnses, :supportedTokenAuthMethods, :supportedUiLocales
       ])
 
+      # SNS credentials array attributes.
+      SNS_CREDENTIALS_ARRAY_ATTRIBUTES = ::Set.new([
+        :snsCredentials, :developerSnsCredentials
+      ])
+
       # Mapping from snake cases to camel cases.
       SNAKE_TO_CAMEL = {
         :access_token_duration                        => :accessTokenDuration,
@@ -481,11 +486,14 @@ module Authlete
           send("#{attr}=", nil)
         end
 
+        # Set default values to sns credentials array attributes.
+        SNS_CREDENTIALS_ARRAY_ATTRIBUTES.each do |attr|
+          send("#{attr}=", nil)
+        end
+
         # Set default values to special objects.
-        @developerSnsCredentials = nil
-        @metadata                = nil
-        @snsCredentials          = nil
-        @supportedScopes         = nil
+        @metadata        = nil
+        @supportedScopes = nil
 
         # Set attribute values using the given hash.
         authlete_model_update(hash)
@@ -517,17 +525,16 @@ module Authlete
 
           if authlete_model_simple_attribute?(key)
             send("#{key}=", value)
-          elsif key == :developerSnsCredentials
-            @developerSnsCredentials = get_parsed_array(value) do |element|
+          elsif SNS_CREDENTIALS_ARRAY_ATTRIBUTES.include?(key)
+            # Get an array consisting of "SnsCredentials" objects.
+            parsed = get_parsed_array(value) do |element|
               Authlete::Model::SnsCredentials.parse(element)
             end
+
+            send("#{key}=", parsed)
           elsif key == :metadata
             @metadata = get_parsed_array(value) do |element|
               Authlete::Model::Pair.parse(element)
-            end
-          elsif key == :snsCredentials
-            @snsCredentials = get_parsed_array(value) do |element|
-              Authlete::Model::SnsCredentials.parse(element)
             end
           elsif key == :supportedScopes
             @supportedScopes = get_parsed_array(value) do |element|
