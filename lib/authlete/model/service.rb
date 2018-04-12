@@ -357,10 +357,24 @@ module Authlete
       alias_method  :user_info_signature_key_id=, :userInfoSignatureKeyId=
 
       # The flag that indicates whether the service offers sender authenticated MTLS bound
-      # access tokens.
+      # access tokens. (Boolean)
       attr_accessor :mutualTlsSenderConstrainedAccessTokens
       alias_method  :mutual_tls_sender_constrained_access_tokens, :mutualTlsSenderConstrainedAccessTokens
       alias_method  :mutual_tls_sender_constrained_access_tokens=, :mutualTlsSenderConstrainedAccessTokens=
+      
+      # The flag that indicates whether the service will validate the PKI certificate chain
+      # for MTLS based authentication. (Boolean)
+      attr_accessor :mutualTlsValidatePkiCertChain
+      alias_method  :mutual_tls_validate_pki_cert_chain,  :mutualTlsValidatePkiCertChain
+      alias_method  :mutual_tls_validate_pki_cert_chain=, :mutualTlsValidatePkiCertChain=
+      
+      
+      # The list of trusted root certificates, used when the service validates client
+      # certificate paths. (String array)
+      attr_accessor :trustedRootCertificates
+      alias_method  :trusted_root_certificates,  :trustedRootCertificates
+      alias_method  :trusted_root_certificates=, :trustedRootCertificates=
+      
 
       private
 
@@ -377,7 +391,7 @@ module Authlete
         :directRevocationEndpointEnabled, :directTokenEndpointEnabled,
         :directUserInfoEndpointEnabled, :errorDescriptionOmitted, :errorUriOmitted,
         :pkceRequired, :refreshTokenKept, :singleAccessTokenPerSubject,
-        :mutualTlsSenderConstrainedAccessTokens
+        :mutualTlsSenderConstrainedAccessTokens, :mutualTlsValidatePkiCertChain
       ])
 
       # String attributes.
@@ -396,7 +410,8 @@ module Authlete
         :supportedAcrs, :supportedClaimLocales, :supportedClaims,
         :supportedClaimTypes, :supportedDeveloperSnses, :supportedDisplays,
         :supportedGrantTypes, :supportedResponseTypes, :supportedServiceProfiles,
-        :supportedSnses, :supportedTokenAuthMethods, :supportedUiLocales
+        :supportedSnses, :supportedTokenAuthMethods, :supportedUiLocales,
+        :trustedRootCertificates
       ])
 
       # SNS credentials array attributes.
@@ -461,7 +476,9 @@ module Authlete
         :tos_uri                                      => :tosUri,
         :user_info_endpoint                           => :userInfoEndpoint,
         :user_info_signature_key_id                   => :userInfoSignatureKeyId,
-        :mutual_tls_sender_constrained_access_tokens  => :mutualTlsSenderConstrainedAccessTokens
+        :mutual_tls_sender_constrained_access_tokens  => :mutualTlsSenderConstrainedAccessTokens,
+        :mutual_tls_validate_pki_cert_chain           => :mutualTlsValidatePkiCertChain,
+        :trusted_root_certificates                    => :trustedRootCertificates
       }
 
       # The constructor
