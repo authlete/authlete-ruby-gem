@@ -276,11 +276,10 @@ module Authlete
       alias_method  :modified_at, :modifiedAt
       alias_method  :modified_at=, :modifiedAt=
       
-      # The flag that indicates whether the client uses sender authenticated MTLS bound
-      # access tokens.
-      attr_accessor :mutualTlsSenderConstrainedAccessTokens
-      alias_method  :mutual_tls_sender_constrained_access_tokens, :mutualTlsSenderConstrainedAccessTokens
-      alias_method  :mutual_tls_sender_constrained_access_tokens=, :mutualTlsSenderConstrainedAccessTokens=
+      # The flag that indicates whether the client uses TLS client certificate bound access tokens
+      attr_accessor :tlsClientCertificateBoundAccessTokens
+      alias_method  :tls_client_certificate_bound_access_tokens,  :tlsClientCertificateBoundAccessTokens
+      alias_method  :tls_client_certificate_bound_access_tokens=, :tlsClientCertificateBoundAccessTokens=
 
       # The special information that extends the client. (ClientExtension)
       attr_accessor :extension
@@ -294,7 +293,7 @@ module Authlete
 
       # Boolean attributes.
       BOOLEAN_ATTRIBUTES = ::Set.new([
-        :authTimeRequired, :clientIdAliasEnabled, :mutualTlsSenderConstrainedAccessTokens
+        :authTimeRequired, :clientIdAliasEnabled, :tlsClientCertificateBoundAccessTokens
       ])
 
       # String attributes.
@@ -361,7 +360,7 @@ module Authlete
         :created_at                                  => :createdAt,
         :modified_at                                 => :modifiedAt,
         :tls_client_auth_subject_dn                  => :tlsClientAuthSubjectDn,
-        :mutual_tls_sender_constrained_access_tokens => :mutualTlsSenderConstrainedAccessTokens
+        :tls_client_certificate_bound_access_tokens  => :tlsClientCertificateBoundAccessTokens
       }
 
       # The constructor
