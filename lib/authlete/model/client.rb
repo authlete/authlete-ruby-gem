@@ -146,7 +146,7 @@ module Authlete
 
       # The content of the JWK Set of the client application. (String)
       attr_accessor :jwks
-      
+
       # The DN of the certificate used in mutual client authentication
       attr_accessor :tlsClientAuthSubjectDn
       alias_method  :tls_client_auth_subject_dn, :tlsClientAuthSubjectDn
@@ -275,11 +275,16 @@ module Authlete
       attr_accessor :modifiedAt
       alias_method  :modified_at, :modifiedAt
       alias_method  :modified_at=, :modifiedAt=
-      
+
       # The flag that indicates whether the client uses TLS client certificate bound access tokens
       attr_accessor :tlsClientCertificateBoundAccessTokens
       alias_method  :tls_client_certificate_bound_access_tokens,  :tlsClientCertificateBoundAccessTokens
       alias_method  :tls_client_certificate_bound_access_tokens=, :tlsClientCertificateBoundAccessTokens=
+
+      # The key ID of a JWK containing a self-signed certificate of this client.
+      attr_accessor :selfSignedCertificateKeyId
+      alias_method  :self_signed_certificate_key_id,  :selfSignedCertificateKeyId
+      alias_method  :self_signed_certificate_key_id=, :selfSignedCertificateKeyId=
 
       # The special information that extends the client. (ClientExtension)
       attr_accessor :extension
@@ -303,7 +308,8 @@ module Authlete
         :jwksUri, :jwks, :sectorIdentifier, :subjectType, :idTokenSignAlg,
         :idTokenEncryptionAlg, :idTokenEncryptionEnc, :userInfoSignAlg, :userInfoEncryptionAlg,
         :userInfoEncryptionEnc, :requestSignAlg, :requestEncryptionAlg, :requestEncryptionEnc,
-        :tokenAuthMethod, :tokenAuthSignAlg, :loginUri, :description, :tlsClientAuthSubjectDn
+        :tokenAuthMethod, :tokenAuthSignAlg, :loginUri, :description, :tlsClientAuthSubjectDn,
+        :selfSignedCertificateKeyId
       ])
 
       # String array attributes.
@@ -360,7 +366,8 @@ module Authlete
         :created_at                                  => :createdAt,
         :modified_at                                 => :modifiedAt,
         :tls_client_auth_subject_dn                  => :tlsClientAuthSubjectDn,
-        :tls_client_certificate_bound_access_tokens  => :tlsClientCertificateBoundAccessTokens
+        :tls_client_certificate_bound_access_tokens  => :tlsClientCertificateBoundAccessTokens,
+        :self_signed_certificate_key_id              => :selfSignedCertificateKeyId
       }
 
       # The constructor
