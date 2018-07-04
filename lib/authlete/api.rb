@@ -516,7 +516,7 @@ module Authlete
     def standard_introspection(request)
       hash = call_api_json_service('/api/auth/introspection/standard', to_hash(request))
 
-      Authlete::Model::Response::StandardIntrospectionResopnse.new(hash)
+      Authlete::Model::Response::StandardIntrospectionResponse.new(hash)
     end
 
     # Call Authlete's /api/auth/revocation API.
