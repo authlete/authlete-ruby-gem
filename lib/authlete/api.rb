@@ -444,7 +444,7 @@ module Authlete
     def refresh_client_secret(client_identifier)
       hash = call_api_service(:get, "/api/client/secret/refresh/#{client_identifier}", nil, nil)
 
-      Authlete::Model::ClientSecretRefreshResponse.new(hash)
+      Authlete::Model::Response::ClientSecretRefreshResponse.new(hash)
     end
 
     # Call Authlete's /api/client/secret/update/{clientIdentifier} API.
@@ -455,11 +455,11 @@ module Authlete
     # On success, an instance of Authlete::Model::Response::ClientSecretUpdateResponse is returned.
     # On error, Authlete::Exception is raised.
     def update_client_secret(client_identifier, client_secret)
-      request = Authlete::Model::ClientSecretUpdateRequest.new(:client_secret => client_secret)
+      request = Authlete::Model::Request::ClientSecretUpdateRequest.new(:client_secret => client_secret)
 
       hash = call_api_json_service("/api/client/secret/update/#{client_identifier}", request.to_hash)
 
-      Authlete::Model::ClientSecretUpdateResponse.new(hash)
+      Authlete::Model::Response::ClientSecretUpdateResponse.new(hash)
     end
 
     # Call Authlete's /api/client/authorization/get/list API.
@@ -471,7 +471,7 @@ module Authlete
     def get_client_authorization_list(request)
       hash = call_api_json_service("/api/client/authorization/get/list", to_hash(request))
 
-      Authlete::Model::ClientAuthorizationListResponse.new(hash)
+      Authlete::Model::Response::ClientAuthorizationListResponse.new(hash)
     end
 
     # Call Authlete's /api/client/authorization/update API.
@@ -490,7 +490,7 @@ module Authlete
     #
     # On error, Authlete::Exception is raised.
     def delete_client_authorization(client_id, subject)
-      request = Authlete::Model::ClientAuthorizationDeleteRequest.new(:subject => subject)
+      request = Authlete::Model::Request::ClientAuthorizationDeleteRequest.new(:subject => subject)
 
       call_api_json_service("/api/client/authorization/delete/#{client_id}", request.to_hash)
     end
@@ -528,7 +528,7 @@ module Authlete
     def revocation(request)
       hash = call_api_json_service("/api/auth/revocation", to_hash(request))
 
-      Authlete::Model::RevocationResponse.new(hash)
+      Authlete::Model::Response::RevocationResponse.new(hash)
     end
 
     # Call Authlete's /api/auth/userinfo API.
@@ -540,7 +540,7 @@ module Authlete
     def user_info(request)
       hash = call_api_json_service("/api/auth/userinfo", to_hash(request))
 
-      Authlete::Model::UserInfoResponse.new(hash)
+      Authlete::Model::Response::UserInfoResponse.new(hash)
     end
 
     # Call Authlete's /api/auth/userinfo/issue API.
@@ -552,7 +552,7 @@ module Authlete
     def user_info_issue(request)
       hash = call_api_json_service("/api/auth/userinfo/issue", to_hash(request))
 
-      Authlete::Model::UserInfoIssueResponse.new(hash)
+      Authlete::Model::Response::UserInfoIssueResponse.new(hash)
     end
 
     # Call Authlete's /api/service/jwks/get API.
@@ -602,7 +602,7 @@ module Authlete
     def token_create(request)
       hash = call_api_json_service("/api/auth/token/create", to_hash(request))
 
-      Authlete::Model::TokenCreateResponse.new(hash)
+      Authlete::Model::Response::TokenCreateResponse.new(hash)
     end
 
     # Call Authlete's /api/auth/token/update API.
@@ -614,7 +614,7 @@ module Authlete
     def token_update(request)
       hash = call_api_json_service("/api/auth/token/update", to_hash(request))
 
-      Authlete::Model::TokenUpdateResponse.new(hash)
+      Authlete::Model::Response::TokenUpdateResponse.new(hash)
     end
 
     # Call Authlete's /api/client/granted_scopes/get/{clientId} API.
@@ -625,7 +625,7 @@ module Authlete
     # On success, an instance of Authlete::Model::Response::GrantedScopesGetResponse is returned.
     # On error, Authlete::Exception is raised.
     def get_granted_scopes(client_id, subject)
-      request = Authlete::Model::GrantedScopesRequest.new(:subject => subject)
+      request = Authlete::Model::Request::GrantedScopesRequest.new(:subject => subject)
 
       hash = call_api_json_service("/api/client/granted_scopes/get/#{client_id}", request.to_hash)
 
@@ -639,7 +639,7 @@ module Authlete
     #
     # On error, Authlete::Exception is raised.
     def delete_granted_scopes(client_id, subject)
-      request = Authlete::Model::GrantedScopesRequest.new(:subject => subject)
+      request = Authlete::Model::Request::GrantedScopesRequest.new(:subject => subject)
 
       call_api_json_service("/api/client/granted_scopes/delete/#{client_id}", request.to_hash)
     end
