@@ -3,7 +3,7 @@ authlete-ruby-gem
 
 # Overview
 
-Ruby library for [Authlete Web APIs](https://www.authlete.com/authlete_web_apis.html).
+Ruby library for [Authlete Web APIs](https://docs.authlete.com/).
 
 
 # License

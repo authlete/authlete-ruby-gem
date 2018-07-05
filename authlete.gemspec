@@ -9,7 +9,7 @@ Gem::Specification.new do |spec|
   spec.authors       = ["Takahiko Kawasaki"]
   spec.email         = ["taka@authlete.com"]
   spec.summary       = "A library for Authlete Web APIs"
-  spec.description   = "A library for Authlete Web APIs. See https://www.authlete.com/documents/api for details."
+  spec.description   = "A library for Authlete Web APIs. See https://docs.authlete.com/ for details."
   spec.homepage      = "https://www.authlete.com/"
   spec.license       = "Apache License, Version 2.0"
 
