@@ -209,6 +209,12 @@ module Authlete
       alias_method  :modified_at,  :modifiedAt
       alias_method  :modified_at=, :modifiedAt=
 
+      # The flag that indicates whether the service will validate the PKI certificate chain
+      # for MTLS based authentication. (Boolean)
+      attr_accessor :mutualTlsValidatePkiCertChain
+      alias_method  :mutual_tls_validate_pki_cert_chain,  :mutualTlsValidatePkiCertChain
+      alias_method  :mutual_tls_validate_pki_cert_chain=, :mutualTlsValidatePkiCertChain=
+
       # The service number. (Integer)
       attr_accessor :number
 
@@ -352,6 +358,12 @@ module Authlete
       alias_method  :supported_ui_locales,  :supportedUiLocales
       alias_method  :supported_ui_locales=, :supportedUiLocales=
 
+      # The flag that indicates whether the service offers TLS client certificate
+      # bound access tokens (Boolean)
+      attr_accessor :tlsClientCertificateBoundAccessTokens
+      alias_method  :tls_client_certificate_bound_access_tokens,  :tlsClientCertificateBoundAccessTokens
+      alias_method  :tls_client_certificate_bound_access_tokens=, :tlsClientCertificateBoundAccessTokens=
+
       # The URI of the token endpoint. (URI)
       attr_accessor :tokenEndpoint
       alias_method  :token_endpoint,  :tokenEndpoint
@@ -361,6 +373,12 @@ module Authlete
       attr_accessor :tosUri
       alias_method  :tos_uri,  :tosUri
       alias_method  :tos_uri=, :tosUri=
+
+      # The list of trusted root certificates, used when the service validates client
+      # certificate paths. (String array)
+      attr_accessor :trustedRootCertificates
+      alias_method  :trusted_root_certificates,  :trustedRootCertificates
+      alias_method  :trusted_root_certificates=, :trustedRootCertificates=
 
       # The URI of user info endpoint. (URI)
       attr_accessor :userInfoEndpoint
@@ -372,26 +390,6 @@ module Authlete
       attr_accessor :userInfoSignatureKeyId
       alias_method  :user_info_signature_key_id,  :userInfoSignatureKeyId
       alias_method  :user_info_signature_key_id=, :userInfoSignatureKeyId=
-
-      # The flag that indicates whether the service offers TLS client certificate
-      # bound access tokens (Boolean)
-      attr_accessor :tlsClientCertificateBoundAccessTokens
-      alias_method  :tls_client_certificate_bound_access_tokens,  :tlsClientCertificateBoundAccessTokens
-      alias_method  :tls_client_certificate_bound_access_tokens=, :tlsClientCertificateBoundAccessTokens=
-
-      # The flag that indicates whether the service will validate the PKI certificate chain
-      # for MTLS based authentication. (Boolean)
-      attr_accessor :mutualTlsValidatePkiCertChain
-      alias_method  :mutual_tls_validate_pki_cert_chain,  :mutualTlsValidatePkiCertChain
-      alias_method  :mutual_tls_validate_pki_cert_chain=, :mutualTlsValidatePkiCertChain=
-
-
-      # The list of trusted root certificates, used when the service validates client
-      # certificate paths. (String array)
-      attr_accessor :trustedRootCertificates
-      alias_method  :trusted_root_certificates,  :trustedRootCertificates
-      alias_method  :trusted_root_certificates=, :trustedRootCertificates=
-
 
       private
 
@@ -408,8 +406,8 @@ module Authlete
         :directIntrospectionEndpointEnabled, :directJwksEndpointEnabled,
         :directRevocationEndpointEnabled, :directTokenEndpointEnabled,
         :directUserInfoEndpointEnabled, :errorDescriptionOmitted, :errorUriOmitted,
-        :pkceRequired, :refreshTokenKept, :singleAccessTokenPerSubject,
-        :tlsClientCertificateBoundAccessTokens, :mutualTlsValidatePkiCertChain
+        :mutualTlsValidatePkiCertChain, :pkceRequired, :refreshTokenKept,
+        :singleAccessTokenPerSubject, :tlsClientCertificateBoundAccessTokens
       ])
 
       # String attributes.
@@ -435,7 +433,7 @@ module Authlete
 
       # SNS credentials array attributes.
       SNS_CREDENTIALS_ARRAY_ATTRIBUTES = ::Set.new([
-        :snsCredentials, :developerSnsCredentials
+        :developerSnsCredentials, :snsCredentials
       ])
 
       # Mapping from snake cases to camel cases.
@@ -470,6 +468,7 @@ module Authlete
         :introspection_endpoint                       => :introspectionEndpoint,
         :jwks_uri                                     => :jwksUri,
         :modified_at                                  => :modifiedAt,
+        :mutual_tls_validate_pki_cert_chain           => :mutualTlsValidatePkiCertChain,
         :pkce_required                                => :pkceRequired,
         :policy_uri                                   => :policyUri,
         :refresh_token_duration                       => :refreshTokenDuration,
@@ -494,13 +493,12 @@ module Authlete
         :supported_snses                              => :supportedSnses,
         :supported_token_auth_methods                 => :supportedTokenAuthMethods,
         :supported_ui_locales                         => :supportedUiLocales,
+        :tls_client_certificate_bound_access_tokens   => :tlsClientCertificateBoundAccessTokens,
         :token_endpoint                               => :tokenEndpoint,
         :tos_uri                                      => :tosUri,
+        :trusted_root_certificates                    => :trustedRootCertificates,
         :user_info_endpoint                           => :userInfoEndpoint,
-        :user_info_signature_key_id                   => :userInfoSignatureKeyId,
-        :tls_client_certificate_bound_access_tokens   => :tlsClientCertificateBoundAccessTokens,
-        :mutual_tls_validate_pki_cert_chain           => :mutualTlsValidatePkiCertChain,
-        :trusted_root_certificates                    => :trustedRootCertificates
+        :user_info_signature_key_id                   => :userInfoSignatureKeyId
       }
 
       # The constructor
