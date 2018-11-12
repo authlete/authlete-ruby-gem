@@ -36,7 +36,7 @@ module Authlete
 
       # The client ID. (Integer)
       attr_accessor :clientId
-      alias_method  :client_id, :clientId
+      alias_method  :client_id,  :clientId
       alias_method  :client_id=, :clientId=
 
       # Alias of client ID. (String)
@@ -149,7 +149,7 @@ module Authlete
 
       # The DN of the certificate used in mutual client authentication
       attr_accessor :tlsClientAuthSubjectDn
-      alias_method  :tls_client_auth_subject_dn, :tlsClientAuthSubjectDn
+      alias_method  :tls_client_auth_subject_dn,  :tlsClientAuthSubjectDn
       alias_method  :tls_client_auth_subject_dn=, :tlsClientAuthSubjectDn=
 
       # The sector identifier which is a URL starting with https. (URI)
@@ -162,58 +162,58 @@ module Authlete
       alias_method  :subject_type,  :subjectType
       alias_method  :subject_type=, :subjectType=
 
-      # The value of alg header parameter of JWS that the client application
+      # The value of +alg+ header parameter of JWS that the client application
       # requires the service to use for signing an ID token. (String)
       attr_accessor :idTokenSignAlg
       alias_method  :id_token_sign_alg,  :idTokenSignAlg
       alias_method  :id_token_sign_alg=, :idTokenSignAlg=
 
-      # The value of alg header parameter of JWE that the client application
+      # The value of +alg+ header parameter of JWE that the client application
       # requires the service to use for encrypting an ID token. (String)
       attr_accessor :idTokenEncryptionAlg
       alias_method  :id_token_encryption_alg,  :idTokenEncryptionAlg
       alias_method  :id_token_encryption_alg=, :idTokenEncryptionAlg=
 
-      # The value of enc header parameter of JWE that the client application
+      # The value of +enc+ header parameter of JWE that the client application
       # requires the service to use for encrypting an ID token. (String)
       attr_accessor :idTokenEncryptionEnc
       alias_method  :id_token_encryption_enc,  :idTokenEncryptionEnc
       alias_method  :id_token_encryption_enc=, :idTokenEncryptionEnc=
 
-      # The value of alg header parameter of JWS that the client application
+      # The value of +alg+ header parameter of JWS that the client application
       # requires the service to use for signing the JWT returned from the user
       # info endpoint. One of the values listed in JWS Algorithm. (String)
       attr_accessor :userInfoSignAlg
       alias_method  :user_info_sign_alg,  :userInfoSignAlg
       alias_method  :user_info_sign_alg=, :userInfoSignAlg=
 
-      # The value of alg header parameter of JWE that the client application
+      # The value of +alg+ header parameter of JWE that the client application
       # requires the service to use for encrypting the JWT returned from
       # the user info endpoint. (String)
       attr_accessor :userInfoEncryptionAlg
       alias_method  :user_info_encryption_alg,  :userInfoEncryptionAlg
       alias_method  :user_info_encryption_alg=, :userInfoEncryptionAlg=
 
-      # The value of enc header parameter of JWE that the client application
+      # The value of +enc+ header parameter of JWE that the client application
       # requires the service to use for encrypting the JWT returned from
       # the user info endpoint. (String)
       attr_accessor :userInfoEncryptionEnc
       alias_method  :user_info_encryption_enc,  :userInfoEncryptionEnc
       alias_method  :user_info_encryption_enc=, :userInfoEncryptionEnc=
 
-      # The value of alg header parameter of JWS that the client application
+      # The value of +alg+ header parameter of JWS that the client application
       # uses for signing a request object. (String)
       attr_accessor :requestSignAlg
       alias_method  :request_sign_alg,  :requestSignAlg
       alias_method  :request_sign_alg=, :requestSignAlg=
 
-      # The value of alg header parameter of JWE that the client application
+      # The value of +alg+ header parameter of JWE that the client application
       # uses for encrypting a request object. (String)
       attr_accessor :requestEncryptionAlg
       alias_method  :request_encryption_alg,  :requestEncryptionAlg
       alias_method  :request_encryption_alg=, :requestEncryptionAlg=
 
-      # The value of enc header parameter of JWE that the client application
+      # The value of +enc+ header parameter of JWE that the client application
       # uses for encrypting a request object. (String)
       attr_accessor :requestEncryptionEnc
       alias_method  :request_encryption_enc,  :requestEncryptionEnc
@@ -225,7 +225,7 @@ module Authlete
       alias_method  :token_auth_method,  :tokenAuthMethod
       alias_method  :token_auth_method=, :tokenAuthMethod=
 
-      # The value of alg header parameter of JWS which is used
+      # The value of +alg+ header parameter of JWS which is used
       # for client authentication at the token endpoint. (String)
       attr_accessor :tokenAuthSignAlg
       alias_method  :token_auth_sign_alg,  :tokenAuthSignAlg
@@ -268,12 +268,12 @@ module Authlete
 
       # The timestamp at which the client was created. (Integer)
       attr_accessor :createdAt
-      alias_method  :created_at, :createdAt
+      alias_method  :created_at,  :createdAt
       alias_method  :created_at=, :createdAt=
 
       # The timestamp at which the client was modified. (Integer)
       attr_accessor :modifiedAt
-      alias_method  :modified_at, :modifiedAt
+      alias_method  :modified_at,  :modifiedAt
       alias_method  :modified_at=, :modifiedAt=
 
       # The flag that indicates whether the client uses TLS client certificate bound access tokens
@@ -288,6 +288,21 @@ module Authlete
 
       # The special information that extends the client. (ClientExtension)
       attr_accessor :extension
+
+      # The JWS +alg+ algorithm for signing authorization responses.
+      attr_accessor :authorizationSignAlg
+      alias_method  :authorization_sign_alg,  :authorizationSignAlg
+      alias_method  :authorization_sign_alg=, :authorizationSignAlg=
+
+      # The JWE +alg+ algorithm for encrypting authorization responses.
+      attr_accessor :authorizationEncryptionAlg
+      alias_method  :authorization_encryption_alg,  :authorizationEncryptionAlg
+      alias_method  :authorization_encryption_alg=, :authorizationEncryptionAlg=
+
+      # The JWE +enc+ algorithm for encrypting authorization responses.
+      attr_accessor :authorizationEncryptionEnc
+      alias_method  :authorization_encryption_enc,  :authorizationEncryptionEnc
+      alias_method  :authorization_encryption_enc=, :authorizationEncryptionEnc=
 
       private
 
@@ -309,7 +324,8 @@ module Authlete
         :idTokenEncryptionAlg, :idTokenEncryptionEnc, :userInfoSignAlg, :userInfoEncryptionAlg,
         :userInfoEncryptionEnc, :requestSignAlg, :requestEncryptionAlg, :requestEncryptionEnc,
         :tokenAuthMethod, :tokenAuthSignAlg, :loginUri, :description, :tlsClientAuthSubjectDn,
-        :selfSignedCertificateKeyId
+        :selfSignedCertificateKeyId, :authorizationSignAlg, :authorizationEncryptionAlg,
+        :authorizationEncryptionEnc
       ])
 
       # String array attributes.
@@ -367,7 +383,10 @@ module Authlete
         :modified_at                                 => :modifiedAt,
         :tls_client_auth_subject_dn                  => :tlsClientAuthSubjectDn,
         :tls_client_certificate_bound_access_tokens  => :tlsClientCertificateBoundAccessTokens,
-        :self_signed_certificate_key_id              => :selfSignedCertificateKeyId
+        :self_signed_certificate_key_id              => :selfSignedCertificateKeyId,
+        :authorization_sign_alg                      => :authorizationSignAlg,
+        :authorization_encryption_alg                => :authorizationEncryptionAlg,
+        :authorization_encryption_enc                => :authorizationEncryptionEnc
       }
 
       # The constructor
