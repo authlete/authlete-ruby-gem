@@ -62,6 +62,18 @@ module Authlete
       alias_method  :authorization_endpoint,  :authorizationEndpoint
       alias_method  :authorization_endpoint=, :authorizationEndpoint=
 
+      # The duration of access tokens in seconds; the value of +expires_in+
+      # in access token responses. (Integer)
+      attr_accessor :authorizationResponseDuration
+      alias_method  :authorization_response_duration,  :authorizationResponseDuration
+      alias_method  :authorization_response_duration=, :authorizationResponseDuration=
+
+      # The key ID to identify a JWK used for signing authorization responses
+      # using an asymmetric key. (String)
+      attr_accessor :authorizationSignatureKeyId
+      alias_method  :authorization_signature_key_id,  :authorizationSignatureKeyId
+      alias_method  :authorization_signature_key_id=, :authorizationSignatureKeyId=
+
       # The flag which indicates whether the 'Client ID Alias' feature
       # is enabled or not. (Boolean)
       attr_accessor :clientIdAliasEnabled
@@ -76,7 +88,7 @@ module Authlete
 
       # The timestamp at which the service was created. (Integer)
       attr_accessor :createdAt
-      alias_method  :created_at, :createdAt
+      alias_method  :created_at,  :createdAt
       alias_method  :created_at=, :createdAt=
 
       # The description of this service. (String)
@@ -170,8 +182,13 @@ module Authlete
       # The key ID to identify a JWK used for ID token signature using an
       # asymmetric key. (String)
       attr_accessor :idTokenSignatureKeyId
-      alias_method  :id_token_signature_key_id, :idTokenSignatureKeyId
+      alias_method  :id_token_signature_key_id,  :idTokenSignatureKeyId
       alias_method  :id_token_signature_key_id=, :idTokenSignatureKeyId=
+
+      # The URI of the introspection endpoint. (String)
+      attr_accessor :introspectionEndpoint
+      alias_method  :introspection_endpoint,  :introspectionEndpoint
+      alias_method  :introspection_endpoint=, :introspectionEndpoint=
 
       # The issuer identifier of this OpenID Provider. (URI)
       attr_accessor :issuer
@@ -248,7 +265,7 @@ module Authlete
       # The flag to indicate whether the number of access tokens
       # per subject (and per client) is at most one or can be more. (Boolean)
       attr_accessor :singleAccessTokenPerSubject
-      alias_method  :single_access_token_per_subject, :singleAccessTokenPerSubject
+      alias_method  :single_access_token_per_subject,  :singleAccessTokenPerSubject
       alias_method  :single_access_token_per_subject=, :singleAccessTokenPerSubject=
 
       # The list of SNS credentials. (SnsCredentials array)
@@ -361,27 +378,28 @@ module Authlete
       attr_accessor :tlsClientCertificateBoundAccessTokens
       alias_method  :tls_client_certificate_bound_access_tokens,  :tlsClientCertificateBoundAccessTokens
       alias_method  :tls_client_certificate_bound_access_tokens=, :tlsClientCertificateBoundAccessTokens=
-      
+
       # The flag that indicates whether the service will validate the PKI certificate chain
       # for MTLS based authentication. (Boolean)
       attr_accessor :mutualTlsValidatePkiCertChain
       alias_method  :mutual_tls_validate_pki_cert_chain,  :mutualTlsValidatePkiCertChain
       alias_method  :mutual_tls_validate_pki_cert_chain=, :mutualTlsValidatePkiCertChain=
-      
-      
+
+
       # The list of trusted root certificates, used when the service validates client
       # certificate paths. (String array)
       attr_accessor :trustedRootCertificates
       alias_method  :trusted_root_certificates,  :trustedRootCertificates
       alias_method  :trusted_root_certificates=, :trustedRootCertificates=
-      
+
 
       private
 
       # Integer attributes.
       INTEGER_ATTRIBUTES = ::Set.new([
-        :accessTokenDuration, :apiKey, :clientsPerDeveloper, :createdAt,
-        :idTokenDuration, :modifiedAt, :number, :refreshTokenDuration, :serviceOwnerNumber
+        :accessTokenDuration, :apiKey, :authorizationResponseDuration, :clientsPerDeveloper,
+        :createdAt, :idTokenDuration, :modifiedAt, :number, :refreshTokenDuration,
+        :serviceOwnerNumber
       ])
 
       # Boolean attributes.
@@ -398,9 +416,10 @@ module Authlete
       STRING_ATTRIBUTES = ::Set.new([
         :accessTokenType, :apiSecret, :authenticationCallbackApiKey,
         :authenticationCallbackApiSecret, :authenticationCallbackEndpoint,
-        :authorizationEndpoint, :description, :developerAuthenticationCallbackApiKey,
-        :developerAuthenticationCallbackApiSecret, :developerAuthenticationCallbackEndpoint,
-        :idTokenSignatureKeyId, :issuer, :jwks, :jwksUri, :policyUri, :registrationEndpoint,
+        :authorizationEndpoint, :authorizationSignatureKeyId, :description,
+        :developerAuthenticationCallbackApiKey, :developerAuthenticationCallbackApiSecret,
+        :developerAuthenticationCallbackEndpoint, :idTokenSignatureKeyId,
+        :introspectionEndpoint, :issuer, :jwks, :jwksUri, :policyUri, :registrationEndpoint,
         :serviceDocumentation, :serviceName, :tokenEndpoint, :tosUri, :userInfoEndpoint,
         :userInfoSignatureKeyId, :revocationEndpoint
       ])
@@ -429,6 +448,8 @@ module Authlete
         :authentication_callback_api_secret           => :authenticationCallbackApiSecret,
         :authentication_callback_endpoint             => :authenticationCallbackEndpoint,
         :authorization_endpoint                       => :authorizationEndpoint,
+        :authorization_response_duration              => :authorizationResponseDuration,
+        :authorization_signature_key_id               => :authorizationSignatureKeyId,
         :developer_authentication_callback_api_key    => :developerAuthenticationCallbackApiKey,
         :developer_authentication_callback_api_secret => :developerAuthenticationCallbackApiSecret,
         :developer_authentication_callback_endpoint   => :developerAuthenticationCallbackEndpoint,
@@ -446,6 +467,7 @@ module Authlete
         :error_uri_omitted                            => :errorUriOmitted,
         :id_token_duration                            => :idTokenDuration,
         :id_token_signature_key_id                    => :idTokenSignatureKeyId,
+        :introspection_endpoint                       => :introspectionEndpoint,
         :jwks_uri                                     => :jwksUri,
         :modified_at                                  => :modifiedAt,
         :pkce_required                                => :pkceRequired,
