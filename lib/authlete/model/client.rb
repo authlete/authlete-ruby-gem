@@ -36,7 +36,7 @@ module Authlete
 
       # The client ID. (Integer)
       attr_accessor :clientId
-      alias_method  :client_id, :clientId
+      alias_method  :client_id,  :clientId
       alias_method  :client_id=, :clientId=
 
       # Alias of client ID. (String)
@@ -149,7 +149,7 @@ module Authlete
 
       # The DN of the certificate used in mutual client authentication
       attr_accessor :tlsClientAuthSubjectDn
-      alias_method  :tls_client_auth_subject_dn, :tlsClientAuthSubjectDn
+      alias_method  :tls_client_auth_subject_dn,  :tlsClientAuthSubjectDn
       alias_method  :tls_client_auth_subject_dn=, :tlsClientAuthSubjectDn=
 
       # The sector identifier which is a URL starting with https. (URI)
@@ -268,12 +268,12 @@ module Authlete
 
       # The timestamp at which the client was created. (Integer)
       attr_accessor :createdAt
-      alias_method  :created_at, :createdAt
+      alias_method  :created_at,  :createdAt
       alias_method  :created_at=, :createdAt=
 
       # The timestamp at which the client was modified. (Integer)
       attr_accessor :modifiedAt
-      alias_method  :modified_at, :modifiedAt
+      alias_method  :modified_at,  :modifiedAt
       alias_method  :modified_at=, :modifiedAt=
 
       # The flag that indicates whether the client uses TLS client certificate bound access tokens
