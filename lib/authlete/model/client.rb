@@ -304,6 +304,28 @@ module Authlete
       alias_method  :authorization_encryption_enc,  :authorizationEncryptionEnc
       alias_method  :authorization_encryption_enc=, :authorizationEncryptionEnc=
 
+      # The backchannel token delivery mode. (String)
+      attr_accessor :bcDeliveryMode
+      alias_method  :bc_delivery_mode,  :bcDeliveryMode
+      alias_method  :bc_delivery_mode=, :bcDeliveryMode=
+
+      # The URI of backchannel client notification endpoint. (String)
+      attr_accessor :bcNotificationEndpoint
+      alias_method  :bc_notification_endpoint,  :bcNotificationEndpoint
+      alias_method  :bc_notification_endpoint=, :bcNotificationEndpoint=
+
+      # The signature algorithm of the request to the backchannel authentication
+      # endpoint. (String)
+      attr_accessor :bcRequestSignAlg
+      alias_method  :bc_request_sign_alg,  :bcRequestSignAlg
+      alias_method  :bc_request_sign_alg=, :bcRequestSignAlg=
+
+      # The flag which indicates whether a user code is required when this
+      # client makes a backchannel authentication request. (Boolean)
+      attr_accessor :bcUserCodeRequired
+      alias_method  :bc_user_code_required,  :bcUserCodeRequired
+      alias_method  :bc_user_code_required=, :bcUserCodeRequired=
+
       private
 
       # Integer attributes.
@@ -313,7 +335,8 @@ module Authlete
 
       # Boolean attributes.
       BOOLEAN_ATTRIBUTES = ::Set.new([
-        :authTimeRequired, :clientIdAliasEnabled, :tlsClientCertificateBoundAccessTokens
+        :authTimeRequired, :clientIdAliasEnabled, :tlsClientCertificateBoundAccessTokens,
+        :bcUserCodeRequired
       ])
 
       # String attributes.
@@ -325,7 +348,8 @@ module Authlete
         :userInfoEncryptionEnc, :requestSignAlg, :requestEncryptionAlg, :requestEncryptionEnc,
         :tokenAuthMethod, :tokenAuthSignAlg, :loginUri, :description, :tlsClientAuthSubjectDn,
         :selfSignedCertificateKeyId, :authorizationSignAlg, :authorizationEncryptionAlg,
-        :authorizationEncryptionEnc
+        :authorizationEncryptionEnc, :bcDeliveryMode, :bcNotificationEndpoint,
+        :bcRequestSignAlg
       ])
 
       # String array attributes.
@@ -386,7 +410,11 @@ module Authlete
         :self_signed_certificate_key_id              => :selfSignedCertificateKeyId,
         :authorization_sign_alg                      => :authorizationSignAlg,
         :authorization_encryption_alg                => :authorizationEncryptionAlg,
-        :authorization_encryption_enc                => :authorizationEncryptionEnc
+        :authorization_encryption_enc                => :authorizationEncryptionEnc,
+        :bc_delivery_mode                            => :bcDeliveryMode,
+        :bc_notification_endpoint                    => :bcNotificationEndpoint,
+        :bc_request_sign_alg                         => :bcRequestSignAlg,
+        :bc_user_code_required                       => :bcUserCodeRequired
       }
 
       # The constructor

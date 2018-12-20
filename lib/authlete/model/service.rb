@@ -32,7 +32,14 @@ module Authlete
       alias_method  :access_token_type,  :accessTokenType
       alias_method  :access_token_type=, :accessTokenType=
 
-      # The API key. (Long)
+      # The allowable clock skew between the server and clients in seconds.
+      # The clock skew is taken into consideration when time-related claims
+      # in a JWT (e.g. +exp+, +iat+, +nbf+) are verified. (Integer)
+      attr_accessor :allowableClockSkew
+      alias_method  :allowable_clock_skew,  :allowableClockSkew
+      alias_method  :allowable_clock_skew=, :allowableClockSkew=
+
+      # The API key. (Integer)
       attr_accessor :apiKey
       alias_method  :api_key,  :apiKey
       alias_method  :api_key=, :apiKey=
@@ -52,12 +59,12 @@ module Authlete
       alias_method  :authentication_callback_api_secret,  :authenticationCallbackApiSecret
       alias_method  :authentication_callback_api_secret=, :authenticationCallbackApiSecret=
 
-      # The URI of the authentication callback endpoint. (URI)
+      # The URI of the authentication callback endpoint. (String)
       attr_accessor :authenticationCallbackEndpoint
       alias_method  :authentication_callback_endpoint,  :authenticationCallbackEndpoint
       alias_method  :authentication_callback_endpoint=, :authenticationCallbackEndpoint=
 
-      # The URI of the authorization endpoint. (URI)
+      # The URI of the authorization endpoint. (String)
       attr_accessor :authorizationEndpoint
       alias_method  :authorization_endpoint,  :authorizationEndpoint
       alias_method  :authorization_endpoint=, :authorizationEndpoint=
@@ -73,6 +80,28 @@ module Authlete
       attr_accessor :authorizationSignatureKeyId
       alias_method  :authorization_signature_key_id,  :authorizationSignatureKeyId
       alias_method  :authorization_signature_key_id=, :authorizationSignatureKeyId=
+
+      # The URI of the backchannel authentication endpoint. (String)
+      attr_accessor :backchannelAuthenticationEndpoint
+      alias_method  :backchannel_authentication_endpoint,  :backchannelAuthenticationEndpoint
+      alias_method  :backchannel_authentication_endpoint=, :backchannelAuthenticationEndpoint=
+
+      # The duration of backchannel authentication request IDs in seconds.
+      # (Integer)
+      attr_accessor :backchannelAuthReqIdDuration
+      alias_method  :backchannel_auth_req_id_duration,  :backchannelAuthReqIdDuration
+      alias_method  :backchannel_auth_req_id_duration=, :backchannelAuthReqIdDuration=
+
+      # The minimum interval between polling requests in seconds. (Integer)
+      attr_accessor :backchannelPollingInterval
+      alias_method  :backchannel_polling_interval,  :backchannelPollingInterval
+      alias_method  :backchannel_polling_interval=, :backchannelPollingInterval=
+
+      # The flag which indicates whether the +user_code+ request parameter
+      # is supported at the backchannel authentication endpoint. (Boolean)
+      attr_accessor :backchannelUserCodeParameterSupported
+      alias_method  :backchannel_user_code_parameter_supported,  :backchannelUserCodeParameterSupported
+      alias_method  :backchannel_user_code_parameter_supported=, :backchannelUserCodeParameterSupported=
 
       # The flag which indicates whether the 'Client ID Alias' feature
       # is enabled or not. (Boolean)
@@ -104,7 +133,7 @@ module Authlete
       alias_method  :developer_authentication_callback_api_secret,  :developerAuthenticationCallbackApiSecret
       alias_method  :developer_authentication_callback_api_secret=, :developerAuthenticationCallbackApiSecret=
 
-      # The URI of the developer authentication callback endpoint. (URI)
+      # The URI of the developer authentication callback endpoint. (String)
       attr_accessor :developerAuthenticationCallbackEndpoint
       alias_method  :developer_authentication_callback_endpoint,  :developerAuthenticationCallbackEndpoint
       alias_method  :developer_authentication_callback_endpoint=, :developerAuthenticationCallbackEndpoint=
@@ -190,13 +219,13 @@ module Authlete
       alias_method  :introspection_endpoint,  :introspectionEndpoint
       alias_method  :introspection_endpoint=, :introspectionEndpoint=
 
-      # The issuer identifier of this OpenID Provider. (URI)
+      # The issuer identifier of this OpenID Provider. (String)
       attr_accessor :issuer
 
       # The JSON Web Key Set of this service. (String)
       attr_accessor :jwks
 
-      # The URI of the service's JSON Web Key Set. (URI)
+      # The URI of the service's JSON Web Key Set. (String)
       attr_accessor :jwksUri
       alias_method  :jwks_uri,  :jwksUri
       alias_method  :jwks_uri=, :jwksUri=
@@ -226,7 +255,7 @@ module Authlete
       alias_method  :pkce_required,  :pkceRequired
       alias_method  :pkce_required=, :pkceRequired=
 
-      # The URI of the service's policy page. (URI)
+      # The URI of the service's policy page. (String)
       attr_accessor :policyUri
       alias_method  :policy_uri,  :policyUri
       alias_method  :policy_uri=, :policyUri=
@@ -243,17 +272,17 @@ module Authlete
       alias_method  :refresh_token_kept,  :refreshTokenKept
       alias_method  :refresh_token_kept=, :refreshTokenKept=
 
-      # The URI of the registration endpoint. (URI)
+      # The URI of the registration endpoint. (String)
       attr_accessor :registrationEndpoint
       alias_method  :registration_endpoint,  :registrationEndpoint
       alias_method  :registration_endpoint=, :registrationEndpoint=
 
-      # The URI of the token revocation endpoint. (URI)
+      # The URI of the token revocation endpoint. (String)
       attr_accessor :revocationEndpoint
       alias_method  :revocation_endpoint,  :revocationEndpoint
       alias_method  :revocation_endpoint=, :revocationEndpoint=
 
-      # The URI of the service's documentation. (URI)
+      # The URI of the service's documentation. (String)
       attr_accessor :serviceDocumentation
       alias_method  :service_documentation,  :serviceDocumentation
       alias_method  :service_documentation=, :serviceDocumentation=
@@ -353,6 +382,12 @@ module Authlete
       alias_method  :supported_token_auth_methods,  :supportedTokenAuthMethods
       alias_method  :supported_token_auth_methods=, :supportedTokenAuthMethods=
 
+      # The list of supported backchannel token delivery modes. (String array)
+      # Valid values are "POLL", "PING" and "PUSH".
+      attr_accessor :supportedBackchannelTokenDeliveryModes
+      alias_method  :supported_backchannel_token_delivery_modes,  :supportedBackchannelTokenDeliveryModes
+      alias_method  :supported_backchannel_token_delivery_modes=, :supportedBackchannelTokenDeliveryModes=
+
       # The list of supported UI locales. (String array)
       attr_accessor :supportedUiLocales
       alias_method  :supported_ui_locales,  :supportedUiLocales
@@ -364,12 +399,12 @@ module Authlete
       alias_method  :tls_client_certificate_bound_access_tokens,  :tlsClientCertificateBoundAccessTokens
       alias_method  :tls_client_certificate_bound_access_tokens=, :tlsClientCertificateBoundAccessTokens=
 
-      # The URI of the token endpoint. (URI)
+      # The URI of the token endpoint. (String)
       attr_accessor :tokenEndpoint
       alias_method  :token_endpoint,  :tokenEndpoint
       alias_method  :token_endpoint=, :tokenEndpoint=
 
-      # The URI of the service's "Terms Of Service" page. (URI)
+      # The URI of the service's "Terms Of Service" page. (String)
       attr_accessor :tosUri
       alias_method  :tos_uri,  :tosUri
       alias_method  :tos_uri=, :tosUri=
@@ -380,7 +415,7 @@ module Authlete
       alias_method  :trusted_root_certificates,  :trustedRootCertificates
       alias_method  :trusted_root_certificates=, :trustedRootCertificates=
 
-      # The URI of user info endpoint. (URI)
+      # The URI of user info endpoint. (String)
       attr_accessor :userInfoEndpoint
       alias_method  :user_info_endpoint,  :userInfoEndpoint
       alias_method  :user_info_endpoint=, :userInfoEndpoint=
@@ -395,16 +430,17 @@ module Authlete
 
       # Integer attributes.
       INTEGER_ATTRIBUTES = ::Set.new([
-        :accessTokenDuration, :apiKey, :authorizationResponseDuration, :clientsPerDeveloper,
+        :accessTokenDuration, :allowableClockSkew, :apiKey, :authorizationResponseDuration,
+        :backchannelAuthReqIdDuration, :backchannelPollingInterval, :clientsPerDeveloper,
         :createdAt, :idTokenDuration, :modifiedAt, :number, :refreshTokenDuration,
         :serviceOwnerNumber
       ])
 
       # Boolean attributes.
       BOOLEAN_ATTRIBUTES = ::Set.new([
-        :clientIdAliasEnabled, :directAuthorizationEndpointEnabled,
-        :directIntrospectionEndpointEnabled, :directJwksEndpointEnabled,
-        :directRevocationEndpointEnabled, :directTokenEndpointEnabled,
+        :backchannelUserCodeParameterSupported, :clientIdAliasEnabled,
+        :directAuthorizationEndpointEnabled, :directIntrospectionEndpointEnabled,
+        :directJwksEndpointEnabled, :directRevocationEndpointEnabled, :directTokenEndpointEnabled,
         :directUserInfoEndpointEnabled, :errorDescriptionOmitted, :errorUriOmitted,
         :mutualTlsValidatePkiCertChain, :pkceRequired, :refreshTokenKept,
         :singleAccessTokenPerSubject, :tlsClientCertificateBoundAccessTokens
@@ -414,8 +450,8 @@ module Authlete
       STRING_ATTRIBUTES = ::Set.new([
         :accessTokenType, :apiSecret, :authenticationCallbackApiKey,
         :authenticationCallbackApiSecret, :authenticationCallbackEndpoint,
-        :authorizationEndpoint, :authorizationSignatureKeyId, :description,
-        :developerAuthenticationCallbackApiKey, :developerAuthenticationCallbackApiSecret,
+        :authorizationEndpoint, :authorizationSignatureKeyId, :backchannelAuthenticationEndpoint,
+        :description, :developerAuthenticationCallbackApiKey, :developerAuthenticationCallbackApiSecret,
         :developerAuthenticationCallbackEndpoint, :idTokenSignatureKeyId,
         :introspectionEndpoint, :issuer, :jwks, :jwksUri, :policyUri, :registrationEndpoint,
         :serviceDocumentation, :serviceName, :tokenEndpoint, :tosUri, :userInfoEndpoint,
@@ -424,11 +460,11 @@ module Authlete
 
       # String array attributes.
       STRING_ARRAY_ATTRIBUTES = ::Set.new([
-        :supportedAcrs, :supportedClaimLocales, :supportedClaims,
-        :supportedClaimTypes, :supportedDeveloperSnses, :supportedDisplays,
-        :supportedGrantTypes, :supportedResponseTypes, :supportedServiceProfiles,
-        :supportedSnses, :supportedTokenAuthMethods, :supportedUiLocales,
-        :trustedRootCertificates
+        :supportedAcrs, :supportedBackchannelTokenDeliveryModes, :supportedClaimLocales,
+        :supportedClaims, :supportedClaimTypes, :supportedDeveloperSnses,
+        :supportedDisplays, :supportedGrantTypes, :supportedResponseTypes,
+        :supportedServiceProfiles, :supportedSnses, :supportedTokenAuthMethods,
+        :supportedUiLocales, :trustedRootCertificates
       ])
 
       # SNS credentials array attributes.
@@ -440,6 +476,7 @@ module Authlete
       SNAKE_TO_CAMEL = {
         :access_token_duration                        => :accessTokenDuration,
         :access_token_type                            => :accessTokenType,
+        :allowable_clock_skew                         => :allowableClockSkew,
         :api_key                                      => :apiKey,
         :api_secret                                   => :apiSecret,
         :authentication_callback_api_key              => :authenticationCallbackApiKey,
@@ -448,6 +485,10 @@ module Authlete
         :authorization_endpoint                       => :authorizationEndpoint,
         :authorization_response_duration              => :authorizationResponseDuration,
         :authorization_signature_key_id               => :authorizationSignatureKeyId,
+        :backchannel_authentication_endpoint          => :backchannelAuthenticationEndpoint,
+        :backchannel_auth_req_id_duration             => :backchannelAuthReqIdDuration,
+        :backchannel_polling_interval                 => :backchannelPollingInterval,
+        :backchannel_user_code_parameter_supported    => :backchannelUserCodeParameterSupported,
         :developer_authentication_callback_api_key    => :developerAuthenticationCallbackApiKey,
         :developer_authentication_callback_api_secret => :developerAuthenticationCallbackApiSecret,
         :developer_authentication_callback_endpoint   => :developerAuthenticationCallbackEndpoint,
@@ -481,6 +522,7 @@ module Authlete
         :single_access_token_per_subject              => :singleAccessTokenPerSubject,
         :sns_credentials                              => :snsCredentials,
         :supported_acrs                               => :supportedAcrs,
+        :supported_backchannel_token_delivery_modes   => :supportedBackchannelTokenDeliveryModes,
         :supported_claim_locales                      => :supportedClaimLocales,
         :supported_claims                             => :supportedClaims,
         :supported_claim_types                        => :supportedClaimTypes,
