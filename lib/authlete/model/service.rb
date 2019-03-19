@@ -27,6 +27,16 @@ module Authlete
       alias_method  :access_token_duration,  :accessTokenDuration
       alias_method  :access_token_duration=, :accessTokenDuration=
 
+      # The signature algorithm for access tokens. (String)
+      attr_accessor :accessTokenSignAlg
+      alias_method  :access_token_sign_alg,  :accessTokenSignAlg
+      alias_method  :access_token_sign_alg=, :accessTokenSignAlg=
+
+      # The key ID to identify a JWK used for signing access tokens. (String)
+      attr_accessor :accessTokenSignatureKeyId
+      alias_method  :access_token_signature_key_id,  :accessTokenSignatureKeyId
+      alias_method  :access_token_signature_key_id=, :accessTokenSignatureKeyId=
+
       # The access token type. (String)
       attr_accessor :accessTokenType
       alias_method  :access_token_type,  :accessTokenType
@@ -448,14 +458,15 @@ module Authlete
 
       # String attributes.
       STRING_ATTRIBUTES = ::Set.new([
-        :accessTokenType, :apiSecret, :authenticationCallbackApiKey,
-        :authenticationCallbackApiSecret, :authenticationCallbackEndpoint,
-        :authorizationEndpoint, :authorizationSignatureKeyId, :backchannelAuthenticationEndpoint,
-        :description, :developerAuthenticationCallbackApiKey, :developerAuthenticationCallbackApiSecret,
-        :developerAuthenticationCallbackEndpoint, :idTokenSignatureKeyId,
-        :introspectionEndpoint, :issuer, :jwks, :jwksUri, :policyUri, :registrationEndpoint,
-        :serviceDocumentation, :serviceName, :tokenEndpoint, :tosUri, :userInfoEndpoint,
-        :userInfoSignatureKeyId, :revocationEndpoint
+        :accessTokenSignAlg, :accessTokenSignatureKeyId, :accessTokenType,
+        :apiSecret, :authenticationCallbackApiKey, :authenticationCallbackApiSecret,
+        :authenticationCallbackEndpoint, :authorizationEndpoint, :authorizationSignatureKeyId,
+        :backchannelAuthenticationEndpoint, :description, :developerAuthenticationCallbackApiKey,
+        :developerAuthenticationCallbackApiSecret, :developerAuthenticationCallbackEndpoint,
+        :idTokenSignatureKeyId, :introspectionEndpoint, :issuer, :jwks, :jwksUri,
+        :policyUri, :registrationEndpoint, :serviceDocumentation, :serviceName,
+        :tokenEndpoint, :tosUri, :userInfoEndpoint, :userInfoSignatureKeyId,
+        :revocationEndpoint
       ])
 
       # String array attributes.
@@ -475,6 +486,8 @@ module Authlete
       # Mapping from snake cases to camel cases.
       SNAKE_TO_CAMEL = {
         :access_token_duration                        => :accessTokenDuration,
+        :access_token_sign_alg                        => :accessTokenSignAlg,
+        :access_token_signature_key_id                => :accessTokenSignatureKeyId,
         :access_token_type                            => :accessTokenType,
         :allowable_clock_skew                         => :allowableClockSkew,
         :api_key                                      => :apiKey,
