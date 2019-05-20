@@ -325,6 +325,12 @@ module Authlete
       attr_accessor :bcUserCodeRequired
       alias_method  :bc_user_code_required,  :bcUserCodeRequired
       alias_method  :bc_user_code_required=, :bcUserCodeRequired=
+      
+      # The flag which indicates whether this client was registered dynamically
+      # or (if false) through the regular static method.
+      attr_accessor :dynamicallyRegistered
+      alias_method  :dynamically_registered,  :dynamicallyRegistered
+      alias_method  :dynamically_registered=, :dynamicallyRegistered=
 
       private
 
@@ -336,7 +342,7 @@ module Authlete
       # Boolean attributes.
       BOOLEAN_ATTRIBUTES = ::Set.new([
         :authTimeRequired, :clientIdAliasEnabled, :tlsClientCertificateBoundAccessTokens,
-        :bcUserCodeRequired
+        :bcUserCodeRequired, :dynamicallyRegistered
       ])
 
       # String attributes.
