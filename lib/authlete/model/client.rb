@@ -325,9 +325,9 @@ module Authlete
       attr_accessor :bcUserCodeRequired
       alias_method  :bc_user_code_required,  :bcUserCodeRequired
       alias_method  :bc_user_code_required=, :bcUserCodeRequired=
-      
+
       # The flag which indicates whether this client was registered dynamically
-      # or (if false) through the regular static method.
+      # or (if false) through the regular static method. (Boolean)
       attr_accessor :dynamicallyRegistered
       alias_method  :dynamically_registered,  :dynamicallyRegistered
       alias_method  :dynamically_registered=, :dynamicallyRegistered=
@@ -420,7 +420,8 @@ module Authlete
         :bc_delivery_mode                            => :bcDeliveryMode,
         :bc_notification_endpoint                    => :bcNotificationEndpoint,
         :bc_request_sign_alg                         => :bcRequestSignAlg,
-        :bc_user_code_required                       => :bcUserCodeRequired
+        :bc_user_code_required                       => :bcUserCodeRequired,
+        :dynamically_registered                      => :dynamicallyRegistered
       }
 
       # The constructor

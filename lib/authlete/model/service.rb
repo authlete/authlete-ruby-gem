@@ -436,14 +436,15 @@ module Authlete
       alias_method  :user_info_signature_key_id,  :userInfoSignatureKeyId
       alias_method  :user_info_signature_key_id=, :userInfoSignatureKeyId=
 
-      # Flag of whether this service supports dynamic client registration
+      # Flag of whether this service supports dynamic client registration.
+      # (Boolean)
       attr_accessor :dynamicRegistrationSupported
       alias_method  :dynamic_registration_supported,  :dynamicRegistrationSupported
       alias_method  :dynamic_registration_supported=, :dynamicRegistrationSupported=
-      
+
       # The base URI of the service's "Dynamic Client Registration Management"
       # endpoint. Client management URIs will be based on this by adding the
-      # client ID as a path component.
+      # client ID as a path component. (String)
       attr_accessor :registrationManagementEndpoint
       alias_method  :registration_management_endpoint,  :registrationManagementEndpoint
       alias_method  :registration_management_endpoint=, :registrationManagementEndpoint=
