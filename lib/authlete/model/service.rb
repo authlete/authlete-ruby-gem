@@ -436,6 +436,19 @@ module Authlete
       alias_method  :user_info_signature_key_id,  :userInfoSignatureKeyId
       alias_method  :user_info_signature_key_id=, :userInfoSignatureKeyId=
 
+      # Flag of whether this service supports dynamic client registration.
+      # (Boolean)
+      attr_accessor :dynamicRegistrationSupported
+      alias_method  :dynamic_registration_supported,  :dynamicRegistrationSupported
+      alias_method  :dynamic_registration_supported=, :dynamicRegistrationSupported=
+
+      # The base URI of the service's "Dynamic Client Registration Management"
+      # endpoint. Client management URIs will be based on this by adding the
+      # client ID as a path component. (String)
+      attr_accessor :registrationManagementEndpoint
+      alias_method  :registration_management_endpoint,  :registrationManagementEndpoint
+      alias_method  :registration_management_endpoint=, :registrationManagementEndpoint=
+
       private
 
       # Integer attributes.
@@ -453,7 +466,8 @@ module Authlete
         :directJwksEndpointEnabled, :directRevocationEndpointEnabled, :directTokenEndpointEnabled,
         :directUserInfoEndpointEnabled, :errorDescriptionOmitted, :errorUriOmitted,
         :mutualTlsValidatePkiCertChain, :pkceRequired, :refreshTokenKept,
-        :singleAccessTokenPerSubject, :tlsClientCertificateBoundAccessTokens
+        :singleAccessTokenPerSubject, :tlsClientCertificateBoundAccessTokens,
+        :dynamicRegistrationSupported
       ])
 
       # String attributes.
@@ -466,7 +480,7 @@ module Authlete
         :idTokenSignatureKeyId, :introspectionEndpoint, :issuer, :jwks, :jwksUri,
         :policyUri, :registrationEndpoint, :serviceDocumentation, :serviceName,
         :tokenEndpoint, :tosUri, :userInfoEndpoint, :userInfoSignatureKeyId,
-        :revocationEndpoint
+        :revocationEndpoint, :registrationManagementEndpoint
       ])
 
       # String array attributes.
@@ -515,6 +529,7 @@ module Authlete
         :direct_revocation_endpoint_enabled           => :directRevocationEndpointEnabled,
         :direct_token_endpoint_enabled                => :directTokenEndpointEnabled,
         :direct_user_info_endpoint_enabled            => :directUserInfoEndpointEnabled,
+        :dynamic_registration_supported               => :dynamicRegistrationSupported,
         :error_description_omitted                    => :errorDescriptionOmitted,
         :error_uri_omitted                            => :errorUriOmitted,
         :id_token_duration                            => :idTokenDuration,
@@ -528,6 +543,7 @@ module Authlete
         :refresh_token_duration                       => :refreshTokenDuration,
         :refresh_token_kept                           => :refreshTokenKept,
         :registration_endpoint                        => :registrationEndpoint,
+        :registration_management_endpoint             => :registrationManagementEndpoint,
         :revocation_endpoint                          => :revocationEndpoint,
         :service_documentation                        => :serviceDocumentation,
         :service_name                                 => :serviceName,
