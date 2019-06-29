@@ -1,6 +1,6 @@
 # :nodoc:
 #
-# Copyright (C) 2014-2018 Authlete, Inc.
+# Copyright (C) 2014-2019 Authlete, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -152,6 +152,32 @@ module Authlete
       attr_accessor :developerSnsCredentials
       alias_method  :developer_sns_credentials,  :developerSnsCredentials
       alias_method  :developer_sns_credentials=, :developerSnsCredentials=
+
+      # The URI of the device authorization endpoint. (String)
+      attr_accessor :deviceAuthorizationEndpoint
+      alias_method  :device_authorization_endpoint,  :deviceAuthorizationEndpoint
+      alias_method  :device_authorization_endpoint=, :deviceAuthorizationEndpoint=
+
+      # The duration of device verification codes (device_code) and
+      # end-user verification codes (user_code) in seconds. (Integer)
+      attr_accessor :deviceFlowCodeDuration
+      alias_method  :device_flow_code_duration,  :deviceFlowCodeDuration
+      alias_method  :device_flow_code_duration=, :deviceFlowCodeDuration=
+
+      # The minimum interval between polling requests in Device Flow in seconds. (Integer)
+      attr_accessor :deviceFlowPollingInterval
+      alias_method  :device_flow_polling_interval,  :deviceFlowPollingInterval
+      alias_method  :device_flow_polling_interval=, :deviceFlowPollingInterval=
+
+      # The verification URI for Device Flow. (String)
+      attr_accessor :deviceVerificationUri
+      alias_method  :device_verification_uri,  :deviceVerificationUri
+      alias_method  :device_verification_uri=, :deviceVerificationUri=
+
+      # The verification URI for Device Flow with a placeholder for a user code. (String)
+      attr_accessor :deviceVerificationUriComplete
+      alias_method  :device_verification_uri_complete,  :deviceVerificationUriComplete
+      alias_method  :device_verification_uri_complete=, :deviceVerificationUriComplete=
 
       # The flag to indicate whether the direct authorization endpoint
       # is enabled or not. The path of the endpoint is
@@ -425,6 +451,16 @@ module Authlete
       alias_method  :trusted_root_certificates,  :trustedRootCertificates
       alias_method  :trusted_root_certificates=, :trustedRootCertificates=
 
+      # The character set for user codes. (String)
+      attr_accessor :userCodeCharset
+      alias_method  :user_code_charset,  :userCodeCharset
+      alias_method  :user_code_charset=, :userCodeCharset=
+
+      # The length of user codes. (Integer)
+      attr_accessor :userCodeLength
+      alias_method  :user_code_length,  :userCodeLength
+      alias_method  :user_code_length=, :userCodeLength=
+
       # The URI of user info endpoint. (String)
       attr_accessor :userInfoEndpoint
       alias_method  :user_info_endpoint,  :userInfoEndpoint
@@ -455,8 +491,9 @@ module Authlete
       INTEGER_ATTRIBUTES = ::Set.new([
         :accessTokenDuration, :allowableClockSkew, :apiKey, :authorizationResponseDuration,
         :backchannelAuthReqIdDuration, :backchannelPollingInterval, :clientsPerDeveloper,
-        :createdAt, :idTokenDuration, :modifiedAt, :number, :refreshTokenDuration,
-        :serviceOwnerNumber
+        :createdAt, :deviceFlowCodeDuration, :deviceFlowPollingInterval,
+        :idTokenDuration, :modifiedAt, :number, :refreshTokenDuration,
+        :serviceOwnerNumber, :userCodeLength
       ])
 
       # Boolean attributes.
@@ -477,9 +514,10 @@ module Authlete
         :authenticationCallbackEndpoint, :authorizationEndpoint, :authorizationSignatureKeyId,
         :backchannelAuthenticationEndpoint, :description, :developerAuthenticationCallbackApiKey,
         :developerAuthenticationCallbackApiSecret, :developerAuthenticationCallbackEndpoint,
+        :deviceAuthorizationEndpoint, :deviceVerificationUri, :deviceVerificationUriComplete,
         :idTokenSignatureKeyId, :introspectionEndpoint, :issuer, :jwks, :jwksUri,
         :policyUri, :registrationEndpoint, :serviceDocumentation, :serviceName,
-        :tokenEndpoint, :tosUri, :userInfoEndpoint, :userInfoSignatureKeyId,
+        :tokenEndpoint, :tosUri, :userCodeCharset, :userInfoEndpoint, :userInfoSignatureKeyId,
         :revocationEndpoint, :registrationManagementEndpoint
       ])
 
@@ -520,6 +558,11 @@ module Authlete
         :developer_authentication_callback_api_secret => :developerAuthenticationCallbackApiSecret,
         :developer_authentication_callback_endpoint   => :developerAuthenticationCallbackEndpoint,
         :developer_sns_credentials                    => :developerSnsCredentials,
+        :device_authorization_endpoint                => :deviceAuthorizationEndpoint,
+        :device_flow_code_duration                    => :deviceFlowCodeDuration,
+        :device_flow_polling_interval                 => :deviceFlowPollingInterval,
+        :device_verification_uri                      => :deviceVerificationUri,
+        :device_verification_uri_complete             => :deviceVerificationUriComplete,
         :client_id_alias_enabled                      => :clientIdAliasEnabled,
         :clients_per_developer                        => :clientsPerDeveloper,
         :created_at                                   => :createdAt,
@@ -568,6 +611,8 @@ module Authlete
         :token_endpoint                               => :tokenEndpoint,
         :tos_uri                                      => :tosUri,
         :trusted_root_certificates                    => :trustedRootCertificates,
+        :user_code_charset                            => :userCodeCharset,
+        :user_code_length                             => :userCodeLength,
         :user_info_endpoint                           => :userInfoEndpoint,
         :user_info_signature_key_id                   => :userInfoSignatureKeyId
       }
