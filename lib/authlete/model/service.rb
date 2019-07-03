@@ -102,6 +102,13 @@ module Authlete
       alias_method  :backchannel_auth_req_id_duration,  :backchannelAuthReqIdDuration
       alias_method  :backchannel_auth_req_id_duration=, :backchannelAuthReqIdDuration=
 
+      # The flag indicating whether the +binding_message+ request parameter
+      # is always required whenever a backchannel authentication request is
+      # judged as a request for Financial-grade API. (Boolean)
+      attr_accessor :backchannelBindingMessageRequiredInFapi
+      alias_method  :backchannel_binding_message_required_in_fapi,  :backchannelBindingMessageRequiredInFapi
+      alias_method  :backchannel_binding_message_required_in_fapi=, :backchannelBindingMessageRequiredInFapi=
+
       # The minimum interval between polling requests in seconds. (Integer)
       attr_accessor :backchannelPollingInterval
       alias_method  :backchannel_polling_interval,  :backchannelPollingInterval
@@ -290,6 +297,12 @@ module Authlete
       attr_accessor :pkceRequired
       alias_method  :pkce_required,  :pkceRequired
       alias_method  :pkce_required=, :pkceRequired=
+
+      # The flag indicating whether S256 is required as the code challenge
+      # method whenever PKCE is used. (Boolean)
+      attr_accessor :pkceS256Required
+      alias_method  :pkce_s256_required,  :pkceS256Required
+      alias_method  :pkce_s256_required=, :pkceS256Required=
 
       # The URI of the service's policy page. (String)
       attr_accessor :policyUri
@@ -485,6 +498,11 @@ module Authlete
       alias_method  :registration_management_endpoint,  :registrationManagementEndpoint
       alias_method  :registration_management_endpoint=, :registrationManagementEndpoint=
 
+      # The URI of request object endpoint. (String)
+      attr_accessor :requestObjectEndpoint
+      alias_method  :request_object_endpoint,  :requestObjectEndpoint
+      alias_method  :request_object_endpoint=, :requestObjectEndpoint=
+
       private
 
       # Integer attributes.
@@ -498,11 +516,12 @@ module Authlete
 
       # Boolean attributes.
       BOOLEAN_ATTRIBUTES = ::Set.new([
-        :backchannelUserCodeParameterSupported, :clientIdAliasEnabled,
+        :backchannelBindingMessageRequiredInFapi, :backchannelUserCodeParameterSupported,
+        :clientIdAliasEnabled,
         :directAuthorizationEndpointEnabled, :directIntrospectionEndpointEnabled,
         :directJwksEndpointEnabled, :directRevocationEndpointEnabled, :directTokenEndpointEnabled,
         :directUserInfoEndpointEnabled, :errorDescriptionOmitted, :errorUriOmitted,
-        :mutualTlsValidatePkiCertChain, :pkceRequired, :refreshTokenKept,
+        :mutualTlsValidatePkiCertChain, :pkceRequired, :pkceS256Required, :refreshTokenKept,
         :singleAccessTokenPerSubject, :tlsClientCertificateBoundAccessTokens,
         :dynamicRegistrationSupported
       ])
@@ -516,9 +535,9 @@ module Authlete
         :developerAuthenticationCallbackApiSecret, :developerAuthenticationCallbackEndpoint,
         :deviceAuthorizationEndpoint, :deviceVerificationUri, :deviceVerificationUriComplete,
         :idTokenSignatureKeyId, :introspectionEndpoint, :issuer, :jwks, :jwksUri,
-        :policyUri, :registrationEndpoint, :serviceDocumentation, :serviceName,
-        :tokenEndpoint, :tosUri, :userCodeCharset, :userInfoEndpoint, :userInfoSignatureKeyId,
-        :revocationEndpoint, :registrationManagementEndpoint
+        :policyUri, :registrationEndpoint, :registrationManagementEndpoint,
+        :requestObjectEndpoint, :revocationEndpoint, :serviceDocumentation, :serviceName,
+        :tokenEndpoint, :tosUri, :userCodeCharset, :userInfoEndpoint, :userInfoSignatureKeyId
       ])
 
       # String array attributes.
@@ -551,6 +570,7 @@ module Authlete
         :authorization_response_duration              => :authorizationResponseDuration,
         :authorization_signature_key_id               => :authorizationSignatureKeyId,
         :backchannel_authentication_endpoint          => :backchannelAuthenticationEndpoint,
+        :backchannel_binding_message_required_in_fapi => :backchannelBindingMessageRequiredInFapi,
         :backchannel_auth_req_id_duration             => :backchannelAuthReqIdDuration,
         :backchannel_polling_interval                 => :backchannelPollingInterval,
         :backchannel_user_code_parameter_supported    => :backchannelUserCodeParameterSupported,
@@ -582,12 +602,14 @@ module Authlete
         :modified_at                                  => :modifiedAt,
         :mutual_tls_validate_pki_cert_chain           => :mutualTlsValidatePkiCertChain,
         :pkce_required                                => :pkceRequired,
+        :pkce_s256_required                           => :pkceS256Required,
         :policy_uri                                   => :policyUri,
         :refresh_token_duration                       => :refreshTokenDuration,
         :refresh_token_kept                           => :refreshTokenKept,
         :registration_endpoint                        => :registrationEndpoint,
         :registration_management_endpoint             => :registrationManagementEndpoint,
         :revocation_endpoint                          => :revocationEndpoint,
+        :request_object_endpoint                      => :requestObjectEndpoint,
         :service_documentation                        => :serviceDocumentation,
         :service_name                                 => :serviceName,
         :service_owner_number                         => :serviceOwnerNumber,
