@@ -741,7 +741,7 @@ module Authlete
             @supportedScopes = get_parsed_array(value) do |element|
               Authlete::Model::Scope.parse(element)
             end
-          elsif key == :mtls_endpoint_aliases
+          elsif key == :mtlsEndpointAliases
             @mtls_endpoint_aliases = get_parsed_array(value) do |element|
               Authlete::Model::NamedUri.parse(element)
             end
@@ -776,7 +776,7 @@ module Authlete
           if authlete_model_simple_attribute?(key) or val.nil?
             hash[key] = val
           elsif key == :developerSnsCredentials or key == :snsCredentials or
-                key == :supportedScopes or key == :metadata or key == :mtls_endpoint_aliases
+                key == :supportedScopes or key == :metadata or key == :mtlsEndpointAliases
             hash[key] = val.map { |element| element.to_hash }
           end
         end
