@@ -503,6 +503,26 @@ module Authlete
       alias_method  :request_object_endpoint,  :requestObjectEndpoint
       alias_method  :request_object_endpoint=, :requestObjectEndpoint=
 
+      # MTLS endpoint aliases. (NamedUri array)
+      attr_accessor :mtlsEndpointAliases
+      alias_method  :mtls_endpoint_aliases,  :mtlsEndpointAliases
+      alias_method  :mtls_endpoint_aliases=, :mtlsEndpointAliases=
+
+      # The URI of pushed authorization request endpoint. (String)
+      attr_accessor :pushedAuthReqEndpoint
+      alias_method  :pushed_auth_req_endpoint,  :pushedAuthReqEndpoint
+      alias_method  :pushed_auth_req_endpoint=, :pushedAuthReqEndpoint=
+
+      # Duration of pushed authorization requests. (Integer)
+      attr_accessor :pushedAuthReqDuration
+      alias_method  :pushed_auth_req_duration,  :pushedAuthReqDuration
+      alias_method  :pushed_auth_req_duration=, :pushedAuthReqDuration=
+
+      # Supported data types for +authorization_details+. (String array)
+      attr_accessor :supportedAuthorizationDataTypes
+      alias_method  :supported_authorization_data_types,  :supportedAuthorizationDataTypes
+      alias_method  :supported_authorization_data_types=, :supportedAuthorizationDataTypes=
+
       private
 
       # Integer attributes.
@@ -511,7 +531,7 @@ module Authlete
         :backchannelAuthReqIdDuration, :backchannelPollingInterval, :clientsPerDeveloper,
         :createdAt, :deviceFlowCodeDuration, :deviceFlowPollingInterval,
         :idTokenDuration, :modifiedAt, :number, :refreshTokenDuration,
-        :serviceOwnerNumber, :userCodeLength
+        :serviceOwnerNumber, :userCodeLength, :pushedAuthReqDuration
       ])
 
       # Boolean attributes.
@@ -537,7 +557,8 @@ module Authlete
         :idTokenSignatureKeyId, :introspectionEndpoint, :issuer, :jwks, :jwksUri,
         :policyUri, :registrationEndpoint, :registrationManagementEndpoint,
         :requestObjectEndpoint, :revocationEndpoint, :serviceDocumentation, :serviceName,
-        :tokenEndpoint, :tosUri, :userCodeCharset, :userInfoEndpoint, :userInfoSignatureKeyId
+        :tokenEndpoint, :tosUri, :userCodeCharset, :userInfoEndpoint, :userInfoSignatureKeyId,
+        :pushedAuthReqEndpoint
       ])
 
       # String array attributes.
@@ -546,7 +567,7 @@ module Authlete
         :supportedClaims, :supportedClaimTypes, :supportedDeveloperSnses,
         :supportedDisplays, :supportedGrantTypes, :supportedResponseTypes,
         :supportedServiceProfiles, :supportedSnses, :supportedTokenAuthMethods,
-        :supportedUiLocales, :trustedRootCertificates
+        :supportedUiLocales, :trustedRootCertificates, :supportedAuthorizationDataTypes
       ])
 
       # SNS credentials array attributes.
@@ -636,7 +657,11 @@ module Authlete
         :user_code_charset                            => :userCodeCharset,
         :user_code_length                             => :userCodeLength,
         :user_info_endpoint                           => :userInfoEndpoint,
-        :user_info_signature_key_id                   => :userInfoSignatureKeyId
+        :user_info_signature_key_id                   => :userInfoSignatureKeyId,
+        :mtls_endpoint_aliases                        => :mtlsEndpointAliases,
+        :pushed_auth_req_endpoint                     => :pushedAuthReqEndpoint,
+        :pushed_auth_req_duration                     => :pushedAuthReqDuration,
+        :supported_authorization_data_types           => :supportedAuthorizationDataTypes
       }
 
       # The constructor
@@ -667,8 +692,9 @@ module Authlete
         end
 
         # Set default values to special objects.
-        @metadata        = nil
-        @supportedScopes = nil
+        @metadata              = nil
+        @supportedScopes       = nil
+        @mtls_endpoint_aliases = nil
 
         # Set attribute values using the given hash.
         authlete_model_update(hash)
@@ -715,6 +741,10 @@ module Authlete
             @supportedScopes = get_parsed_array(value) do |element|
               Authlete::Model::Scope.parse(element)
             end
+          elsif key == :mtls_endpoint_aliases
+            @mtls_endpoint_aliases = get_parsed_array(value) do |element|
+              Authlete::Model::NamedUri.parse(element)
+            end
           end
         end
 
@@ -745,7 +775,8 @@ module Authlete
 
           if authlete_model_simple_attribute?(key) or val.nil?
             hash[key] = val
-          elsif key == :developerSnsCredentials or key == :snsCredentials or key == :supportedScopes or key == :metadata
+          elsif key == :developerSnsCredentials or key == :snsCredentials or
+                key == :supportedScopes or key == :metadata or key == :mtls_endpoint_aliases
             hash[key] = val.map { |element| element.to_hash }
           end
         end

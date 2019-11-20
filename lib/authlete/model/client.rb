@@ -332,6 +332,45 @@ module Authlete
       alias_method  :dynamically_registered,  :dynamicallyRegistered
       alias_method  :dynamically_registered=, :dynamicallyRegistered=
 
+      # The string representation of the expected email address subject
+      # alternative name of the certificate this client will use in mutual
+      # TLS authentication. (String)
+      attr_accessor :tlsClientAuthSanEmail
+      alias_method  :tls_client_auth_san_email,  :tlsClientAuthSanEmail
+      alias_method  :tls_client_auth_san_email=, :tlsClientAuthSanEmail=
+
+      # The string representation of the expected IP address subject alternative
+      # name of the certificate this client will use in mutual TLS authentication.
+      # (String)
+      attr_accessor :tlsClientAuthSanIp
+      alias_method  :tls_client_auth_san_ip,  :tlsClientAuthSanIp
+      alias_method  :tls_client_auth_san_ip=, :tlsClientAuthSanIp=
+
+      # The string representation of the expected URI subject alternative
+      # name of the certificate this client will use in mutual TLS authentication.
+      # (String)
+      attr_accessor :tlsClientAuthSanUri
+      alias_method  :tls_client_auth_san_uri,  :tlsClientAuthSanUri
+      alias_method  :tls_client_auth_san_uri=, :tlsClientAuthSanUri=
+
+      # The string representation of the expected DNS subject alternative
+      # name of the certificate this client will use in mutual TLS authentication.
+      # (String)
+      attr_accessor :tlsClientAuthSanDns
+      alias_method  :tls_client_auth_san_dns,  :tlsClientAuthSanDns
+      alias_method  :tls_client_auth_san_dns=, :tlsClientAuthSanDns=
+
+      # Sector identifier URI. (String)
+      attr_accessor :sectorIdentifierUri
+      alias_method  :sector_identifier_uri,  :sectorIdentifierUri
+      alias_method  :sector_identifier_uri=, :sectorIdentifierUri=
+
+      # The data types that this client may use as values of the +type+ field
+      # in +authorization_details+. (String array)
+      attr_accessor :authorizationDataTypes
+      alias_method  :authorization_data_types,  :authorizationDataTypes
+      alias_method  :authorization_data_types=, :authorizationDataTypes=
+
       private
 
       # Integer attributes.
@@ -355,12 +394,14 @@ module Authlete
         :tokenAuthMethod, :tokenAuthSignAlg, :loginUri, :description, :tlsClientAuthSubjectDn,
         :selfSignedCertificateKeyId, :authorizationSignAlg, :authorizationEncryptionAlg,
         :authorizationEncryptionEnc, :bcDeliveryMode, :bcNotificationEndpoint,
-        :bcRequestSignAlg
+        :bcRequestSignAlg, :tlsClientAuthSanEmail, :tlsClientAuthSanIp, :tlsClientAuthSanUri,
+        :tlsClientAuthSanDns, :sectorIdentifierUri
       ])
 
       # String array attributes.
       STRING_ARRAY_ATTRIBUTES = ::Set.new([
-        :redirectUris, :responseTypes, :grantTypes, :contacts, :defaultAcrs, :requestUris
+        :redirectUris, :responseTypes, :grantTypes, :contacts, :defaultAcrs,
+        :requestUris, :authorizationDataTypes
       ])
 
       # Tagged value array atributes.
@@ -421,7 +462,13 @@ module Authlete
         :bc_notification_endpoint                    => :bcNotificationEndpoint,
         :bc_request_sign_alg                         => :bcRequestSignAlg,
         :bc_user_code_required                       => :bcUserCodeRequired,
-        :dynamically_registered                      => :dynamicallyRegistered
+        :dynamically_registered                      => :dynamicallyRegistered,
+        :tls_client_auth_san_email                   => :tlsClientAuthSanEmail,
+        :tls_client_auth_san_ip                      => :tlsClientAuthSanIp,
+        :tls_client_auth_san_uri                     => :tlsClientAuthSanUri,
+        :tls_client_auth_san_dns                     => :tlsClientAuthSanDns,
+        :sector_identifier_uri                       => :sectorIdentifierUri,
+        :authorization_data_types                    => :authorizationDataTypes
       }
 
       # The constructor
