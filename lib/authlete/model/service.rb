@@ -513,6 +513,11 @@ module Authlete
       alias_method  :pushed_auth_req_endpoint,  :pushedAuthReqEndpoint
       alias_method  :pushed_auth_req_endpoint=, :pushedAuthReqEndpoint=
 
+      # Duration of pushed authorization requests. (Integer)
+      attr_accessor :pushedAuthReqDuration
+      alias_method  :pushed_auth_req_duration,  :pushedAuthReqDuration
+      alias_method  :pushed_auth_req_duration=, :pushedAuthReqDuration=
+
       # Supported data types for +authorization_details+. (String array)
       attr_accessor :supportedAuthorizationDataTypes
       alias_method  :supported_authorization_data_types,  :supportedAuthorizationDataTypes
@@ -526,7 +531,7 @@ module Authlete
         :backchannelAuthReqIdDuration, :backchannelPollingInterval, :clientsPerDeveloper,
         :createdAt, :deviceFlowCodeDuration, :deviceFlowPollingInterval,
         :idTokenDuration, :modifiedAt, :number, :refreshTokenDuration,
-        :serviceOwnerNumber, :userCodeLength
+        :serviceOwnerNumber, :userCodeLength, :pushedAuthReqDuration
       ])
 
       # Boolean attributes.
@@ -655,6 +660,7 @@ module Authlete
         :user_info_signature_key_id                   => :userInfoSignatureKeyId,
         :mtls_endpoint_aliases                        => :mtlsEndpointAliases,
         :pushed_auth_req_endpoint                     => :pushedAuthReqEndpoint,
+        :pushed_auth_req_duration                     => :pushedAuthReqDuration,
         :supported_authorization_data_types           => :supportedAuthorizationDataTypes
       }
 

@@ -71,7 +71,7 @@ module Authlete
       # Construct an instance from the given hash.
       #
       # If the given argument is nil or is not a Hash, nil is returned.
-      # Otherwise, Pair.new(hash) is returned.
+      # Otherwise, NamedUri.new(hash) is returned.
       def self.parse(hash)
         if hash.nil? or (hash.kind_of?(Hash) == false)
           return nil
