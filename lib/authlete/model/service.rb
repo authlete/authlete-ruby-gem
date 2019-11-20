@@ -692,9 +692,9 @@ module Authlete
         end
 
         # Set default values to special objects.
-        @metadata              = nil
-        @supportedScopes       = nil
-        @mtls_endpoint_aliases = nil
+        @metadata            = nil
+        @supportedScopes     = nil
+        @mtlsEndpointAliases = nil
 
         # Set attribute values using the given hash.
         authlete_model_update(hash)
@@ -742,7 +742,7 @@ module Authlete
               Authlete::Model::Scope.parse(element)
             end
           elsif key == :mtlsEndpointAliases
-            @mtls_endpoint_aliases = get_parsed_array(value) do |element|
+            @mtlsEndpointAliases = get_parsed_array(value) do |element|
               Authlete::Model::NamedUri.parse(element)
             end
           end
