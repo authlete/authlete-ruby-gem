@@ -360,7 +360,7 @@ module Authlete
       alias_method  :tls_client_auth_san_dns,  :tlsClientAuthSanDns
       alias_method  :tls_client_auth_san_dns=, :tlsClientAuthSanDns=
 
-      # Sector identifier. (String)
+      # Sector identifier URI. (String)
       attr_accessor :sectorIdentifierUri
       alias_method  :sector_identifier_uri,  :sectorIdentifierUri
       alias_method  :sector_identifier_uri=, :sectorIdentifierUri=
