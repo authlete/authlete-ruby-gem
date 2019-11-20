@@ -22,7 +22,7 @@ module Authlete
   module Model
     class NamedUri < Authlete::Model::Hashable
       include Authlete::Utility
-      # The name of the URI.. (String)
+      # The name of the URI. (String)
       attr_accessor :name
 
       # The value of the URI. (String)
