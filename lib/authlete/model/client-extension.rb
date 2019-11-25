@@ -22,7 +22,6 @@ module Authlete
   module Model
     class ClientExtension < Authlete::Model::Hashable
       include Authlete::Utility
-
       # The set of scopes that a client application is allowed to request.
       # (String array)
       attr_accessor :requestableScopes
