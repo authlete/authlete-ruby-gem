@@ -36,7 +36,24 @@ module Authlete
       alias_method  :requestable_scopes_enabled, :requestableScopesEnabled
       alias_method  :requestable_scopes_enabled=, :requestableScopesEnabled=
 
+      # The duration of access tokens in seconds that are issued to a client.
+      # (Integer)
+      attr_accessor :accessTokenDuration
+      alias_method  :access_token_duration,  :accessTokenDuration
+      alias_method  :access_token_duration=, :accessTokenDuration=
+
+      # The duration of refresh tokens in seconds that are issued to a client.
+      # (Integer)
+      attr_accessor :refreshTokenDuration
+      alias_method  :refresh_token_duration,  :refreshTokenDuration
+      alias_method  :refresh_token_duration=, :refreshTokenDuration=
+
       private
+
+      # Integer attributes.
+      INTEGER_ATTRIBUTES = ::Set.new([
+        :accessTokenDuration, :refreshTokenDuration
+      ])
 
       # Boolean attributes.
       BOOLEAN_ATTRIBUTES = ::Set.new([
@@ -51,11 +68,18 @@ module Authlete
       # Mapping from snake cases to camel cases.
       SNAKE_TO_CAMEL = {
         :requestable_scopes         => :requestableScopes,
-        :requestable_scopes_enabled => :requestableScopesEnabled
+        :requestable_scopes_enabled => :requestableScopesEnabled,
+        :access_token_duration      => :accessTokenDuration,
+        :refresh_token_duration     => :refreshTokenDuration
       }
 
       # The constructor
       def initialize(hash = nil)
+        # Set default values to integer attributes.
+        INTEGER_ATTRIBUTES.each do |attr|
+          send("#{attr}=", 0)
+        end
+
         # Set default values to boolean attributes.
         BOOLEAN_ATTRIBUTES.each do |attr|
           send("#{attr}=", false)
@@ -82,6 +106,7 @@ module Authlete
       end
 
       def authlete_model_simple_attribute?(key)
+        INTEGER_ATTRIBUTES.include?(key) or
         BOOLEAN_ATTRIBUTES.include?(key) or
         STRING_ARRAY_ATTRIBUTES.include?(key)
       end
