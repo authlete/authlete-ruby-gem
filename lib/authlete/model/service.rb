@@ -523,6 +523,41 @@ module Authlete
       alias_method  :supported_authorization_data_types,  :supportedAuthorizationDataTypes
       alias_method  :supported_authorization_data_types=, :supportedAuthorizationDataTypes=
 
+      # Trust frameworks supported by this service. (String array)
+      # This corresponds to the +trust_frameworks_supported+ in OpenID Connect
+      # for Identity Assurance 1.0.
+      attr_accessor :supportedTrustFrameworks
+      alias_method  :supported_trust_frameworks,  :supportedTrustFrameworks
+      alias_method  :supported_trust_frameworks=, :supportedTrustFrameworks=
+
+      # Evidence supported by this service. (String array)
+      # This corresponds to the +evidence_supported+ in OpenID Connect for
+      # Identity Assurance 1.0.
+      attr_accessor :supportedEvidence
+      alias_method  :supported_evidence,  :supportedEvidence
+      alias_method  :supported_evidence=, :supportedEvidence=
+
+      # Identity documents supported by this service. (String array)
+      # This corresponds to the +id_documents_supported+ in OpenID Connect
+      # for Identity Assurance 1.0.
+      attr_accessor :supportedIdentityDocuments
+      alias_method  :supported_identity_documents,  :supportedIdentityDocuments
+      alias_method  :supported_identity_documents=, :supportedIdentityDocuments=
+
+      # Verification methods supported by this service. (String array)
+      # This corresponds to the +id_documents_verification_methods_supported+ in
+      # OpenID Connect for Identity Assurance 1.0.
+      attr_accessor :supportedVerificationMethods
+      alias_method  :supported_verification_methods,  :supportedVerificationMethods
+      alias_method  :supported_verification_methods=, :supportedVerificationMethods=
+
+      # Verified claims supported by this service. (String array)
+      # This corresponds to the +claims_in_verified_claims_supported+ in
+      # OpenID Connect for Identity Assurance 1.0.
+      attr_accessor :supportedVerifiedClaims
+      alias_method  :supported_verified_claims,  :supportedVerifiedClaims
+      alias_method  :supported_verified_claims=, :supportedVerifiedClaims=
+
       private
 
       # Integer attributes.
@@ -567,7 +602,9 @@ module Authlete
         :supportedClaims, :supportedClaimTypes, :supportedDeveloperSnses,
         :supportedDisplays, :supportedGrantTypes, :supportedResponseTypes,
         :supportedServiceProfiles, :supportedSnses, :supportedTokenAuthMethods,
-        :supportedUiLocales, :trustedRootCertificates, :supportedAuthorizationDataTypes
+        :supportedUiLocales, :trustedRootCertificates, :supportedAuthorizationDataTypes,
+        :supportedTrustFrameworks, :supportedEvidence, :supportedIdentityDocuments,
+        :supportedVerificationMethods, :supportedVerifiedClaims
       ])
 
       # SNS credentials array attributes.
@@ -661,7 +698,12 @@ module Authlete
         :mtls_endpoint_aliases                        => :mtlsEndpointAliases,
         :pushed_auth_req_endpoint                     => :pushedAuthReqEndpoint,
         :pushed_auth_req_duration                     => :pushedAuthReqDuration,
-        :supported_authorization_data_types           => :supportedAuthorizationDataTypes
+        :supported_authorization_data_types           => :supportedAuthorizationDataTypes,
+        :supported_trust_frameworks                   => :supportedTrustFrameworks,
+        :supported_evidence                           => :supportedEvidence,
+        :supported_identity_documents                 => :supportedIdentityDocuments,
+        :supported_verification_methods               => :supportedVerificationMethods,
+        :supported_verified_claims                    => :supportedVerifiedClaims
       }
 
       # The constructor
