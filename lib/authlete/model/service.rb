@@ -558,6 +558,12 @@ module Authlete
       alias_method  :supported_verified_claims,  :supportedVerifiedClaims
       alias_method  :supported_verified_claims=, :supportedVerifiedClaims=
 
+      # Flag of whether this service allows token requests without client ID
+      # from public clients or not. (Boolean)
+      attr_accessor :missingClientIdAllowed
+      alias_method  :missing_client_id_allowed,  :missingClientIdAllowed
+      alias_method  :missing_client_id_allowed=, :missingClientIdAllowed=
+
       private
 
       # Integer attributes.
@@ -578,7 +584,7 @@ module Authlete
         :directUserInfoEndpointEnabled, :errorDescriptionOmitted, :errorUriOmitted,
         :mutualTlsValidatePkiCertChain, :pkceRequired, :pkceS256Required, :refreshTokenKept,
         :singleAccessTokenPerSubject, :tlsClientCertificateBoundAccessTokens,
-        :dynamicRegistrationSupported
+        :dynamicRegistrationSupported, :missingClientIdAllowed
       ])
 
       # String attributes.
@@ -703,7 +709,8 @@ module Authlete
         :supported_evidence                           => :supportedEvidence,
         :supported_identity_documents                 => :supportedIdentityDocuments,
         :supported_verification_methods               => :supportedVerificationMethods,
-        :supported_verified_claims                    => :supportedVerifiedClaims
+        :supported_verified_claims                    => :supportedVerifiedClaims,
+        :missing_client_id_allowed                    => :missingClientIdAllowed
       }
 
       # The constructor
