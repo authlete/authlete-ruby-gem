@@ -371,6 +371,12 @@ module Authlete
       alias_method  :authorization_data_types,  :authorizationDataTypes
       alias_method  :authorization_data_types=, :authorizationDataTypes=
 
+      # Flag of whether this client is required to use the pushed authorization
+      # request endpoint. (Boolean)
+      attr_accessor :parRequired
+      alias_method  :par_required,  :parRequired
+      alias_method  :par_required=, :parRequired=
+
       private
 
       # Integer attributes.
@@ -381,7 +387,7 @@ module Authlete
       # Boolean attributes.
       BOOLEAN_ATTRIBUTES = ::Set.new([
         :authTimeRequired, :clientIdAliasEnabled, :tlsClientCertificateBoundAccessTokens,
-        :bcUserCodeRequired, :dynamicallyRegistered
+        :bcUserCodeRequired, :dynamicallyRegistered, :parRequired
       ])
 
       # String attributes.
@@ -411,64 +417,65 @@ module Authlete
 
       # Mapping from snake cases to camel cases.
       SNAKE_TO_CAMEL = {
-        :service_number                              => :serviceNumber,
-        :client_id                                   => :clientId,
-        :client_id_alias                             => :clientIdAlias,
-        :client_id_alias_enabled                     => :clientIdAliasEnabled,
-        :client_secret                               => :clientSecret,
-        :client_type                                 => :clientType,
-        :redirect_uris                               => :redirectUris,
-        :response_types                              => :responseTypes,
-        :grant_types                                 => :grantTypes,
-        :application_type                            => :applicationType,
-        :client_name                                 => :clientName,
-        :client_names                                => :clientNames,
-        :logo_uri                                    => :logoUri,
-        :logo_uris                                   => :logoUris,
-        :client_uri                                  => :clientUri,
-        :client_uris                                 => :clientUris,
-        :policy_uri                                  => :policyUri,
-        :policy_uris                                 => :policyUris,
-        :tos_uri                                     => :tosUri,
-        :tos_uris                                    => :tosUris,
-        :jwks_uri                                    => :jwksUri,
-        :sector_identifier                           => :sectorIdentifier,
-        :subject_type                                => :subjectType,
-        :id_token_sign_alg                           => :idTokenSignAlg,
-        :id_token_encryption_alg                     => :idTokenEncryptionAlg,
-        :id_token_encryption_enc                     => :idTokenEncryptionEnc,
-        :user_info_sign_alg                          => :userInfoSignAlg,
-        :user_info_encryption_alg                    => :userInfoEncryptionAlg,
-        :user_info_encryption_enc                    => :userInfoEncryptionEnc,
-        :request_sign_alg                            => :requestSignAlg,
-        :request_encryption_alg                      => :requestEncryptionAlg,
-        :request_encryption_enc                      => :requestEncryptionEnc,
-        :token_auth_method                           => :tokenAuthMethod,
-        :token_auth_sign_alg                         => :tokenAuthSignAlg,
-        :default_max_age                             => :defaultMaxAge,
-        :default_acrs                                => :defaultAcrs,
-        :auth_time_required                          => :authTimeRequired,
-        :login_uri                                   => :loginUri,
-        :request_uris                                => :requestUris,
-        :created_at                                  => :createdAt,
-        :modified_at                                 => :modifiedAt,
-        :tls_client_auth_subject_dn                  => :tlsClientAuthSubjectDn,
-        :tls_client_certificate_bound_access_tokens  => :tlsClientCertificateBoundAccessTokens,
-        :self_signed_certificate_key_id              => :selfSignedCertificateKeyId,
-        :authorization_sign_alg                      => :authorizationSignAlg,
-        :authorization_encryption_alg                => :authorizationEncryptionAlg,
-        :authorization_encryption_enc                => :authorizationEncryptionEnc,
-        :bc_delivery_mode                            => :bcDeliveryMode,
-        :bc_notification_endpoint                    => :bcNotificationEndpoint,
-        :bc_request_sign_alg                         => :bcRequestSignAlg,
-        :bc_user_code_required                       => :bcUserCodeRequired,
-        :dynamically_registered                      => :dynamicallyRegistered,
-        :tls_client_auth_san_email                   => :tlsClientAuthSanEmail,
-        :tls_client_auth_san_ip                      => :tlsClientAuthSanIp,
-        :tls_client_auth_san_uri                     => :tlsClientAuthSanUri,
-        :tls_client_auth_san_dns                     => :tlsClientAuthSanDns,
-        :sector_identifier_uri                       => :sectorIdentifierUri,
-        :authorization_data_types                    => :authorizationDataTypes
+        :service_number                             => :serviceNumber,
+        :client_id                                  => :clientId,
+        :client_id_alias                            => :clientIdAlias,
+        :client_id_alias_enabled                    => :clientIdAliasEnabled,
+        :client_secret                              => :clientSecret,
+        :client_type                                => :clientType,
+        :redirect_uris                              => :redirectUris,
+        :response_types                             => :responseTypes,
+        :grant_types                                => :grantTypes,
+        :application_type                           => :applicationType,
+        :client_name                                => :clientName,
+        :client_names                               => :clientNames,
+        :logo_uri                                   => :logoUri,
+        :logo_uris                                  => :logoUris,
+        :client_uri                                 => :clientUri,
+        :client_uris                                => :clientUris,
+        :policy_uri                                 => :policyUri,
+        :policy_uris                                => :policyUris,
+        :tos_uri                                    => :tosUri,
+        :tos_uris                                   => :tosUris,
+        :jwks_uri                                   => :jwksUri,
+        :sector_identifier                          => :sectorIdentifier,
+        :subject_type                               => :subjectType,
+        :id_token_sign_alg                          => :idTokenSignAlg,
+        :id_token_encryption_alg                    => :idTokenEncryptionAlg,
+        :id_token_encryption_enc                    => :idTokenEncryptionEnc,
+        :user_info_sign_alg                         => :userInfoSignAlg,
+        :user_info_encryption_alg                   => :userInfoEncryptionAlg,
+        :user_info_encryption_enc                   => :userInfoEncryptionEnc,
+        :request_sign_alg                           => :requestSignAlg,
+        :request_encryption_alg                     => :requestEncryptionAlg,
+        :request_encryption_enc                     => :requestEncryptionEnc,
+        :token_auth_method                          => :tokenAuthMethod,
+        :token_auth_sign_alg                        => :tokenAuthSignAlg,
+        :default_max_age                            => :defaultMaxAge,
+        :default_acrs                               => :defaultAcrs,
+        :auth_time_required                         => :authTimeRequired,
+        :login_uri                                  => :loginUri,
+        :request_uris                               => :requestUris,
+        :created_at                                 => :createdAt,
+        :modified_at                                => :modifiedAt,
+        :tls_client_auth_subject_dn                 => :tlsClientAuthSubjectDn,
+        :tls_client_certificate_bound_access_tokens => :tlsClientCertificateBoundAccessTokens,
+        :self_signed_certificate_key_id             => :selfSignedCertificateKeyId,
+        :authorization_sign_alg                     => :authorizationSignAlg,
+        :authorization_encryption_alg               => :authorizationEncryptionAlg,
+        :authorization_encryption_enc               => :authorizationEncryptionEnc,
+        :bc_delivery_mode                           => :bcDeliveryMode,
+        :bc_notification_endpoint                   => :bcNotificationEndpoint,
+        :bc_request_sign_alg                        => :bcRequestSignAlg,
+        :bc_user_code_required                      => :bcUserCodeRequired,
+        :dynamically_registered                     => :dynamicallyRegistered,
+        :tls_client_auth_san_email                  => :tlsClientAuthSanEmail,
+        :tls_client_auth_san_ip                     => :tlsClientAuthSanIp,
+        :tls_client_auth_san_uri                    => :tlsClientAuthSanUri,
+        :tls_client_auth_san_dns                    => :tlsClientAuthSanDns,
+        :sector_identifier_uri                      => :sectorIdentifierUri,
+        :authorization_data_types                   => :authorizationDataTypes,
+        :par_required                               => :parRequired
       }
 
       # The constructor
