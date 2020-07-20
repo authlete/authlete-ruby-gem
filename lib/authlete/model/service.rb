@@ -564,6 +564,18 @@ module Authlete
       alias_method  :missing_client_id_allowed,  :missingClientIdAllowed
       alias_method  :missing_client_id_allowed=, :missingClientIdAllowed=
 
+      # Flag of whether the remaining duration of the used refresh token is
+      # taken over to the newly issued refresh token. (Boolean)
+      attr_accessor :refreshTokenDurationKept
+      alias_method  :refresh_token_duration_kept,  :refreshTokenDurationKept
+      alias_method  :refresh_token_duration_kept=, :refreshTokenDurationKept=
+
+      # Flag of whether this service requires that clients use the pushed
+      # authorization request endpoint. (Boolean)
+      attr_accessor :parRequired
+      alias_method  :par_required,  :parRequired
+      alias_method  :par_required=, :parRequired=
+
       private
 
       # Integer attributes.
@@ -584,7 +596,8 @@ module Authlete
         :directUserInfoEndpointEnabled, :errorDescriptionOmitted, :errorUriOmitted,
         :mutualTlsValidatePkiCertChain, :pkceRequired, :pkceS256Required, :refreshTokenKept,
         :singleAccessTokenPerSubject, :tlsClientCertificateBoundAccessTokens,
-        :dynamicRegistrationSupported, :missingClientIdAllowed
+        :dynamicRegistrationSupported, :missingClientIdAllowed, :refreshTokenDurationKept,
+        :parRequired
       ])
 
       # String attributes.
@@ -710,7 +723,9 @@ module Authlete
         :supported_identity_documents                 => :supportedIdentityDocuments,
         :supported_verification_methods               => :supportedVerificationMethods,
         :supported_verified_claims                    => :supportedVerifiedClaims,
-        :missing_client_id_allowed                    => :missingClientIdAllowed
+        :missing_client_id_allowed                    => :missingClientIdAllowed,
+        :refresh_token_duration_kept                  => :refreshTokenDurationKept,
+        :par_required                                 => :parRequired
       }
 
       # The constructor
