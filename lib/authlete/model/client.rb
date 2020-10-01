@@ -377,6 +377,12 @@ module Authlete
       alias_method  :par_required,  :parRequired
       alias_method  :par_required=, :parRequired=
 
+      # Flag of whether authorization requests from this client must always
+      # contain a request object. (Boolean)
+      attr_accessor :requestObjectRequired
+      alias_method  :request_object_required,  :requestObjectRequired
+      alias_method  :request_object_required=, :requestObjectRequired=
+
       private
 
       # Integer attributes.
@@ -387,7 +393,7 @@ module Authlete
       # Boolean attributes.
       BOOLEAN_ATTRIBUTES = ::Set.new([
         :authTimeRequired, :clientIdAliasEnabled, :tlsClientCertificateBoundAccessTokens,
-        :bcUserCodeRequired, :dynamicallyRegistered, :parRequired
+        :bcUserCodeRequired, :dynamicallyRegistered, :parRequired, :requestObjectRequired
       ])
 
       # String attributes.
@@ -475,7 +481,8 @@ module Authlete
         :tls_client_auth_san_dns                    => :tlsClientAuthSanDns,
         :sector_identifier_uri                      => :sectorIdentifierUri,
         :authorization_data_types                   => :authorizationDataTypes,
-        :par_required                               => :parRequired
+        :par_required                               => :parRequired,
+        :request_object_required                    => :requestObjectRequired
       }
 
       # The constructor
