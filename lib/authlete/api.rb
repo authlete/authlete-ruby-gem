@@ -90,12 +90,14 @@ module Authlete
     def execute(parameters)
       begin
         return RestClient::Request.new(parameters).execute
+      rescue RestClient::Exception => e
+        raise on_rest_client_exception(e)
       rescue => e
-        raise create_api_exception(e)
+        raise on_general_exception(e)
       end
     end
 
-    def create_api_exception(exception)
+    def on_rest_client_exception(exception)
       message  = exception.message
       response = exception.response
 
@@ -144,6 +146,10 @@ module Authlete
       body = response.body.to_s
 
       body.length == 0 ? nil : body
+    end
+
+    def on_general_exception(exception)
+      Authlete::Exception.new(:message => exception.message)
     end
 
     def call_api_service_owner(method, path, content_type, payload)
