@@ -588,6 +588,19 @@ module Authlete
       alias_method  :traditional_request_object_processing_applied,  :traditionalRequestObjectProcessingApplied
       alias_method  :traditional_request_object_processing_applied=, :traditionalRequestObjectProcessingApplied=
 
+      # Flag of whether claims specified by shortcut scopes (e.g. profile)
+      # are included in the issued ID token only when no access token is issued.
+      # (Boolean)
+      attr_accessor :claimShortcutRestrictive
+      alias_method  :claim_shortcut_restrictive,  :claimShortcutRestrictive
+      alias_method  :claim_shortcut_restrictive=, :claimShortcutRestrictive=
+
+      # Flag of whether requests that request no scope are rejected or not.
+      # (Boolean)
+      attr_accessor :scopeRequired
+      alias_method  :scope_required,  :scopeRequired
+      alias_method  :scope_required=, :scopeRequired=
+
       private
 
       # Integer attributes.
@@ -602,14 +615,14 @@ module Authlete
       # Boolean attributes.
       BOOLEAN_ATTRIBUTES = ::Set.new([
         :backchannelBindingMessageRequiredInFapi, :backchannelUserCodeParameterSupported,
-        :clientIdAliasEnabled,
+        :claimShortcutRestrictive, :clientIdAliasEnabled,
         :directAuthorizationEndpointEnabled, :directIntrospectionEndpointEnabled,
         :directJwksEndpointEnabled, :directRevocationEndpointEnabled, :directTokenEndpointEnabled,
         :directUserInfoEndpointEnabled, :errorDescriptionOmitted, :errorUriOmitted,
         :mutualTlsValidatePkiCertChain, :pkceRequired, :pkceS256Required, :refreshTokenKept,
         :singleAccessTokenPerSubject, :tlsClientCertificateBoundAccessTokens,
         :dynamicRegistrationSupported, :missingClientIdAllowed, :refreshTokenDurationKept,
-        :parRequired, :requestObjectRequired, :traditionalRequestObjectProcessingApplied
+        :parRequired, :requestObjectRequired, :scopeRequired, :traditionalRequestObjectProcessingApplied
       ])
 
       # String attributes.
@@ -739,7 +752,9 @@ module Authlete
         :refresh_token_duration_kept                   => :refreshTokenDurationKept,
         :par_required                                  => :parRequired,
         :request_object_required                       => :requestObjectRequired,
-        :traditional_request_object_processing_applied => :traditionalRequestObjectProcessingApplied
+        :traditional_request_object_processing_applied => :traditionalRequestObjectProcessingApplied,
+        :claim_shortcut_restrictive                    => :claimShortcutRestrictive,
+        :scope_required                                => :scopeRequired
       }
 
       # The constructor
