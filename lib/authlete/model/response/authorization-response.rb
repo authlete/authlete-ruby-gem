@@ -1,6 +1,6 @@
 # :nodoc:
 #
-# Copyright (C) 2014-2018 Authlete, Inc.
+# Copyright (C) 2014-2020 Authlete, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -40,12 +40,18 @@ module Authlete
         # (String)
         attr_accessor :action
 
-        # The list of preferred languages and scripts for claim
-        # values contained in the ID token. The value comes from
-        # "claims_locales" request parameter. (String array)
+        # NOTE: Deprecated
         attr_accessor :claimLocales
         alias_method  :claim_locales,  :claimLocales
         alias_method  :claim_locales=, :claimLocales=
+
+        # The list of preferred languages and scripts for claim
+        # values contained in the ID token. The value comes from
+        # "claims_locales" request parameter.
+        # (String array)
+        attr_accessor :claimsLocales
+        alias_method  :claims_locales,  :claimsLocales
+        alias_method  :claims_locales=, :claimsLocales=
 
         # The list of claims that the client application requests
         # to be embedded in the ID token. The value comes from
@@ -59,7 +65,7 @@ module Authlete
 
         # "true" if the value of the client_id request parameter included in
         # the authorization request is the client ID alias. "false" if the
-        # value is the original numeric client ID.. (Boolean)
+        # value is the original numeric client ID. (Boolean)
         attr_accessor :clientIdAliasUsed
         alias_method  :client_id_alias_used,  :clientIdAliasUsed
         alias_method  :client_id_alias_used=, :clientIdAliasUsed=
@@ -70,6 +76,13 @@ module Authlete
         # this method returns "PAGE" as the default value.
         # (String)
         attr_accessor :display
+
+        # The value of the "id_token" property in the "claims" request
+        # parameter or in the "claims" property in a request object.
+        # (String in JSON format)
+        attr_accessor :idTokenClaims
+        alias_method  :id_token_claims,  :idTokenClaims
+        alias_method  :id_token_claims=, :idTokenClaims=
 
         # The value of login hint, which is specified by the client
         # application using "login_hint" request parameter.
@@ -83,6 +96,8 @@ module Authlete
         # When the authorization request does not contain "prompt"
         # parameter, this method returns "CONSENT CONSENT" as
         # the default value. (String)
+        #
+        # NOTE: Deprecated
         attr_accessor :lowestPrompt
         alias_method  :lowest_prompt,  :lowestPrompt
         alias_method  :lowest_prompt=, :lowestPrompt=
@@ -100,8 +115,25 @@ module Authlete
         alias_method  :max_age=, :maxAge=
 
         # The list of values of prompt request parameter. Possible element
-        # values are "CONSENT", "LOGIN", "SELECT_ACCOUNT" and "NONE". (String array)
+        # values are "CONSENT", "LOGIN", "SELECT_ACCOUNT" and "NONE".
+        # (String array)
         attr_accessor :prompts
+
+        # The value of the "purpose" request parameter. The parameter is
+        # defined in OpenID Connect for Identity Assurance 1.0.
+        attr_accessor :purpose
+
+        # The payload part of the request object.
+        # (String in JSON format)
+        attr_accessor :requestObjectPayload
+        alias_method  :request_object_payload,  :requestObjectPayload
+        alias_method  :request_object_payload=, :requestObjectPayload=
+
+        # The resources specified by the "resource" request parameters or
+        # by the "resource" property in the request object. If both are
+        # given, the value in the request object takes precedence.
+        # (URI array)
+        attr_accessor :resources
 
         # The response content which can be used to generate a response
         # to the client application. The format of the value varies
@@ -144,6 +176,13 @@ module Authlete
         alias_method  :ui_locales,  :uiLocales
         alias_method  :ui_locales=, :uiLocales=
 
+        # The value of the "userinfo" property in the "claims" request
+        # parameter or in the "claims" property in the request object.
+        # (String in JSON format)
+        attr_accessor :userInfoClaims
+        alias_method  :user_info_claims,  :userInfoClaims
+        alias_method  :user_info_claims=, :userInfoClaims=
+
         private
 
         # The constructor which takes a hash that represents a JSON response
@@ -151,26 +190,32 @@ module Authlete
         def initialize(hash = {})
           super(hash)
 
-          @acrEssential      = extract_value(hash, :acrEssential)
-          @acrs              = extract_value(hash, :acrs)
-          @action            = extract_value(hash, :action)
-          @claimLocales      = extract_value(hash, :claimLocales)
-          @claims            = extract_value(hash, :claims)
-          @client            = Authlete::Model::Client.new(extract_value(hash, :client))
-          @clientIdAliasUsed = extract_boolean_value(hash, :clientIdAliasUsed)
-          @display           = extract_value(hash, :display)
-          @loginHint         = extract_value(hash, :loginHint)
-          @lowestPrompt      = extract_value(hash, :lowestPrompt)
-          @maxAge            = extract_integer_value(hash, :maxAge)
-          @prompts           = extract_value(hash, :prompts)
-          @responseContent   = extract_value(hash, :responseContent)
-          @service           = Authlete::Model::Service.new(extract_value(hash, :service))
-          @scopes            = extract_array_value(hash, :scopes) do |element|
+          @acrEssential         = extract_value(hash, :acrEssential)
+          @acrs                 = extract_value(hash, :acrs)
+          @action               = extract_value(hash, :action)
+          @claimLocales         = extract_value(hash, :claimLocales)
+          @claimsLocales        = extract_value(hash, :claimsLocales)
+          @claims               = extract_value(hash, :claims)
+          @client               = Authlete::Model::Client.new(extract_value(hash, :client))
+          @clientIdAliasUsed    = extract_boolean_value(hash, :clientIdAliasUsed)
+          @display              = extract_value(hash, :display)
+          @idTokenClaims        = extract_value(hash, :idTokenClaims)
+          @loginHint            = extract_value(hash, :loginHint)
+          @lowestPrompt         = extract_value(hash, :lowestPrompt)
+          @maxAge               = extract_integer_value(hash, :maxAge)
+          @prompts              = extract_value(hash, :prompts)
+          @purpose              = extract_value(hash, :purpose)
+          @requestObjectPayload = extract_value(hash, :requestObjectPayload)
+          @resources            = extract_value(hash, :resources)
+          @responseContent      = extract_value(hash, :responseContent)
+          @service              = Authlete::Model::Service.new(extract_value(hash, :service))
+          @scopes               = extract_array_value(hash, :scopes) do |element|
             Authlete::Model::Scope.parse(element)
           end
-          @subject           = extract_value(hash, :subject)
-          @ticket            = extract_value(hash, :ticket)
-          @uiLocales         = extract_value(hash, :uiLocales)
+          @subject              = extract_value(hash, :subject)
+          @ticket               = extract_value(hash, :ticket)
+          @uiLocales            = extract_value(hash, :uiLocales)
+          @userInfoClaims       = extract_value(hash, :userInfoClaims)
         end
       end
     end
