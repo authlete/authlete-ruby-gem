@@ -6,8 +6,8 @@ require 'authlete/version'
 Gem::Specification.new do |spec|
   spec.name          = "authlete"
   spec.version       = Authlete::VERSION
-  spec.authors       = ["Takahiko Kawasaki"]
-  spec.email         = ["taka@authlete.com"]
+  spec.authors       = ["Takahiko Kawasaki", "Hideki Ikeda"]
+  spec.email         = ["admin@authlete.com"]
   spec.summary       = "A library for Authlete Web APIs"
   spec.description   = "A library for Authlete Web APIs. See https://docs.authlete.com/ for details."
   spec.homepage      = "https://www.authlete.com/"
