@@ -1,6 +1,6 @@
 # :nodoc:
 #
-# Copyright (C) 2014-2018 Authlete, Inc.
+# Copyright (C) 2014-2020 Authlete, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -17,33 +17,6 @@
 
 module Authlete
   module Utility
-    def extract_value(hash, key)
-      if hash.has_key?(key)
-        hash[key]
-      else
-        hash[key.to_s]
-      end
-    end
-
-    def extract_integer_value(hash, key)
-      extract_value(hash, key).to_i
-    end
-
-    def extract_boolean_value(hash, key)
-      value = extract_value(hash, key)
-      (value == true || value == 'true')
-    end
-
-    def extract_array_value(hash, key)
-      array = extract_value(hash, key)
-
-      # Parse each of the elements in the array.
-      # Then, put them into an array.
-      get_parsed_array(array) do |element|
-        yield(element)
-      end
-    end
-
     # Extract an access token (RFC 6750)
     def extract_access_token(request)
       header = request.env['HTTP_AUTHORIZATION']
@@ -56,9 +29,7 @@ module Authlete
     end
 
     def get_parsed_array(array)
-      if array.nil? or (array.kind_of?(Array) == false) or (array.empty?)
-        return nil
-      end
+      return nil if !array.kind_of?(Array) or array.empty?
 
       elements = []
 

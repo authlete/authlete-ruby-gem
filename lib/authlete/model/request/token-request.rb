@@ -1,6 +1,6 @@
 # :nodoc:
 #
-# Copyright (C) 2014-2018 Authlete, Inc.
+# Copyright (C) 2014-2020 Authlete, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -15,112 +15,75 @@
 # limitations under the License.
 
 
-require 'set'
-
-
 module Authlete
   module Model
     module Request
-      # == Authlete::Model::Request::TokenRequest class
-      #
-      # This class represents a request to Authlete's /api/auth/token API.
-      class TokenRequest < Authlete::Model::Hashable
-        # OAuth 2.0 token request parameters. (String)
+      class TokenRequest < Authlete::Model::Request::Base
+        include Authlete::Utility
+
         attr_accessor :parameters
 
-        # Client ID. (String)
         attr_accessor :clientId
         alias_method  :client_id,  :clientId
         alias_method  :client_id=, :clientId=
 
-        # Client Secret. (String)
         attr_accessor :clientSecret
         alias_method  :client_secret,  :clientSecret
         alias_method  :client_secret=, :clientSecret=
 
-        # Extra properties to associate with an access token. (String)
         attr_accessor :properties
+
+        attr_accessor :clientCertificate
+        alias_method  :client_certificate,  :clientCertificate
+        alias_method  :client_certificate=, :clientCertificate=
+
+        attr_accessor :clientCertificatePath
+        alias_method  :client_certificate_path, :clientCertificatePath
+        alias_method  :client_certificate_path=, :clientCertificatePath=
+
+        attr_accessor :dpop
+
+        attr_accessor :htu
+
+        attr_accessor :htm
 
         private
 
-        # String attributes.
-        STRING_ATTRIBUTES = ::Set.new([ :parameters, :clientId, :clientSecret, :properties ])
-
-        # Mapping from snake cases to camel cases.
-        SNAKE_TO_CAMEL = {
-          :client_id     => :clientId,
-          :client_secret => :clientSecret
-        }
-
-        # The constructor which takes a hash that represents a JSON request
-        # to Authlete's /api/auth/token API.
-        def initialize(hash = nil)
-          # Set default values to string attributes.
-          STRING_ATTRIBUTES.each do |attr|
-            send("#{attr}=", nil)
-          end
-
-          # Set attribute values using the given hash.
-          authlete_model_update(hash)
+        def defaults
+          {
+            parameters:            nil,
+            clientId:              nil,
+            clientSecret:          nil,
+            properties:            nil,
+            clientCertificate:     nil,
+            clientCertificatePath: nil,
+            dpop:                  nil,
+            htu:                   nil,
+            htm:                   nil
+          }
         end
 
-        def authlete_model_convert_key(key)
-          key = key.to_sym
-
-          # Convert snakecase to camelcase, if necessary.
-          if SNAKE_TO_CAMEL.has_key?(key)
-            key = SNAKE_TO_CAMEL[key]
-          end
-
-          key
+        def set_params(hash)
+          @parameters            = hash[:parameters]
+          @clientId              = hash[:clientId]
+          @clientSecret          = hash[:clientSecret]
+          @properties            = get_parsed_array(hash[:properties]) { |e| Authlete::Model::Property.parse(e) }
+          @clientCertificate     = hash[:clientCertificate]
+          @clientCertificatePath = hash[:clientCertificatePath]
+          @dpop                  = hash[:dpop]
+          @htu                   = hash[:htu]
+          @htm                   = hash[:htm]
         end
 
-        def authlete_model_simple_attribute?(key)
-          STRING_ATTRIBUTES.include?(key)
-        end
+        def to_hash_value(key, var)
+          raw_val = instance_variable_get(var)
 
-        def authlete_model_update(hash)
-          return if hash.nil?
-
-          hash.each do |key, value|
-            key = authlete_model_convert_key(key)
-
-            if authlete_model_simple_attribute?(key)
-              send("#{key}=", value)
-            end
+          case key
+            when :properties
+              raw_val&.map { |e| e.to_hash }
+            else
+              raw_val
           end
-
-          self
-        end
-
-        public
-
-        # Construct an instance from the given hash.
-        #
-        # If the given argument is nil or is not a Hash, nil is returned.
-        # Otherwise, TokenRequest.new(hash) is returned.
-        def self.parse(hash)
-          if hash.nil? or (hash.kind_of?(Hash) == false)
-            return nil
-          end
-
-          return TokenRequest.new(hash)
-        end
-
-        # Convert this object into a hash.
-        def to_hash
-          hash = {}
-
-          instance_variables.each do |var|
-            key = var.to_s.delete("@").to_sym
-            val = instance_variable_get(var)
-
-            if authlete_model_simple_attribute?(key) or val.nil?
-              hash[key] = val
-            end
-          end
-
-          hash
         end
       end
     end

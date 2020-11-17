@@ -1,6 +1,6 @@
 # :nodoc:
 #
-# Copyright (C) 2014-2018 Authlete, Inc.
+# Copyright (C) 2014-2020 Authlete, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -17,31 +17,30 @@
 
 module Authlete
   class Exception < StandardError
-    include Authlete::Utility
+    include Authlete::ParamInitializer
 
-    # The error message.
     attr_accessor :message
 
-    # The HTTP status code of the error.
     attr_accessor :statusCode
     alias_method  :status_code, :statusCode
     alias_method  :status_code=, :statusCode=
 
-    # The result of the API call.
     attr_accessor :result
 
     private
 
-    def initialize(hash = {})
-      # The error message from RestClient or the other general exceptions.
-      @message = extract_value(hash, :message)
+    def defaults
+      {
+        message:    nil,
+        statusCode: 0,
+        result:     nil
+      }
+    end
 
-      # HTTP status code.
-      @statusCode = extract_integer_value(hash, :statusCode)
-
-      # Set result.
-      result = extract_value(hash, :result)
-      @result = result.nil? ? nil : Authlete::Model::Result.new(result)
+    def set_params(hash)
+      @message    = hash[:message]
+      @statusCode = hash[:statusCode]
+      @result     = Authlete::Model::Result.parse(hash[:result])
     end
 
     public

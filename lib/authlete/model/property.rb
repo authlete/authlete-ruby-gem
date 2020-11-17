@@ -1,6 +1,6 @@
 # :nodoc:
 #
-# Copyright (C) 2014-2018 Authlete, Inc.
+# Copyright (C) 2014-2020 Authlete, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -15,101 +15,31 @@
 # limitations under the License.
 
 
-require 'set'
-
-
 module Authlete
   module Model
-    class Property < Authlete::Model::Hashable
-      include Authlete::Utility
-      # The key part. (String)
+    class Property < Authlete::Model::Base
+      include Authlete::Model::Hashable
+
       attr_accessor :key
 
-      # The value part. (String)
       attr_accessor :value
 
-      # The flag to indicate whether this property hidden from or visible
-      # to client applications. (Boolean)
       attr_accessor :hidden
 
       private
 
-      # Boolean attributes.
-      BOOLEAN_ATTRIBUTES = ::Set.new([ :hidden ])
-
-      # String attributes.
-      STRING_ATTRIBUTES = ::Set.new([ :key, :value ])
-
-      # The constructor
-      def initialize(hash = nil)
-        # Set default values to boolean attributes.
-        BOOLEAN_ATTRIBUTES.each do |attr|
-          send("#{attr}=", false)
-        end
-
-        # Set default values to string attributes.
-        STRING_ATTRIBUTES.each do |attr|
-          send("#{attr}=", nil)
-        end
-
-        # Set attribute values using the given hash.
-        authlete_model_update(hash)
+      def defaults
+        {
+          key:    nil,
+          value:  nil,
+          hidden: false
+        }
       end
 
-      def authlete_model_convert_key(key)
-        key.to_sym
-      end
-
-      def authlete_model_simple_attribute?(key)
-        BOOLEAN_ATTRIBUTES.include?(key) or
-        STRING_ATTRIBUTES.include?(key)
-      end
-
-      def authlete_model_update(hash)
-        return if hash.nil?
-
-        hash.each do |key, value|
-          key = authlete_model_convert_key(key)
-
-          if authlete_model_simple_attribute?(key)
-            send("#{key}=", value)
-          end
-        end
-
-        self
-      end
-
-      public
-
-      # Construct an instance from the given hash.
-      #
-      # If the given argument is nil or is not a Hash, nil is returned.
-      # Otherwise, Property.new(hash) is returned.
-      def self.parse(hash)
-        if hash.nil? or (hash.kind_of?(Hash) == false)
-          return nil
-        end
-
-        Authlete::Model::Property.new(hash)
-      end
-
-      # Set attribute values using the given hash.
-      def update(hash)
-        authlete_model_update(hash)
-      end
-
-      # Convert this object into a hash.
-      def to_hash
-        hash = {}
-
-        instance_variables.each do |var|
-          key = var.to_s.delete("@").to_sym
-          val = instance_variable_get(var)
-
-          hash[key] = val
-        end
-
-        hash
+      def set_params(hash)
+        @key    = hash[:key]
+        @value  = hash[:value]
+        @hidden = hash[:hidden]
       end
     end
   end

@@ -1,6 +1,6 @@
 # :nodoc:
 #
-# Copyright (C) 2014-2018 Authlete, Inc.
+# Copyright (C) 2014-2020 Authlete, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -15,73 +15,81 @@
 # limitations under the License.
 
 
-require 'json'
-
-
 module Authlete
   module Model
     module Request
-      # == Authlete::Model::Request::AuthenticationCallbackRequest class
-      #
-      # This class represents a request to an authentication callback endpoint.
-      class AuthenticationCallbackRequest
-        include Authlete::Utility
-        # The API key of the service.
-        attr_accessor :service_api_key
+      class AuthenticationCallbackRequest < Authlete::Model::Request::Base
 
-        # The ID of the client application which has triggered the authentication
-        # callback request.
-        attr_accessor :client_id
+        attr_accessor :serviceApiKey
+        alias_method  :service_api_key,  :serviceApiKey
+        alias_method  :service_api_key=, :serviceApiKey=
 
-        # The login ID that the end-user input to the login ID field.
+        attr_accessor :clientId
+        alias_method  :client_id,  :clientId
+        alias_method  :client_id=, :clientId=
+
         attr_accessor :id
 
-        # The password that the end-user input to the password field.
         attr_accessor :password
 
-        # Names of requested claims (string array).
         attr_accessor :claims
 
-        # Names of requested claim locales (string array). The values come
-        # from 'claims_locales' request parameter of an authorization request.
-        attr_accessor :claims_locales
+        attr_accessor :claimsLocales
+        alias_method  :claims_locales,  :claimsLocales
+        alias_method  :claims_locales=, :claimsLocales=
 
-        # The SNS which the end-user used for social login.
-        # For example, 'FACEBOOK'.
         attr_accessor :sns
 
-        # The access token issued at the token endpoint of the SNS.
-        attr_accessor :access_token
+        attr_accessor :accessToken
+        alias_method  :access_token,  :accessToken
+        alias_method  :access_token=, :accessToken=
 
-        # The refresh token issued along with the access token.
-        attr_accessor :refresh_token
+        attr_accessor :refreshToken
+        alias_method  :refresh_token,  :refreshToken
+        alias_method  :refresh_token=, :refreshToken=
 
-        # The duration of the access token.
-        attr_accessor :expires_in
+        attr_accessor :expiresIn
+        alias_method  :expires_in,  :expiresIn
+        alias_method  :expires_in=, :expiresIn=
 
-        # The raw content of the response from the token endpoint of the SNS.
-        # Correct OAuth 2.0 implementations return 'application/json', but Facebook
-        # returns 'application/x-www-form-url-encoded'.
-        attr_accessor :raw_token_response
+        attr_accessor :rawTokenResponse
+        alias_method  :raw_token_response,  :rawTokenResponse
+        alias_method  :raw_token_response=, :rawTokenResponse=
 
-        # The constructor which takes a hash that represents a JSON request
-        # to an authentication callback endpoint.
-        def initialize(hash = {})
-          @service_api_key    = extract_value(hash, :serviceApiKey)
-          @client_id          = extract_value(hash, :clientId)
-          @id                 = extract_value(hash, :id)
-          @password           = extract_value(hash, :password)
-          @claims             = extract_value(hash, :claims)
-          @claims_locales     = extract_value(hash, :claimsLocales)
-          @sns                = extract_value(hash, :sns)
-          @access_token       = extract_value(hash, :accessToken)
-          @refresh_token      = extract_value(hash, :refreshToken)
-          @expires_in         = extract_integer_value(hash, :expiresIn)
-          @raw_token_response = extract_value(hash, :rawTokenResponse)
+        private
+
+        def defaults
+          {
+            serviceApiKey:    nil,
+            clientId:         0,
+            id:               nil,
+            password:         nil,
+            claims:           nil,
+            claimsLocales:    nil,
+            sns:              nil,
+            accessToken:      nil,
+            refreshToken:     nil,
+            expiresIn:        0,
+            rawTokenResponse: nil
+          }
         end
 
-        # Parse a JSON string which represents a request to an authentication
-        # callback endpoint and generate an instance of AuthenticationCallbackRequest.
+        def set_params(hash)
+          @serviceApiKey    = hash[:serviceApiKey]
+          @clientId         = hash[:clientId]
+          @id               = hash[:id]
+          @password         = hash[:password]
+          @claims           = hash[:claims]
+          @claimsLocales    = hash[:claimsLocales]
+          @sns              = hash[:sns]
+          @accessToken      = hash[:accessToken]
+          @refreshToken     = hash[:refreshToken]
+          @expiresIn        = hash[:expiresIn]
+          @rawTokenResponse = hash[:rawTokenResponse]
+        end
+
+        public
+
         def self.parse(json)
           AuthenticationCallbackRequest.new(JSON.parse(json))
         end

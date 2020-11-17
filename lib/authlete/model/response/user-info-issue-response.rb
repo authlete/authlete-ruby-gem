@@ -1,6 +1,6 @@
 # :nodoc:
 #
-# Copyright (C) 2014-2018 Authlete, Inc.
+# Copyright (C) 2014-2020 Authlete, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -18,28 +18,28 @@
 module Authlete
   module Model
     module Response
-      # == Authlete::Model::Response::UserInfoIssueResponse class
-      #
-      # A class that represents a response from Authlete's
-      # /api/auth/userinfo/issue API.
       class UserInfoIssueResponse < Authlete::Model::Result
-        # The next action which the caller of the API should take next.
-        # (String)
+
         attr_accessor :action
 
-        # The content of the error response that the service implementation
-        # should return to the client application. (String)
-        attr_accessor :response_content
+        attr_accessor :responseContent
         alias_method  :response_content,  :responseContent
         alias_method  :response_content=, :responseContent=
 
-        # The constructor which takes a hash that represents a JSON response
-        # from /api/auth/userinfo/issue API.
-        def initialize(hash = {})
+        private
+
+        def defaults
+          super.merge(
+            action:          nil,
+            responseContent: nil
+          )
+        end
+
+        def set_params(hash)
           super(hash)
 
-          @action          = extract_value(hash, :action)
-          @responseContent = extract_value(hash, :responseContent)
+          @action          = hash[:action]
+          @responseContent = hash[:responseContent]
         end
       end
     end

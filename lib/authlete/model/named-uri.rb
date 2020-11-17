@@ -1,6 +1,6 @@
 # :nodoc:
 #
-# Copyright (C) 2014-2018 Authlete, Inc.
+# Copyright (C) 2014-2020 Authlete, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -15,88 +15,27 @@
 # limitations under the License.
 
 
-require 'set'
-
-
 module Authlete
   module Model
-    class NamedUri < Authlete::Model::Hashable
-      include Authlete::Utility
-      # The name of the URI. (String)
+    class NamedUri < Authlete::Model::Base
+      include Authlete::Model::Hashable
+
       attr_accessor :name
 
-      # The value of the URI. (String)
       attr_accessor :uri
 
       private
 
-      # String attributes.
-      STRING_ATTRIBUTES = ::Set.new([ :name, :uri ])
-
-      # The constructor
-      def initialize(hash = nil)
-        # Set default values to string attributes.
-        STRING_ATTRIBUTES.each do |attr|
-          send("#{attr}=", nil)
-        end
-
-        # Set attribute values using the given hash.
-        authlete_model_update(hash)
+      def defaults
+        {
+          name: nil,
+          uri:  nil
+        }
       end
 
-      def authlete_model_convert_key(key)
-        key.to_sym
-      end
-
-      def authlete_model_simple_attribute?(key)
-        STRING_ATTRIBUTES.include?(key)
-      end
-
-      def authlete_model_update(hash)
-        return if hash.nil?
-
-        hash.each do |key, value|
-          key = authlete_model_convert_key(key)
-
-          if authlete_model_simple_attribute?(key)
-            send("#{key}=", value)
-          end
-        end
-
-        self
-      end
-
-      public
-
-      # Construct an instance from the given hash.
-      #
-      # If the given argument is nil or is not a Hash, nil is returned.
-      # Otherwise, NamedUri.new(hash) is returned.
-      def self.parse(hash)
-        if hash.nil? or (hash.kind_of?(Hash) == false)
-          return nil
-        end
-
-        Authlete::Model::NamedUri.new(hash)
-      end
-
-      # Set attribute values using the given hash.
-      def update(hash)
-        authlete_model_update(hash)
-      end
-
-      # Convert this object into a hash.
-      def to_hash
-        hash = {}
-
-        instance_variables.each do |var|
-          key = var.to_s.delete("@").to_sym
-          val = instance_variable_get(var)
-
-          hash[key] = val
-        end
-
-        hash
+      def set_params(hash)
+        @name = hash[:name]
+        @uri  = hash[:uri]
       end
     end
   end
