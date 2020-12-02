@@ -1,6 +1,6 @@
 # :nodoc:
 #
-# Copyright (C) 2014-2018 Authlete, Inc.
+# Copyright (C) 2014-2020 Authlete, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -15,109 +15,36 @@
 # limitations under the License.
 
 
-require 'set'
-
-
 module Authlete
   module Model
-    class SnsCredentials < Authlete::Model::Hashable
-      # The API key. (String)
+    class SnsCredentials < Authlete::Model::Base
+      include Authlete::Model::Hashable
+      include Authlete::Utility
+
+      attr_accessor :sns
+
       attr_accessor :apiKey
       alias_method  :api_key,  :apiKey
       alias_method  :api_key=, :apiKey=
 
-      # The API secret. (String)
       attr_accessor :apiSecret
       alias_method  :api_secret,  :apiSecret
       alias_method  :api_secret=, :apiSecret=
 
-      # The SNS. (String)
-      #
-      # Currently, the only valid value is "FACEBOOK".
-      attr_accessor :sns
-
       private
 
-      # String attributes.
-      STRING_ATTRIBUTES = ::Set.new([ :apiKey, :apiSecret, :sns ])
-
-      # Mapping from snake cases to camel cases.
-      SNAKE_TO_CAMEL = {
-        :api_key    => :apiKey,
-        :api_secret => :apiSecret
-      }
-
-      # The constructor.
-      def initialize(hash = nil)
-        # Set default values to string attributes.
-        STRING_ATTRIBUTES.each do |attr|
-          send("#{attr}=", nil)
-        end
-
-        # Set attribute values using the given hash.
-        authlete_model_update(hash)
+      def defaults
+        {
+          sns:       nil,
+          apiKey:    nil,
+          apiSecret: nil
+        }
       end
 
-      def authlete_model_convert_key(key)
-        key = key.to_sym
-
-        # Convert snakecase to camelcase, if necessary.
-        if SNAKE_TO_CAMEL.has_key?(key)
-          key = SNAKE_TO_CAMEL[key]
-        end
-
-        key
-      end
-
-      def authlete_model_simple_attribute?(key)
-        STRING_ATTRIBUTES.include?(key)
-      end
-
-      def authlete_model_update(hash)
-        return if hash.nil?
-
-        hash.each do |key, value|
-          key = authlete_model_convert_key(key)
-
-          if authlete_model_simple_attribute?(key)
-            send("#{key}=", value)
-          end
-        end
-
-        self
-      end
-
-      public
-
-      # Construct an instance from the given hash.
-      #
-      # If the given argument is nil or is not a Hash, nil is returned.
-      # Otherwise, SnsCredentials.new(hash) is returned.
-      def self.parse(hash)
-        if hash.nil? or (hash.kind_of?(Hash) == false)
-          return nil
-        end
-
-        Authlete::Model::SnsCredentials.new(hash)
-      end
-
-      # Set attribute values using the given hash.
-      def update(hash)
-        authlete_model_update(hash)
-      end
-
-      # Convert this object into a hash.
-      def to_hash
-        hash = {}
-
-        instance_variables.each do |var|
-          key = var.to_s.delete("@").to_sym
-          val = instance_variable_get(var)
-
-          hash[key] = val
-        end
-
-        hash
+      def set_params(hash)
+        @sns       = hash[:sns]
+        @apiKey    = hash[:apiKey]
+        @apiSecret = hash[:apiSecret]
       end
     end
   end

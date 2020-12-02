@@ -1,6 +1,6 @@
 # :nodoc:
 #
-# Copyright (C) 2014-2018 Authlete, Inc.
+# Copyright (C) 2014-2020 Authlete, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -15,83 +15,28 @@
 # limitations under the License.
 
 
-require 'set'
-
-
 module Authlete
   module Model
-    class TaggedValue < Authlete::Model::Hashable
-      # The language tag part. (String)
+    class TaggedValue < Authlete::Model::Base
+      include Authlete::Model::Hashable
+      include Authlete::Utility
+
       attr_accessor :tag
 
-      # The value part. (String)
       attr_accessor :value
 
       private
 
-      # String attributes.
-      STRING_ATTRIBUTES = ::Set.new([ :tag, :value ])
-
-      # The constructor
-      def initialize(hash = nil)
-        # Set default values to string attributes.
-        STRING_ATTRIBUTES.each do |attr|
-          send("#{attr}=", nil)
-        end
-
-        # Set attribute values using the given hash.
-        authlete_model_update(hash)
+      def defaults
+        {
+          tag:   nil,
+          value: nil
+        }
       end
 
-      def authlete_model_convert_key(key)
-        key.to_sym
-      end
-
-      def authlete_model_simple_attribute?(key)
-        STRING_ATTRIBUTES.include?(key)
-      end
-
-      def authlete_model_update(hash)
-        return if hash.nil?
-
-        hash.each do |key, value|
-          key = authlete_model_convert_key(key)
-
-          # If the attribute is a simple one.
-          if authlete_model_simple_attribute?(key)
-            send("#{key}=", value)
-          end
-        end
-
-        self
-      end
-
-      public
-
-      # Construct an instance from the given hash.
-      #
-      # If the given argument is nil or is not a Hash, nil is returned.
-      # Otherwise, TaggedValue.new(hash) is returned.
-      def self.parse(hash)
-        if hash.nil? or (hash.kind_of?(Hash) == false)
-          return nil
-        end
-
-        Authlete::Model::TaggedValue.new(hash)
-      end
-
-      # Convert this object into a hash.
-      def to_hash
-        hash = {}
-
-        instance_variables.each do |var|
-          key = var.to_s.delete("@").to_sym
-          val = instance_variable_get(var)
-
-          hash[key] = val
-        end
-
-        hash
+      def set_params(hash)
+        @tag   = hash[:tag]
+        @value = hash[:value]
       end
     end
   end

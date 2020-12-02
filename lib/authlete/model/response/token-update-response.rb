@@ -1,6 +1,6 @@
 # :nodoc:
 #
-# Copyright (C) 2014-2018 Authlete, Inc.
+# Copyright (C) 2014-2020 Authlete, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -18,43 +18,48 @@
 module Authlete
   module Model
     module Response
-      # == Authlete::Model::Response::TokenUpdateResponse class
-      #
-      # A class that represents a response from Authlete's
-      # /api/auth/token/update API.
       class TokenUpdateResponse < Authlete::Model::Result
-        # The next action which the caller of the API should take next.
-        # (String)
+
         attr_accessor :action
 
-        # The access token which has been specified by the request. (String)
         attr_accessor :accessToken
         alias_method  :access_token,  :accessToken
         alias_method  :access_token=, :accessToken=
 
-        # The date at which the access token will expire. (Integer)
+        attr_accessor :tokenType
+        alias_method  :token_type,  :tokenType
+        alias_method  :token_type=, :tokenType=
+
         attr_accessor :accessTokenExpiresAt
         alias_method  :access_token_expires_at,  :accessTokenExpiresAt
         alias_method  :access_token_expires_at=, :accessTokenExpiresAt=
 
-        # Extra properties associated with the access token. (Property array)
-        attr_accessor :properties
-
-        # The scopes which is associated with the access token. (String array)
         attr_accessor :scopes
 
-        # The constructor which takes a hash that represents a JSON response
-        # from /api/auth/token/update API.
-        def initialize(hash = {})
+        attr_accessor :properties
+
+        private
+
+        def defaults
+          super.merge(
+            action:               nil,
+            accessToken:          nil,
+            tokenType:            nil,
+            accessTokenExpiresAt: 0,
+            scopes:               nil,
+            properties:           nil
+          )
+        end
+
+        def set_params(hash)
           super(hash)
 
-          @action               = extract_value(hash, :action)
-          @accessToken          = extract_value(hash, :accessToken)
-          @accessTokenExpiresAt = extract_integer_value(hash, :accessTokenExpiresAt)
-          @properties           = extract_array_value(hash, :scopes) do |element|
-            Authlete::Model::Property.parse(element)
-          end
-          @scopes               = extract_value(hash, :scopes)
+          @action               = hash[:action]
+          @accessToken          = hash[:accessToken]
+          @tokenType            = hash[:tokenType]
+          @accessTokenExpiresAt = hash[:accessTokenExpiresAt]
+          @scopes               = hash[:scopes]
+          @properties           = get_parsed_array(hash[:properties]) { |e| Authlete::Model::Property.parse(e) }
         end
       end
     end

@@ -1,6 +1,6 @@
 # :nodoc:
 #
-# Copyright (C) 2014-2018 Authlete, Inc.
+# Copyright (C) 2014-2020 Authlete, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -18,29 +18,29 @@
 module Authlete
   module Model
     module Response
-      # == Authlete::Model::Response::ClientSecretRefreshResponse class
-      #
-      # This class represents a response from Authlete's /api/client/secret/refresh/{clientIdentifier} API.
       class ClientSecretRefreshResponse < Authlete::Model::Result
-        # The new client secret. (String)
         attr_accessor :newClientSecret
         alias_method  :new_client_secret,  :newClientSecret
         alias_method  :new_client_secret=, :newClientSecret=
 
-        # The old client secret. (String)
         attr_accessor :oldClientSecret
         alias_method  :old_client_secret,  :oldClientSecret
         alias_method  :old_client_secret=, :oldClientSecret=
 
         private
 
-        # The constructor which takes a hash that represents a JSON response
-        # from Authlete's /api/client/secret/refresh/{clientIdentifier} API.
-        def initialize(hash = {})
+        def defaults
+          super.merge(
+            newClientSecret: nil,
+            oldClientSecret: nil
+          )
+        end
+
+        def set_params(hash)
           super(hash)
 
-          @newClientSecret = extract_value(hash, :newClientSecret)
-          @oldClientSecret = extract_value(hash, :oldClientSecret)
+          @newClientSecret = hash[:newClientSecret]
+          @oldClientSecret = hash[:oldClientSecret]
         end
       end
     end

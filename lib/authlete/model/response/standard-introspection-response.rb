@@ -1,6 +1,6 @@
 # :nodoc:
 #
-# Copyright (C) 2014-2018 Authlete, Inc.
+# Copyright (C) 2014-2020 Authlete, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -18,30 +18,28 @@
 module Authlete
   module Model
     module Response
-      # == Authlete::Model::Response::StandardIntrospectionResponse class
-      #
-      # This class represents a response from Authlete's /api/auth/introspection/standard API.
       class StandardIntrospectionResponse < Authlete::Model::Result
-        # The next action that the service implementation should take.
-        # (String)
+
         attr_accessor :action
 
-        # The response content which can be used to generate a response
-        # to the client application. The format of the value varies
-        # depending on the value of "action". (String)
         attr_accessor :responseContent
         alias_method  :response_content,  :responseContent
         alias_method  :response_content=, :responseContent=
 
         private
 
-        # The constructor which takes a hash that represents a JSON response
-        # from Authlete's /api/auth/introspection/standard API.
-        def initialize(hash = {})
+        def defaults
+          super.merge(
+            action:          nil,
+            responseContent: nil
+          )
+        end
+
+        def set_params(hash)
           super(hash)
 
-          @action          = extract_value(hash, :action)
-          @responseContent = extract_value(hash, :responseContent)
+          @action          = hash[:action]
+          @responseContent = hash[:responseContent]
         end
       end
     end

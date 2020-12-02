@@ -1,6 +1,6 @@
 # :nodoc:
 #
-# Copyright (C) 2014-2018 Authlete, Inc.
+# Copyright (C) 2014-2020 Authlete, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -18,66 +18,72 @@
 module Authlete
   module Model
     module Response
-      # == Authlete::Model::Response::UserInfoResponse class
-      #
-      # A class that represents a response from Authlete's
-      # /api/auth/userinfo API.
       class UserInfoResponse < Authlete::Model::Result
-        # The next action which the caller of the API should take next.
-        # (String)
+
         attr_accessor :action
 
-        # The list of claims that the client application requests to be
-        # embedded in the ID token. (String array)
-        attr_accessor :claims
-
-        # The ID of the client application which is associated with
-        # the access token. (Integer)
         attr_accessor :clientId
         alias_method  :client_id,  :clientId
         alias_method  :client_id=, :clientId=
 
-        # The client ID alias when the authorization request for the access
-        # token was made. (String)
+        attr_accessor :subject
+
+        attr_accessor :scopes
+
+        attr_accessor :claims
+
+        attr_accessor :token
+
+        attr_accessor :responseContent
+        alias_method  :response_content,  :responseContent
+        alias_method  :response_content=, :responseContent=
+
+        attr_accessor :properties
+
         attr_accessor :clientIdAlias
         alias_method  :client_id_alias,  :clientIdAlias
         alias_method  :client_id_alias=, :clientIdAlias=
 
-        # The flag which indicates whether the client ID alias was used when
-        # the authorization request or the token request for the access token
-        # was made. (Boolean)
         attr_accessor :clientIdAliasUsed
         alias_method  :client_id_alias_used,  :clientIdAliasUsed
         alias_method  :client_id_alias_used=, :clientIdAliasUsed=
 
-        # The content of the error response that the service implementation
-        # should return to the client application. (String)
-        attr_accessor :response_content
-        alias_method  :response_content,  :responseContent
-        alias_method  :response_content=, :responseContent=
+        attr_accessor :userInfoClaims
+        alias_method  :user_info_claims,  :userInfoClaims
+        alias_method  :user_info_claims=, :userInfoClaims=
 
-        # The scopes covered by the access token. (String array)
-        attr_accessor :scopes
+        private
 
-        # The subject (= resource owner's ID). (String)
-        attr_accessor :subject
+        def defaults
+          super.merge(
+            action:            nil,
+            clientId:          0,
+            subject:           nil,
+            scopes:            nil,
+            claims:            nil,
+            token:             nil,
+            responseContent:   nil,
+            properties:        nil,
+            clientIdAlias:     nil,
+            clientIdAliasUsed: false,
+            userInfoClaims:    nil
+          )
+        end
 
-        # The access token that came along with the userinfo request. (String)
-        attr_accessor :token
-
-        # The constructor which takes a hash that represents a JSON response
-        # from /api/auth/introspection API.
-        def initialize(hash = {})
+        def set_params(hash)
           super(hash)
 
-          @action            = extract_value(hash, :action)
-          @clientId          = extract_value(hash, :clientId)
-          @clientIdAlias     = extract_value(hash, :clientIdAlias)
-          @clientIdAliasUsed = extract_boolean_value(hash, :clientIdAliasUsed)
-          @responseContent   = extract_value(hash, :responseContent)
-          @scopes            = extract_value(hash, :scopes)
-          @subject           = extract_value(hash, :subject)
-          @token             = extract_value(hash, :token)
+          @action            = hash[:action]
+          @clientId          = hash[:clientId]
+          @subject           = hash[:subject]
+          @scopes            = hash[:scopes]
+          @claims            = hash[:claims]
+          @token             = hash[:token]
+          @responseContent   = hash[:responseContent]
+          @properties        = get_parsed_array(hash[:properties]) { |e| Authlete::Model::Property.parse(e) }
+          @clientIdAlias     = hash[:clientIdAlias]
+          @clientIdAliasUsed = hash[:clientIdAliasUsed]
+          @userInfoClaims    = hash[:userInfoClaims]
         end
       end
     end

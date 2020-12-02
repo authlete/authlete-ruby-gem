@@ -1,6 +1,6 @@
 # :nodoc:
 #
-# Copyright (C) 2014-2018 Authlete, Inc.
+# Copyright (C) 2014-2020 Authlete, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -15,39 +15,44 @@
 # limitations under the License.
 
 
+require 'json'
+
+
 module Authlete
   module Model
     module Response
-      # == Authlete::Model::Response::DeveloperAuthenticationCallbackResponse class
-      #
-      # This class represents a response from a developer authentication callback endpoint.
-      class DeveloperAuthenticationCallbackResponse
+      class DeveloperAuthenticationCallbackResponse < Authlete::Model::Base
         include Authlete::Utility
-        # True when the developer has been authenticated (= is a valid developer).
+
         attr_accessor :authenticated
 
-        # The unique identifier of the developer.
         attr_accessor :subject
 
-        # The display name of the developer.
         attr_accessor :displayName
         alias_method  :display_name,  :displayName
         alias_method  :display_name=, :displayName=
 
-        # The constructor which takes a hash that represents a JSON response
-        # from a developer authentication callback endpoint.
-        def initialize(hash = {})
-          @authenticated = extract_boolean_value(hash, :authenticated)
-          @subject       = extract_value(hash, :subject)
-          @displayName   = extract_value(hash, :displayName)
+        private
+
+        def defaults
+          {
+            authenticated: false,
+            subject:       nil,
+            displayName:   nil
+          }
         end
 
-        # Generate an array which is usable as a Rack response from this instance.
+        def set_params(hash)
+          @authenticated = hash[:authenticated]
+          @subject       = hash[:subject]
+          @displayName   = hash[:displayName]
+        end
+
         def to_rack_response
           to_rack_response_json(200, JSON.generate(
-            :authenticated => @authenticated,
-            :subject       => @subject,
-            :displayName   => @displayName
+            authenticated: @authenticated,
+            subject:       @subject,
+            displayNam:    @displayName
           ))
         end
       end

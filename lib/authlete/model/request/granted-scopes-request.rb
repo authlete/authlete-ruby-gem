@@ -1,6 +1,6 @@
 # :nodoc:
 #
-# Copyright (C) 2014-2018 Authlete, Inc.
+# Copyright (C) 2014-2020 Authlete, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -15,87 +15,21 @@
 # limitations under the License.
 
 
-require 'set'
-
-
 module Authlete
   module Model
     module Request
-      # == Authlete::Model::Request::GrantedScopesRequest class
-      #
-      # This class represents a request to Authlete's /api/client/granted_scopes/get/{clientId} API
-      # and api/client/granted_scopes/delete/{clientId} API.
-      class GrantedScopesRequest < Authlete::Model::Hashable
-        # Unique user ID. (String)
+      class GrantedScopesRequest < Authlete::Model::Request::Base
+
         attr_accessor :subject
 
         private
 
-        # String attributes.
-        STRING_ATTRIBUTES = ::Set.new([ :subject ])
-
-        # The constructor which takes a hash that represents a JSON request to
-        # Authlete's /api/auth/token/create API.
-        def initialize(hash = nil)
-          # Set default values to string attributes.
-          STRING_ATTRIBUTES.each do |attr|
-            send("#{attr}=", nil)
-          end
-
-          # Set attribute values using the given hash.
-          authlete_model_update(hash)
+        def defaults
+          { subject: nil }
         end
 
-        def authlete_model_convert_key(key)
-          key.to_sym
-        end
-
-        def authlete_model_simple_attribute?(key)
-          STRING_ATTRIBUTES.include?(key)
-        end
-
-        def authlete_model_update(hash)
-          return if hash.nil?
-
-          hash.each do |key, value|
-            key = authlete_model_convert_key(key)
-
-            if authlete_model_simple_attribute?(key)
-              send("#{key}=", value)
-            end
-          end
-
-          self
-        end
-
-        public
-
-        # Construct an instance from the given hash.
-        #
-        # If the given argument is nil or is not a Hash, nil is returned.
-        # Otherwise, GrantedScopesRequest.new(hash) is returned.
-        def self.parse(hash)
-          if hash.nil? or (hash.kind_of?(Hash) == false)
-            return nil
-          end
-
-          return GrantedScopesRequest.new(hash)
-        end
-
-        # Convert this object into a hash.
-        def to_hash
-          hash = {}
-
-          instance_variables.each do |var|
-            key = var.to_s.delete("@").to_sym
-            val = instance_variable_get(var)
-
-            if authlete_model_simple_attribute?(key) or val.nil?
-              hash[key] = val
-            end
-          end
-
-          hash
+        def set_params(hash)
+          @subject = hash[:subject]
         end
       end
     end

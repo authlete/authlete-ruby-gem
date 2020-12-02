@@ -1,6 +1,6 @@
 # :nodoc:
 #
-# Copyright (C) 2014-2018 Authlete, Inc.
+# Copyright (C) 2014-2020 Authlete, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -17,28 +17,29 @@
 
 module Authlete
   module Model
-    # == Authlete::Model::Result
-    #
-    # The base class of responses from Authlete Web APIs.
-    class Result
+    class Result < Authlete::Model::Base
       include Authlete::Utility
-      # The code assigned to the result of the API call.
-      # (String)
+
       attr_accessor :resultCode
       alias_method  :result_code, :resultCode
       alias_method  :result_code=, :resultCode=
 
-      # The message about the result of the API call.
-      # (String)
       attr_accessor :resultMessage
       alias_method  :result_message, :resultMessage
       alias_method  :result_message=, :resultMessage=
 
       private
 
-      def initialize(hash = {})
-        @resultCode    = extract_value(hash, :resultCode)
-        @resultMessage = extract_value(hash, :resultMessage)
+      def defaults
+        {
+          resultCode:    nil,
+          resultMessage: nil
+        }
+      end
+
+      def set_params(hash)
+        @resultCode    = hash[:resultCode]
+        @resultMessage = hash[:resultMessage]
       end
     end
   end

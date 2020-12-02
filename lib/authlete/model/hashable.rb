@@ -1,6 +1,6 @@
 # :nodoc:
 #
-# Copyright (C) 2014-2018 Authlete, Inc.
+# Copyright (C) 2014-2020 Authlete, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -17,48 +17,28 @@
 
 module Authlete
   module Model
-    class Hashable
+    module Hashable
+
       private
 
-      def authlete_model_convert_key(key)
+      def to_hash_key(var)
+        var.to_s.delete("@").to_sym
       end
 
-      def authelte_model_simple_attribute?(key)
+      def to_hash_value(key, var)
+        instance_variable_get(var)
       end
 
-      def authlete_model_update(hash)
+      def to_key_value_pair(var)
+        key   = to_hash_key(var)
+        value = to_hash_value(key, var)
+        [ key, value ]
       end
 
       public
 
-      # Convert this object into a hash.
       def to_hash
-      end
-
-      # Set attribute values using the given hash.
-      def update(hash = {})
-        authlete_model_update(hash)
-      end
-
-      def [](key)
-        key = authlete_model_convert_key(key)
-
-        if respond_to?(key)
-          send(key)
-        else
-          nil
-        end
-      end
-
-      def []=(key, value)
-        key = authlete_model_convert_key(key)
-        method = "#{key}="
-
-        if respond_to?(method)
-          send(method, value)
-        else
-          nil
-        end
+        Hash[ instance_variables.map { |var| to_key_value_pair(var) } ]
       end
     end
   end

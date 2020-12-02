@@ -1,6 +1,6 @@
 # :nodoc:
 #
-# Copyright (C) 2014-2018 Authlete, Inc.
+# Copyright (C) 2014-2020 Authlete, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -15,149 +15,63 @@
 # limitations under the License.
 
 
-require 'set'
-
-
 module Authlete
   module Model
     module Request
-      # == Authlete::Model::Request::TokenUpdateRequest class
-      #
-      # This class represents a request to Authlete's /api/auth/token/update API.
-      class TokenUpdateRequest < Authlete::Model::Hashable
-        # An existing access token. (String)
+      class TokenUpdateRequest < Authlete::Model::Request::Base
+        include Authlete::Utility
+
         attr_accessor :accessToken
         alias_method  :access_token,  :accessToken
         alias_method  :access_token=, :accessToken=
 
-        #A new date at which the access token will expire in milliseconds
-        # since the Unix epoch (1970-01-01). If the accessTokenExpiresAt request
-        # parameter is not included in a request or its value is 0 (or negative),
-        # the expiration date of the access token is not changed. (Integer)
         attr_accessor :accessTokenExpiresAt
         alias_method  :access_token_expires_at,  :accessTokenExpiresAt
         alias_method  :access_token_expires_at=, :accessTokenExpiresAt=
 
-        # A new set of scopes assigned to the access token. Scopes that are not
-        # supported by the service and those that the client application associated
-        # with the access token is not allowed to request are ignored on the
-        # server side. If the scopes request parameter is not included in a
-        # request or its value is nil, the scopes of the access token are not
-        # changed. (String array)
         attr_accessor :scopes
 
-        # A new set of properties assigned to the access token. If the properties
-        # request parameter is not included in a request or its value is nil,
-        # the properties of the access token are not changed.
-        # (Property array)
         attr_accessor :properties
+
+        attr_accessor :certificateThumbprint
+        alias_method  :certificate_thumbprint,  :certificateThumbprint
+        alias_method  :certificate_thumbprint=, :certificateThumbprint=
+
+        attr_accessor :dpopKeyThumbprint
+        alias_method  :dpop_key_thumbprint,  :dpopKeyThumbprint
+        alias_method  :dpop_key_thumbprint=, :dpopKeyThumbprint=
 
         private
 
-        # Integer attributes.
-        INTEGER_ATTRIBUTES = ::Set.new([ :accessTokenExpiresAt ])
-
-        # String attributes.
-        STRING_ATTRIBUTES = ::Set.new([ :accessToken ])
-
-        # String array attributes.
-        STRING_ARRAY_ATTRIBUTES = ::Set.new([ :scopes ])
-
-        # Mapping from snake cases to camel cases.
-        SNAKE_TO_CAMEL = {
-          :access_token      => :accessToken,
-          :access_expires_at => :accessTokenExpiresAt
-        }
-
-        # The constructor which takes a hash that represents a JSON request to
-        # Authlete's /api/auth/token/update API.
-        def initialize(hash = nil)
-          # Set default values to integer attributes.
-          INTEGER_ATTRIBUTES.each do |attr|
-            send("#{attr}=", 0)
-          end
-
-          # Set default values to string attributes.
-          STRING_ATTRIBUTES.each do |attr|
-            send("#{attr}=", nil)
-          end
-
-          # Set default values to string array attributes.
-          STRING_ARRAY_ATTRIBUTES.each do |attr|
-            send("#{attr}=", nil)
-          end
-
-          @properties = nil
-
-          # Set attribute values using the given hash.
-          authlete_model_update(hash)
+        def defaults
+          {
+            accessToken:           nil,
+            accessTokenExpiresAt:  0,
+            scopes:                nil,
+            properties:            nil,
+            certificateThumbprint: nil,
+            dpopKeyThumbprint:     nil
+          }
         end
 
-        def authlete_model_convert_key(key)
-          key = key.to_sym
-
-          # Convert snakecase to camelcase, if necessary.
-          if SNAKE_TO_CAMEL.has_key?(key)
-            key = SNAKE_TO_CAMEL[key]
-          end
-
-          key
+        def set_params(hash)
+          @accessToken           = hash[:accessToken]
+          @accessTokenExpiresAt  = hash[:accessTokenExpiresAt]
+          @scopes                = hash[:scopes]
+          @properties            = get_parsed_array(hash[:properties]) { |e| Authlete::Model::Property.parse(e) }
+          @certificateThumbprint = hash[:certificateThumbprint]
+          @dpopKeyThumbprint     = hash[:dpopKeyThumbprint]
         end
 
-        def authlete_model_simple_attribute?(key)
-          INTEGER_ATTRIBUTES.include?(key) or
-          STRING_ATTRIBUTES.include?(key) or
-          STRING_ARRAY_ATTRIBUTES.include?(key)
-        end
+        def to_hash_value(key, var)
+          raw_val = instance_variable_get(var)
 
-        def authlete_model_update(hash)
-          return if hash.nil?
-
-          hash.each do |key, value|
-            key = authlete_model_convert_key(key)
-
-            if authlete_model_simple_attribute?(key)
-              send("#{key}=", value)
-            elsif key == :properties
-              @properties = get_parsed_array(value) do |element|
-                Authlete::Model::Property.parse(element)
-              end
-            end
+          case key
+            when :properties
+              raw_val&.map { |e| e.to_hash }
+            else
+              raw_val
           end
-
-          self
-        end
-
-        public
-
-        # Construct an instance from the given hash.
-        #
-        # If the given argument is nil or is not a Hash, nil is returned.
-        # Otherwise, TokenUpdateRequest.new(hash) is returned.
-        def self.parse(hash)
-          if hash.nil? or (hash.kind_of?(Hash) == false)
-            return nil
-          end
-
-          return TokenUpdateRequest.new(hash)
-        end
-
-        # Convert this object into a hash.
-        def to_hash
-          hash = {}
-
-          instance_variables.each do |var|
-            key = var.to_s.delete("@").to_sym
-            val = instance_variable_get(var)
-
-            if authlete_model_simple_attribute?(key) or val.nil?
-              hash[key] = val
-            elsif key == :properties
-              hash[key] = val.map { |element| element.to_hash }
-            end
-          end
-
-          hash
         end
       end
     end
