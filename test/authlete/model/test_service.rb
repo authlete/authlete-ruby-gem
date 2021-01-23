@@ -137,6 +137,8 @@ class ServiceTest < Minitest::Test
   TRADITIONAL_REQUEST_OBJECT_PROCESSING_APPLIED = false
   CLAIM_SHORTCUT_RESTRICTIVE                    = false
   SCOPE_REQUIRED                                = true
+  NBF_OPTIONAL                                  = true
+  ISS_SUPPRESSED                                = false
 
 
   def generate_json
@@ -245,7 +247,9 @@ class ServiceTest < Minitest::Test
         "requestObjectRequired":                     true,
         "traditionalRequestObjectProcessingApplied": false,
         "claimShortcutRestrictive":                  false,
-        "scopeRequired":                             true
+        "scopeRequired":                             true,
+        "nbfOptional":                               true,
+        "issSuppressed":                             false
       }
     JSON
   end
@@ -356,7 +360,9 @@ class ServiceTest < Minitest::Test
       requestObjectRequired:                     true,
       traditionalRequestObjectProcessingApplied: false,
       claimShortcutRestrictive:                  false,
-      scopeRequired:                             true
+      scopeRequired:                             true,
+      nbfOptional:                               true,
+      issSuppressed:                             false
     }
   end
 
@@ -466,6 +472,8 @@ class ServiceTest < Minitest::Test
     obj.traditional_request_object_processing_applied = TRADITIONAL_REQUEST_OBJECT_PROCESSING_APPLIED
     obj.claim_shortcut_restrictive                    = CLAIM_SHORTCUT_RESTRICTIVE
     obj.scope_required                                = SCOPE_REQUIRED
+    obj.nbf_optional                                  = NBF_OPTIONAL
+    obj.iss_suppressed                                = ISS_SUPPRESSED
 
     obj
   end
@@ -583,6 +591,8 @@ class ServiceTest < Minitest::Test
     assert_equal TRADITIONAL_REQUEST_OBJECT_PROCESSING_APPLIED, obj.traditionalRequestObjectProcessingApplied
     assert_equal CLAIM_SHORTCUT_RESTRICTIVE,                    obj.claimShortcutRestrictive
     assert_equal SCOPE_REQUIRED,                                obj.scopeRequired
+    assert_equal NBF_OPTIONAL,                                  obj.nbfOptional
+    assert_equal ISS_SUPPRESSED,                                obj.issSuppressed
   end
 
 
