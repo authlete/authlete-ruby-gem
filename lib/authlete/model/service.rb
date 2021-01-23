@@ -427,6 +427,14 @@ module Authlete
       alias_method  :scope_required,  :scopeRequired
       alias_method  :scope_required=, :scopeRequired=
 
+      attr_accessor :nbfOptional
+      alias_method  :nbf_optional,  :nbfOptional
+      alias_method  :nbf_optional=, :nbfOptional=
+
+      attr_accessor :issSuppressed
+      alias_method  :iss_suppressed,  :issSuppressed
+      alias_method  :iss_suppressed=, :issSuppressed=
+
       private
 
       def defaults
@@ -534,7 +542,9 @@ module Authlete
           requestObjectRequired:                     false,
           traditionalRequestObjectProcessingApplied: false,
           claimShortcutRestrictive:                  false,
-          scopeRequired:                             false
+          scopeRequired:                             false,
+          nbfOptional:                               false,
+          issSuppressed:                             false
         }
       end
 
@@ -643,6 +653,8 @@ module Authlete
         @traditionalRequestObjectProcessingApplied = hash[:traditionalRequestObjectProcessingApplied]
         @claimShortcutRestrictive                  = hash[:claimShortcutRestrictive]
         @scopeRequired                             = hash[:scopeRequired]
+        @nbfOptional                               = hash[:nbfOptional]
+        @issSuppressed                             = hash[:issSuppressed]
       end
 
       def to_hash_value(key, var)
