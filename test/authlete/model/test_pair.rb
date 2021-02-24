@@ -46,8 +46,6 @@ class PairTest < Minitest::Test
   def set_params(obj)
     obj.key   = KEY
     obj.value = VALUE
-
-    obj
   end
 
 

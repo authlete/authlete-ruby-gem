@@ -46,8 +46,6 @@ class NamedUriTest < Minitest::Test
   def set_params(obj)
     obj.name = NAME
     obj.uri  = URI
-
-    obj
   end
 
 

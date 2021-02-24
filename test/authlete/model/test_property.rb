@@ -50,8 +50,6 @@ class PropertyTest < Minitest::Test
     obj.key    = KEY
     obj.value  = VALUE
     obj.hidden = HIDDEN
-
-    obj
   end
 
 

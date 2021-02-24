@@ -287,6 +287,8 @@ module Authlete
       alias_method  :request_object_required,  :requestObjectRequired
       alias_method  :request_object_required=, :requestObjectRequired=
 
+      attr_accessor :attributes
+
       private
 
       def defaults
@@ -360,7 +362,8 @@ module Authlete
           registrationAccessTokenHash:           nil,
           authorizationDataTypes:                nil,
           parRequired:                           false,
-          requestObjectRequired:                 false
+          requestObjectRequired:                 false,
+          attributes:                            nil
         }
       end
 
@@ -435,13 +438,15 @@ module Authlete
         @authorizationDataTypes                = hash[:authorizationDataTypes]
         @parRequired                           = hash[:parRequired]
         @requestObjectRequired                 = hash[:requestObjectRequired]
+        @attributes                            = get_parsed_array(hash[:attributes]) { |e| Authlete::Model::Pair.parse(e) }
       end
 
       def to_hash_value(key, var)
         raw_val = instance_variable_get(var)
 
         case key
-          when :clientNames, :logoUris, :clientUris, :policyUris, :tosUris, :descriptions
+          when :clientNames, :logoUris, :clientUris, :policyUris, :tosUris,
+               :descriptions, :attributes
             raw_val&.map { |e| e.to_hash }
           when :extension
             raw_val&.to_hash

@@ -54,8 +54,6 @@ class ClientExtensionTest < Minitest::Test
     obj.requestable_scopes_enabled = REQUESTABLE_SCOPES_ENABLED
     obj.access_token_duration      = ACCESS_TOKEN_DURATION
     obj.refresh_token_duration     = REFRESH_TOKEN_DURATION
-
-    obj
   end
 
 

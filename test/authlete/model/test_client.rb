@@ -112,6 +112,9 @@ class ClientTest < Minitest::Test
   AUTHORIZATION_DATA_TYPES                   = [ '<authorization-data-type0>', '<authorization-data-type1>' ]
   PAR_REQUIRED                               = false
   REQUEST_OBJECT_REQUIRED                    = true
+  ATTRIBUTE_KEY                              = '<attribute0-key>'
+  ATTRIBUTE_VALUE                            = '<attribute0-value>'
+  ATTRIBUTES                                 = [ Authlete::Model::Pair.new(key: ATTRIBUTE_KEY, value: ATTRIBUTE_VALUE) ]
 
 
   def generate_json
@@ -191,7 +194,8 @@ class ClientTest < Minitest::Test
         "registrationAccessTokenHash":           "<registration-access-token-hash>",
         "authorizationDataTypes":                [ "<authorization-data-type0>", "<authorization-data-type1>" ],
         "parRequired":                           false,
-        "requestObjectRequired":                 true
+        "requestObjectRequired":                 true,
+        "attributes":                            [{ "key": "<attribute0-key>", "value": "<attribute0-value>" }]
       }
     JSON
   end
@@ -273,7 +277,8 @@ class ClientTest < Minitest::Test
       registrationAccessTokenHash:           '<registration-access-token-hash>',
       authorizationDataTypes:                [ '<authorization-data-type0>', '<authorization-data-type1>' ],
       parRequired:                           false,
-      requestObjectRequired:                 true
+      requestObjectRequired:                 true,
+      attributes:                            [{ key: '<attribute0-key>', value: '<attribute0-value>' }]
     }
   end
 
@@ -349,6 +354,7 @@ class ClientTest < Minitest::Test
     obj.authorization_data_types                   = AUTHORIZATION_DATA_TYPES
     obj.par_required                               = PAR_REQUIRED
     obj.request_object_required                    = REQUEST_OBJECT_REQUIRED
+    obj.attributes                                 = ATTRIBUTES
   end
 
 
@@ -430,6 +436,8 @@ class ClientTest < Minitest::Test
     assert_equal AUTHORIZATION_DATA_TYPES,                   obj.authorizationDataTypes
     assert_equal PAR_REQUIRED,                               obj.parRequired
     assert_equal REQUEST_OBJECT_REQUIRED,                    obj.requestObjectRequired
+    assert_equal ATTRIBUTE_KEY,                              obj.attributes[0].key
+    assert_equal ATTRIBUTE_VALUE,                            obj.attributes[0].value
   end
 
 
