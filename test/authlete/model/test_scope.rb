@@ -62,8 +62,6 @@ class ScopeTest < Minitest::Test
     obj.description   = DESCRIPTION
     obj.descriptions  = DESCRIPTIONS
     obj.attributes    = ATTRIBUTES
-
-    obj
   end
 
 
@@ -97,7 +95,7 @@ class ScopeTest < Minitest::Test
 
   def test_to_hash
     obj      = Authlete::Model::Scope.new
-    obj      = set_params(obj)
+    set_params(obj)
     actual   = obj.to_hash
     expected = generate_hash
 

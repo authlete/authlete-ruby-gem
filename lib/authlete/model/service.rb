@@ -435,6 +435,8 @@ module Authlete
       alias_method  :iss_suppressed,  :issSuppressed
       alias_method  :iss_suppressed=, :issSuppressed=
 
+      attr_accessor :attributes
+
       private
 
       def defaults
@@ -544,7 +546,8 @@ module Authlete
           claimShortcutRestrictive:                  false,
           scopeRequired:                             false,
           nbfOptional:                               false,
-          issSuppressed:                             false
+          issSuppressed:                             false,
+          attributes:                                nil
         }
       end
 
@@ -655,13 +658,15 @@ module Authlete
         @scopeRequired                             = hash[:scopeRequired]
         @nbfOptional                               = hash[:nbfOptional]
         @issSuppressed                             = hash[:issSuppressed]
+        @attributes                                = get_parsed_array(hash[:attributes]) { |e| Authlete::Model::Pair.parse(e) }
       end
 
       def to_hash_value(key, var)
         raw_val = instance_variable_get(var)
 
         case key
-          when :snsCredentials, :developerSnsCredentials, :supportedScopes, :metadata, :mtlsEndpointAliases
+          when :snsCredentials, :developerSnsCredentials, :supportedScopes,
+               :metadata, :mtlsEndpointAliases, :attributes
             raw_val&.map { |e| e.to_hash }
           else
             raw_val

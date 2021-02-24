@@ -139,6 +139,9 @@ class ServiceTest < Minitest::Test
   SCOPE_REQUIRED                                = true
   NBF_OPTIONAL                                  = true
   ISS_SUPPRESSED                                = false
+  ATTRIBUTE_KEY                                 = '<attribute0-key>'
+  ATTRIBUTE_VALUE                               = '<attribute0-value>'
+  ATTRIBUTES                                    = [ Authlete::Model::Pair.new(key: ATTRIBUTE_KEY, value: ATTRIBUTE_VALUE) ]
 
 
   def generate_json
@@ -249,7 +252,8 @@ class ServiceTest < Minitest::Test
         "claimShortcutRestrictive":                  false,
         "scopeRequired":                             true,
         "nbfOptional":                               true,
-        "issSuppressed":                             false
+        "issSuppressed":                             false,
+        "attributes":                                [{ "key": "<attribute0-key>", "value": "<attribute0-value>" }]
       }
     JSON
   end
@@ -362,7 +366,8 @@ class ServiceTest < Minitest::Test
       claimShortcutRestrictive:                  false,
       scopeRequired:                             true,
       nbfOptional:                               true,
-      issSuppressed:                             false
+      issSuppressed:                             false,
+      attributes:                                [{ key: '<attribute0-key>', value: '<attribute0-value>' }]
     }
   end
 
@@ -474,8 +479,7 @@ class ServiceTest < Minitest::Test
     obj.scope_required                                = SCOPE_REQUIRED
     obj.nbf_optional                                  = NBF_OPTIONAL
     obj.iss_suppressed                                = ISS_SUPPRESSED
-
-    obj
+    obj.attributes                                    = ATTRIBUTES
   end
 
 
@@ -593,6 +597,8 @@ class ServiceTest < Minitest::Test
     assert_equal SCOPE_REQUIRED,                                obj.scopeRequired
     assert_equal NBF_OPTIONAL,                                  obj.nbfOptional
     assert_equal ISS_SUPPRESSED,                                obj.issSuppressed
+    assert_equal ATTRIBUTE_KEY,                                 obj.attributes[0].key
+    assert_equal ATTRIBUTE_VALUE,                               obj.attributes[0].value
   end
 
 
