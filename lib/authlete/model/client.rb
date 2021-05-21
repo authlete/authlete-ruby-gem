@@ -360,7 +360,7 @@ module Authlete
           bcUserCodeRequired:                    false,
           dynamicallyRegistered:                 false,
           registrationAccessTokenHash:           nil,
-          authorizationDataTypes:                nil,
+          authorizationDetailsTypes:             nil,
           parRequired:                           false,
           requestObjectRequired:                 false,
           attributes:                            nil
@@ -435,7 +435,7 @@ module Authlete
         @bcUserCodeRequired                    = hash[:bcUserCodeRequired]
         @dynamicallyRegistered                 = hash[:dynamicallyRegistered]
         @registrationAccessTokenHash           = hash[:registrationAccessTokenHash]
-        @authorizationDataTypes                = hash[:authorizationDataTypes]
+        @authorizationDetailsTypes             = hash[:authorizationDetailsTypes]
         @parRequired                           = hash[:parRequired]
         @requestObjectRequired                 = hash[:requestObjectRequired]
         @attributes                            = get_parsed_array(hash[:attributes]) { |e| Authlete::Model::Pair.parse(e) }

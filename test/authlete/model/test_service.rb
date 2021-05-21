@@ -125,7 +125,7 @@ class ServiceTest < Minitest::Test
   MTLS_ENDPOINT_ALIAS_NAME                      = '<mtls-endpoint-alias0-name>'
   MTLS_ENDPOINT_ALIAS_URI                       = '<mtls-endpoint-alias0-uri>'
   MTLS_ENDPOINT_ALIASES                         = [ Authlete::Model::NamedUri.new(name: MTLS_ENDPOINT_ALIAS_NAME, uri: MTLS_ENDPOINT_ALIAS_URI) ]
-  SUPPORTED_AUTHORIZATION_DETAILS_TYPES         = [ '<supported-authorization-data-type0>', '<supported-authorization-data-type1>' ]
+  SUPPORTED_AUTHORIZATION_DETAILS_TYPES         = [ '<supported-authorization-details-type0>', '<supported-authorization-details-type1>' ]
   SUPPORTED_TRUST_FRAMEWORKS                    = [ '<supported-trust-framework0>', '<supported-trust-framework1>' ]
   SUPPORTED_EVIDENCE                            = [ '<supported-evidence0>', '<supported-evidence1>' ]
   SUPPORTED_IDENTITY_DOCUMENTS                  = [ '<supported-identity-document0>', '<supported-identity-document1>' ]
@@ -239,7 +239,7 @@ class ServiceTest < Minitest::Test
         "userCodeLength":                            100,
         "pushedAuthReqEndpoint":                     "<pushed-auth-req-endpoint>",
         "mtlsEndpointAliases":                       [ { "name": "<mtls-endpoint-alias0-name>", "uri": "<mtls-endpoint-alias0-uri>" } ],
-        "supportedAuthorizationDataTypes":           [ "<supported-authorization-data-type0>", "<supported-authorization-data-type1>" ],
+        "supportedAuthorizationDetailsTypes":        [ "<supported-authorization-details-type0>", "<supported-authorization-details-type1>" ],
         "supportedTrustFrameworks":                  [ "<supported-trust-framework0>", "<supported-trust-framework1>" ],
         "supportedEvidence":                         [ "<supported-evidence0>", "<supported-evidence1>" ],
         "supportedIdentityDocuments":                [ "<supported-identity-document0>", "<supported-identity-document1>" ],
@@ -353,7 +353,7 @@ class ServiceTest < Minitest::Test
       userCodeLength:                            100,
       pushedAuthReqEndpoint:                     '<pushed-auth-req-endpoint>',
       mtlsEndpointAliases:                       [ { name: '<mtls-endpoint-alias0-name>', uri: '<mtls-endpoint-alias0-uri>' } ],
-      supportedAuthorizationDataTypes:           [ '<supported-authorization-data-type0>', '<supported-authorization-data-type1>' ],
+      supportedAuthorizationDetailsTypes:           [ '<supported-authorization-details-type0>', '<supported-authorization-details-type1>' ],
       supportedTrustFrameworks:                  [ '<supported-trust-framework0>', '<supported-trust-framework1>' ],
       supportedEvidence:                         [ '<supported-evidence0>', '<supported-evidence1>' ],
       supportedIdentityDocuments:                [ '<supported-identity-document0>', '<supported-identity-document1>' ],
@@ -465,7 +465,7 @@ class ServiceTest < Minitest::Test
     obj.user_code_length                              = USER_CODE_LENGTH
     obj.pushed_auth_req_endpoint                      = PUSHED_AUTH_REQ_ENDPOINT
     obj.mtls_endpoint_aliases                         = MTLS_ENDPOINT_ALIASES
-    obj.supported_authorization_data_types            = SUPPORTED_AUTHORIZATION_DATA_TYPES
+    obj.supported_authorization_details_types         = SUPPORTED_AUTHORIZATION_DETAILS_TYPES
     obj.supported_trust_frameworks                    = SUPPORTED_TRUST_FRAMEWORKS
     obj.supported_evidence                            = SUPPORTED_EVIDENCE
     obj.supported_identity_documents                  = SUPPORTED_IDENTITY_DOCUMENTS
@@ -583,7 +583,7 @@ class ServiceTest < Minitest::Test
     assert_equal PUSHED_AUTH_REQ_ENDPOINT,                      obj.pushedAuthReqEndpoint
     assert_equal MTLS_ENDPOINT_ALIAS_NAME,                      obj.mtlsEndpointAliases[0].name
     assert_equal MTLS_ENDPOINT_ALIAS_URI,                       obj.mtlsEndpointAliases[0].uri
-    assert_equal SUPPORTED_AUTHORIZATION_DATA_TYPES,            obj.supportedAuthorizationDataTypes
+    assert_equal SUPPORTED_AUTHORIZATION_DETAILS_TYPES,            obj.supportedAuthorizationDetailsTypes
     assert_equal SUPPORTED_TRUST_FRAMEWORKS,                    obj.supportedTrustFrameworks
     assert_equal SUPPORTED_EVIDENCE,                            obj.supportedEvidence
     assert_equal SUPPORTED_IDENTITY_DOCUMENTS,                  obj.supportedIdentityDocuments

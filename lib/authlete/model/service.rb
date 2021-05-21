@@ -533,7 +533,7 @@ module Authlete
           userCodeLength:                            0,
           pushedAuthReqEndpoint:                     nil,
           mtlsEndpointAliases:                       nil,
-          supportedAuthorizationDataTypes:           nil,
+          supportedAuthorizationDetailsTypes:        nil,
           supportedTrustFrameworks:                  nil,
           supportedEvidence:                         nil,
           supportedIdentityDocuments:                nil,
@@ -644,7 +644,7 @@ module Authlete
         @userCodeLength                            = hash[:userCodeLength]
         @pushedAuthReqEndpoint                     = hash[:pushedAuthReqEndpoint]
         @mtlsEndpointAliases                       = get_parsed_array(hash[:mtlsEndpointAliases]) { |e| Authlete::Model::NamedUri.parse(e) }
-        @supportedAuthorizationDataTypes           = hash[:supportedAuthorizationDataTypes]
+        @supportedAuthorizationDetailsTypes        = hash[:supportedAuthorizationDetailsTypes]
         @supportedTrustFrameworks                  = hash[:supportedTrustFrameworks]
         @supportedEvidence                         = hash[:supportedEvidence]
         @supportedIdentityDocuments                = hash[:supportedIdentityDocuments]
