@@ -379,9 +379,9 @@ module Authlete
       alias_method  :mtls_endpoint_aliases,  :mtlsEndpointAliases
       alias_method  :mtls_endpoint_aliases=, :mtlsEndpointAliases=
 
-      attr_accessor :supportedAuthorizationDataTypes
-      alias_method  :supported_authorization_data_types,  :supportedAuthorizationDataTypes
-      alias_method  :supported_authorization_data_types=, :supportedAuthorizationDataTypes=
+      attr_accessor :supportedAuthorizationDetailsTypes
+      alias_method  :supported_authorization_details_types,  :supportedAuthorizationDetailsTypes
+      alias_method  :supported_authorization_details_types=, :supportedAuthorizationDetailsTypes=
 
       attr_accessor :supportedTrustFrameworks
       alias_method  :supported_trust_frameworks,  :supportedTrustFrameworks
@@ -533,7 +533,7 @@ module Authlete
           userCodeLength:                            0,
           pushedAuthReqEndpoint:                     nil,
           mtlsEndpointAliases:                       nil,
-          supportedAuthorizationDataTypes:           nil,
+          supportedAuthorizationDetailsTypes:        nil,
           supportedTrustFrameworks:                  nil,
           supportedEvidence:                         nil,
           supportedIdentityDocuments:                nil,
@@ -644,7 +644,7 @@ module Authlete
         @userCodeLength                            = hash[:userCodeLength]
         @pushedAuthReqEndpoint                     = hash[:pushedAuthReqEndpoint]
         @mtlsEndpointAliases                       = get_parsed_array(hash[:mtlsEndpointAliases]) { |e| Authlete::Model::NamedUri.parse(e) }
-        @supportedAuthorizationDataTypes           = hash[:supportedAuthorizationDataTypes]
+        @supportedAuthorizationDetailsTypes        = hash[:supportedAuthorizationDetailsTypes]
         @supportedTrustFrameworks                  = hash[:supportedTrustFrameworks]
         @supportedEvidence                         = hash[:supportedEvidence]
         @supportedIdentityDocuments                = hash[:supportedIdentityDocuments]

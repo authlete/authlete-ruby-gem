@@ -109,7 +109,7 @@ class ClientTest < Minitest::Test
   BC_USER_CODE_REQUIRED                      = true
   DYNAMICALLY_REGISTERED                     = false
   REGISTRATION_ACCESS_TOKEN_HASH             = '<registration-access-token-hash>'
-  AUTHORIZATION_DATA_TYPES                   = [ '<authorization-data-type0>', '<authorization-data-type1>' ]
+  AUTHORIZATION_DETAILS_TYPES                = [ '<authorization-details-type0>', '<authorization-details-type1>' ]
   PAR_REQUIRED                               = false
   REQUEST_OBJECT_REQUIRED                    = true
   ATTRIBUTE_KEY                              = '<attribute0-key>'
@@ -192,7 +192,7 @@ class ClientTest < Minitest::Test
         "bcUserCodeRequired":                    true,
         "dynamicallyRegistered":                 false,
         "registrationAccessTokenHash":           "<registration-access-token-hash>",
-        "authorizationDataTypes":                [ "<authorization-data-type0>", "<authorization-data-type1>" ],
+        "authorizationDetailsTypes":             [ "<authorization-details-type0>", "<authorization-details-type1>" ],
         "parRequired":                           false,
         "requestObjectRequired":                 true,
         "attributes":                            [{ "key": "<attribute0-key>", "value": "<attribute0-value>" }]
@@ -275,7 +275,7 @@ class ClientTest < Minitest::Test
       bcUserCodeRequired:                    true,
       dynamicallyRegistered:                 false,
       registrationAccessTokenHash:           '<registration-access-token-hash>',
-      authorizationDataTypes:                [ '<authorization-data-type0>', '<authorization-data-type1>' ],
+      authorizationDetailsTypes:             [ '<authorization-details-type0>', '<authorization-details-type1>' ],
       parRequired:                           false,
       requestObjectRequired:                 true,
       attributes:                            [{ key: '<attribute0-key>', value: '<attribute0-value>' }]
@@ -351,7 +351,7 @@ class ClientTest < Minitest::Test
     obj.bc_user_code_required                      = BC_USER_CODE_REQUIRED
     obj.dynamically_registered                     = DYNAMICALLY_REGISTERED
     obj.registration_access_token_hash             = REGISTRATION_ACCESS_TOKEN_HASH
-    obj.authorization_data_types                   = AUTHORIZATION_DATA_TYPES
+    obj.authorization_details_types                = AUTHORIZATION_DETAILS_TYPES
     obj.par_required                               = PAR_REQUIRED
     obj.request_object_required                    = REQUEST_OBJECT_REQUIRED
     obj.attributes                                 = ATTRIBUTES
@@ -433,7 +433,7 @@ class ClientTest < Minitest::Test
     assert_equal BC_USER_CODE_REQUIRED,                      obj.bcUserCodeRequired
     assert_equal DYNAMICALLY_REGISTERED,                     obj.dynamicallyRegistered
     assert_equal REGISTRATION_ACCESS_TOKEN_HASH,             obj.registrationAccessTokenHash
-    assert_equal AUTHORIZATION_DATA_TYPES,                   obj.authorizationDataTypes
+    assert_equal AUTHORIZATION_DETAILS_TYPES,                obj.authorizationDetailsTypes
     assert_equal PAR_REQUIRED,                               obj.parRequired
     assert_equal REQUEST_OBJECT_REQUIRED,                    obj.requestObjectRequired
     assert_equal ATTRIBUTE_KEY,                              obj.attributes[0].key

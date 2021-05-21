@@ -275,9 +275,9 @@ module Authlete
       alias_method  :registration_access_token_hash,  :registrationAccessTokenHash
       alias_method  :registration_access_token_hash=, :registrationAccessTokenHash=
 
-      attr_accessor :authorizationDataTypes
-      alias_method  :authorization_data_types,  :authorizationDataTypes
-      alias_method  :authorization_data_types=, :authorizationDataTypes=
+      attr_accessor :authorizationDetailsTypes
+      alias_method  :authorization_details_types,  :authorizationDetailsTypes
+      alias_method  :authorization_details_types=, :authorizationDetailsTypes=
 
       attr_accessor :parRequired
       alias_method  :par_required,  :parRequired
@@ -360,7 +360,7 @@ module Authlete
           bcUserCodeRequired:                    false,
           dynamicallyRegistered:                 false,
           registrationAccessTokenHash:           nil,
-          authorizationDataTypes:                nil,
+          authorizationDetailsTypes:             nil,
           parRequired:                           false,
           requestObjectRequired:                 false,
           attributes:                            nil
@@ -435,7 +435,7 @@ module Authlete
         @bcUserCodeRequired                    = hash[:bcUserCodeRequired]
         @dynamicallyRegistered                 = hash[:dynamicallyRegistered]
         @registrationAccessTokenHash           = hash[:registrationAccessTokenHash]
-        @authorizationDataTypes                = hash[:authorizationDataTypes]
+        @authorizationDetailsTypes             = hash[:authorizationDetailsTypes]
         @parRequired                           = hash[:parRequired]
         @requestObjectRequired                 = hash[:requestObjectRequired]
         @attributes                            = get_parsed_array(hash[:attributes]) { |e| Authlete::Model::Pair.parse(e) }
