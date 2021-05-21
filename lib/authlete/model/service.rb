@@ -376,12 +376,12 @@ module Authlete
       alias_method  :pushed_auth_req_endpoint=, :pushedAuthReqEndpoint=
 
       attr_accessor :mtlsEndpointAliases
-      alias_method  :mtls_endpoint_aliases,  :mtlsEndpointAliases
+      alias_method  :mzxtls_endpoint_aliases,  :mtlsEndpointAliases
       alias_method  :mtls_endpoint_aliases=, :mtlsEndpointAliases=
 
-      attr_accessor :supportedAuthorizationDataTypes
-      alias_method  :supported_authorization_data_types,  :supportedAuthorizationDataTypes
-      alias_method  :supported_authorization_data_types=, :supportedAuthorizationDataTypes=
+      attr_accessor :supportedAuthorizationDetailsTypes
+      alias_method  :supported_authorization_details_types,  :supportedAuthorizationDetailsTypes
+      alias_method  :supported_authorization_details_types=, :supportedAuthorizationDetailsTypes=
 
       attr_accessor :supportedTrustFrameworks
       alias_method  :supported_trust_frameworks,  :supportedTrustFrameworks

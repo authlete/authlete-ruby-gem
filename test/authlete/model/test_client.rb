@@ -351,7 +351,7 @@ class ClientTest < Minitest::Test
     obj.bc_user_code_required                      = BC_USER_CODE_REQUIRED
     obj.dynamically_registered                     = DYNAMICALLY_REGISTERED
     obj.registration_access_token_hash             = REGISTRATION_ACCESS_TOKEN_HASH
-    obj.authorization_data_types                   = AUTHORIZATION_DATA_TYPES
+    obj.authorization_details_types                = AUTHORIZATION_DETAILS_TYPES
     obj.par_required                               = PAR_REQUIRED
     obj.request_object_required                    = REQUEST_OBJECT_REQUIRED
     obj.attributes                                 = ATTRIBUTES

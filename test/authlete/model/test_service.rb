@@ -125,7 +125,7 @@ class ServiceTest < Minitest::Test
   MTLS_ENDPOINT_ALIAS_NAME                      = '<mtls-endpoint-alias0-name>'
   MTLS_ENDPOINT_ALIAS_URI                       = '<mtls-endpoint-alias0-uri>'
   MTLS_ENDPOINT_ALIASES                         = [ Authlete::Model::NamedUri.new(name: MTLS_ENDPOINT_ALIAS_NAME, uri: MTLS_ENDPOINT_ALIAS_URI) ]
-  SUPPORTED_AUTHORIZATION_DATA_TYPES            = [ '<supported-authorization-data-type0>', '<supported-authorization-data-type1>' ]
+  SUPPORTED_AUTHORIZATION_DETAILS_TYPES         = [ '<supported-authorization-data-type0>', '<supported-authorization-data-type1>' ]
   SUPPORTED_TRUST_FRAMEWORKS                    = [ '<supported-trust-framework0>', '<supported-trust-framework1>' ]
   SUPPORTED_EVIDENCE                            = [ '<supported-evidence0>', '<supported-evidence1>' ]
   SUPPORTED_IDENTITY_DOCUMENTS                  = [ '<supported-identity-document0>', '<supported-identity-document1>' ]

@@ -275,9 +275,9 @@ module Authlete
       alias_method  :registration_access_token_hash,  :registrationAccessTokenHash
       alias_method  :registration_access_token_hash=, :registrationAccessTokenHash=
 
-      attr_accessor :authorizationDataTypes
-      alias_method  :authorization_data_types,  :authorizationDataTypes
-      alias_method  :authorization_data_types=, :authorizationDataTypes=
+      attr_accessor :authorizationDetailsTypes
+      alias_method  :authorization_details_types,  :authorizationDetailsTypes
+      alias_method  :authorization_details_types=, :authorizationDetailsTypes=
 
       attr_accessor :parRequired
       alias_method  :par_required,  :parRequired
