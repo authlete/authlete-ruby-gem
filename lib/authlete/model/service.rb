@@ -376,7 +376,7 @@ module Authlete
       alias_method  :pushed_auth_req_endpoint=, :pushedAuthReqEndpoint=
 
       attr_accessor :mtlsEndpointAliases
-      alias_method  :mzxtls_endpoint_aliases,  :mtlsEndpointAliases
+      alias_method  :mtls_endpoint_aliases,  :mtlsEndpointAliases
       alias_method  :mtls_endpoint_aliases=, :mtlsEndpointAliases=
 
       attr_accessor :supportedAuthorizationDetailsTypes
