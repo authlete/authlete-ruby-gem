@@ -115,7 +115,7 @@ class ClientTest < Minitest::Test
   ATTRIBUTE_KEY                              = '<attribute0-key>'
   ATTRIBUTE_VALUE                            = '<attribute0-value>'
   ATTRIBUTES                                 = [ Authlete::Model::Pair.new(key: ATTRIBUTE_KEY, value: ATTRIBUTE_VALUE) ]
-  CUSTOM_METADATA                            = 'JSON string'
+  CUSTOM_METADATA                            = '<custom-metadata>'
 
 
   def generate_json
@@ -197,7 +197,7 @@ class ClientTest < Minitest::Test
         "parRequired":                           false,
         "requestObjectRequired":                 true,
         "attributes":                            [{ "key": "<attribute0-key>", "value": "<attribute0-value>" }],
-        "customMetadata":                        "JSON string"
+        "customMetadata":                        "<custom-metadata>"
       }
     JSON
   end
@@ -281,7 +281,7 @@ class ClientTest < Minitest::Test
       parRequired:                           false,
       requestObjectRequired:                 true,
       attributes:                            [{ key: '<attribute0-key>', value: '<attribute0-value>' }],
-      customMetadata:                        'JSON string'
+      customMetadata:                        '<custom-metadata>'
     }
   end
 

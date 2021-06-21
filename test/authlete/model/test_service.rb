@@ -142,7 +142,7 @@ class ServiceTest < Minitest::Test
   ATTRIBUTE_KEY                                 = '<attribute0-key>'
   ATTRIBUTE_VALUE                               = '<attribute0-value>'
   ATTRIBUTES                                    = [ Authlete::Model::Pair.new(key: ATTRIBUTE_KEY, value: ATTRIBUTE_VALUE) ]
-  SUPPORTED_CUSTOM_CLIENT_METADATA              = 'JSON string'
+  SUPPORTED_CUSTOM_CLIENT_METADATA              = [ '<supported-custom-client-metadata0>', '<supported-custom-client-metadata1>' ]
 
 
   def generate_json
@@ -255,7 +255,7 @@ class ServiceTest < Minitest::Test
         "nbfOptional":                               true,
         "issSuppressed":                             false,
         "attributes":                                [{ "key": "<attribute0-key>", "value": "<attribute0-value>" }],
-        "supportedCustomClientMetadata":             "JSON string"
+        "supportedCustomClientMetadata":             [ "<supported-custom-client-metadata0>", "<supported-custom-client-metadata1>" ]
       }
     JSON
   end
@@ -370,7 +370,7 @@ class ServiceTest < Minitest::Test
       nbfOptional:                               true,
       issSuppressed:                             false,
       attributes:                                [{ key: '<attribute0-key>', value: '<attribute0-value>' }],
-      supportedCustomClientMetadata:             'JSON string'
+      supportedCustomClientMetadata:             [ '<supported-custom-client-metadata0>', '<supported-custom-client-metadata1>' ]
     }
   end
 
