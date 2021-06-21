@@ -368,7 +368,7 @@ module Authlete
           parRequired:                           false,
           requestObjectRequired:                 false,
           attributes:                            nil,
-          customMetadata:                        nil,
+          customMetadata:                        nil
         }
       end
 

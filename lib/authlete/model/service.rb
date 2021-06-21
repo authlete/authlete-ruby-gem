@@ -552,7 +552,7 @@ module Authlete
           nbfOptional:                               false,
           issSuppressed:                             false,
           attributes:                                nil,
-          supportedCustomClientMetadata:             nil,
+          supportedCustomClientMetadata:             nil
         }
       end
 
