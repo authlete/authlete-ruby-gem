@@ -288,6 +288,10 @@ module Authlete
       alias_method  :request_object_required=, :requestObjectRequired=
 
       attr_accessor :attributes
+      
+      attr_accessor :customMetadata
+      alias_method  :custom_metadata, :customMetadata
+      alias_method  :custom_metadata=, :customMetadata=
 
       private
 
@@ -363,7 +367,8 @@ module Authlete
           authorizationDetailsTypes:             nil,
           parRequired:                           false,
           requestObjectRequired:                 false,
-          attributes:                            nil
+          attributes:                            nil,
+          customMetadata:                        nil,
         }
       end
 
@@ -439,6 +444,7 @@ module Authlete
         @parRequired                           = hash[:parRequired]
         @requestObjectRequired                 = hash[:requestObjectRequired]
         @attributes                            = get_parsed_array(hash[:attributes]) { |e| Authlete::Model::Pair.parse(e) }
+        @customMetadata                        = hash[:customMetadata]
       end
 
       def to_hash_value(key, var)

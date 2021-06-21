@@ -437,6 +437,10 @@ module Authlete
 
       attr_accessor :attributes
 
+      attr_accessor :supportedCustomClientMetadata
+      alias_method  :supported_custom_client_metadata,  :supportedCustomClientMetadata
+      alias_method  :supported_custom_client_metadata=, :supportedCustomClientMetadata=
+
       private
 
       def defaults
@@ -547,7 +551,8 @@ module Authlete
           scopeRequired:                             false,
           nbfOptional:                               false,
           issSuppressed:                             false,
-          attributes:                                nil
+          attributes:                                nil,
+          supportedCustomClientMetadata:             nil,
         }
       end
 
@@ -659,6 +664,7 @@ module Authlete
         @nbfOptional                               = hash[:nbfOptional]
         @issSuppressed                             = hash[:issSuppressed]
         @attributes                                = get_parsed_array(hash[:attributes]) { |e| Authlete::Model::Pair.parse(e) }
+        @supportedCustomClientMetadata             = hash[:supportedCustomClientMetadata]
       end
 
       def to_hash_value(key, var)
