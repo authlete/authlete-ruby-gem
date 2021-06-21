@@ -115,6 +115,7 @@ class ClientTest < Minitest::Test
   ATTRIBUTE_KEY                              = '<attribute0-key>'
   ATTRIBUTE_VALUE                            = '<attribute0-value>'
   ATTRIBUTES                                 = [ Authlete::Model::Pair.new(key: ATTRIBUTE_KEY, value: ATTRIBUTE_VALUE) ]
+  CUSTOM_METADATA                            = '<custom-metadata>'
 
 
   def generate_json
@@ -195,7 +196,8 @@ class ClientTest < Minitest::Test
         "authorizationDetailsTypes":             [ "<authorization-details-type0>", "<authorization-details-type1>" ],
         "parRequired":                           false,
         "requestObjectRequired":                 true,
-        "attributes":                            [{ "key": "<attribute0-key>", "value": "<attribute0-value>" }]
+        "attributes":                            [{ "key": "<attribute0-key>", "value": "<attribute0-value>" }],
+        "customMetadata":                        "<custom-metadata>"
       }
     JSON
   end
@@ -278,7 +280,8 @@ class ClientTest < Minitest::Test
       authorizationDetailsTypes:             [ '<authorization-details-type0>', '<authorization-details-type1>' ],
       parRequired:                           false,
       requestObjectRequired:                 true,
-      attributes:                            [{ key: '<attribute0-key>', value: '<attribute0-value>' }]
+      attributes:                            [{ key: '<attribute0-key>', value: '<attribute0-value>' }],
+      customMetadata:                        '<custom-metadata>'
     }
   end
 
@@ -355,6 +358,7 @@ class ClientTest < Minitest::Test
     obj.par_required                               = PAR_REQUIRED
     obj.request_object_required                    = REQUEST_OBJECT_REQUIRED
     obj.attributes                                 = ATTRIBUTES
+    obj.custom_metadata                            = CUSTOM_METADATA
   end
 
 
@@ -438,6 +442,7 @@ class ClientTest < Minitest::Test
     assert_equal REQUEST_OBJECT_REQUIRED,                    obj.requestObjectRequired
     assert_equal ATTRIBUTE_KEY,                              obj.attributes[0].key
     assert_equal ATTRIBUTE_VALUE,                            obj.attributes[0].value
+    assert_equal CUSTOM_METADATA,                            obj.customMetadata
   end
 
 
