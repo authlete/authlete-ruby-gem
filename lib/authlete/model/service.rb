@@ -442,8 +442,8 @@ module Authlete
       alias_method  :supported_custom_client_metadata=, :supportedCustomClientMetadata=
 
       attr_accessor :tokenExpirationLinked
-      alias_method  :token_expiration_linked,    :tokenExpirationLinked
-      alias_method  :token_expiration_linked=,   :tokenExpirationLinked=
+      alias_method  :token_expiration_linked,  :tokenExpirationLinked
+      alias_method  :token_expiration_linked=, :tokenExpirationLinked=
 
       private
 
