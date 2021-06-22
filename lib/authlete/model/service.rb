@@ -441,6 +441,10 @@ module Authlete
       alias_method  :supported_custom_client_metadata,  :supportedCustomClientMetadata
       alias_method  :supported_custom_client_metadata=, :supportedCustomClientMetadata=
 
+      attr_accessor :tokenExpirationLinked
+      alias_method  :token_expiration_linked,    :tokenExpirationLinked
+      alias_method  :token_expiration_linked=,   :tokenExpirationLinked=
+
       private
 
       def defaults
@@ -552,7 +556,8 @@ module Authlete
           nbfOptional:                               false,
           issSuppressed:                             false,
           attributes:                                nil,
-          supportedCustomClientMetadata:             nil
+          supportedCustomClientMetadata:             nil,
+          tokenExpirationLinked:                     false
         }
       end
 
@@ -665,6 +670,7 @@ module Authlete
         @issSuppressed                             = hash[:issSuppressed]
         @attributes                                = get_parsed_array(hash[:attributes]) { |e| Authlete::Model::Pair.parse(e) }
         @supportedCustomClientMetadata             = hash[:supportedCustomClientMetadata]
+        @tokenExpirationLinked                     = hash[:tokenExpirationLinked]
       end
 
       def to_hash_value(key, var)

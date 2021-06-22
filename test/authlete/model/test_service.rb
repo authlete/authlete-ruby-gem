@@ -143,6 +143,7 @@ class ServiceTest < Minitest::Test
   ATTRIBUTE_VALUE                               = '<attribute0-value>'
   ATTRIBUTES                                    = [ Authlete::Model::Pair.new(key: ATTRIBUTE_KEY, value: ATTRIBUTE_VALUE) ]
   SUPPORTED_CUSTOM_CLIENT_METADATA              = [ '<supported-custom-client-metadata0>', '<supported-custom-client-metadata1>' ]
+  TOKEN_EXPIRATION_LINKED                       = false
 
 
   def generate_json
@@ -255,7 +256,8 @@ class ServiceTest < Minitest::Test
         "nbfOptional":                               true,
         "issSuppressed":                             false,
         "attributes":                                [{ "key": "<attribute0-key>", "value": "<attribute0-value>" }],
-        "supportedCustomClientMetadata":             [ "<supported-custom-client-metadata0>", "<supported-custom-client-metadata1>" ]
+        "supportedCustomClientMetadata":             [ "<supported-custom-client-metadata0>", "<supported-custom-client-metadata1>" ],
+        "tokenExpirationLinked":                     false
       }
     JSON
   end
@@ -370,7 +372,8 @@ class ServiceTest < Minitest::Test
       nbfOptional:                               true,
       issSuppressed:                             false,
       attributes:                                [{ key: '<attribute0-key>', value: '<attribute0-value>' }],
-      supportedCustomClientMetadata:             [ '<supported-custom-client-metadata0>', '<supported-custom-client-metadata1>' ]
+      supportedCustomClientMetadata:             [ '<supported-custom-client-metadata0>', '<supported-custom-client-metadata1>' ],
+      tokenExpirationLinked:                     false
     }
   end
 
@@ -484,6 +487,7 @@ class ServiceTest < Minitest::Test
     obj.iss_suppressed                                = ISS_SUPPRESSED
     obj.attributes                                    = ATTRIBUTES
     obj.supported_custom_client_metadata              = SUPPORTED_CUSTOM_CLIENT_METADATA
+    obj.token_expiration_linked                       = TOKEN_EXPIRATION_LINKED
   end
 
 
@@ -604,6 +608,7 @@ class ServiceTest < Minitest::Test
     assert_equal ATTRIBUTE_KEY,                                 obj.attributes[0].key
     assert_equal ATTRIBUTE_VALUE,                               obj.attributes[0].value
     assert_equal SUPPORTED_CUSTOM_CLIENT_METADATA,              obj.supportedCustomClientMetadata
+    assert_equal TOKEN_EXPIRATION_LINKED,                       obj.tokenExpirationLinked
   end
 
 
