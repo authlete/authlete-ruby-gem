@@ -288,163 +288,181 @@ module Authlete
       alias_method  :request_object_required=, :requestObjectRequired=
 
       attr_accessor :attributes
-      
+
       attr_accessor :customMetadata
       alias_method  :custom_metadata, :customMetadata
       alias_method  :custom_metadata=, :customMetadata=
+
+      attr_accessor :frontChannelRequestObjectEncryptionRequired
+      alias_method  :front_channel_request_object_encryption_required,  :frontChannelRequestObjectEncryptionRequired
+      alias_method  :front_channel_request_object_encryption_required=, :frontChannelRequestObjectEncryptionRequired=
+
+      attr_accessor :requestObjectEncryptionAlgMatchRequired
+      alias_method  :request_object_encryption_alg_match_required,  :requestObjectEncryptionAlgMatchRequired
+      alias_method  :request_object_encryption_alg_match_required=, :requestObjectEncryptionAlgMatchRequired=
+
+      attr_accessor :requestObjectEncryptionEncMatchRequired
+      alias_method  :request_object_encryption_enc_match_required,  :requestObjectEncryptionEncMatchRequired
+      alias_method  :request_object_encryption_enc_match_required=, :requestObjectEncryptionEncMatchRequired=
 
       private
 
       def defaults
         {
-          number:                                0,
-          serviceNumber:                         0,
-          developer:                             nil,
-          clientId:                              0,
-          clientIdAlias:                         nil,
-          clientIdAliasEnabled:                  false,
-          clientSecret:                          nil,
-          clientType:                            nil,
-          redirectUris:                          nil,
-          responseTypes:                         nil,
-          grantTypes:                            nil,
-          applicationType:                       nil,
-          contacts:                              nil,
-          clientName:                            nil,
-          clientNames:                           nil,
-          logoUri:                               nil,
-          logoUris:                              nil,
-          clientUri:                             nil,
-          clientUris:                            nil,
-          policyUri:                             nil,
-          policyUris:                            nil,
-          tosUri:                                nil,
-          tosUris:                               nil,
-          jwksUri:                               nil,
-          jwks:                                  nil,
-          derivedSectorIdentifier:               nil,
-          sectorIdentifierUri:                   nil,
-          subjectType:                           nil,
-          idTokenSignAlg:                        nil,
-          idTokenEncryptionAlg:                  nil,
-          idTokenEncryptionEnc:                  nil,
-          userInfoSignAlg:                       nil,
-          userInfoEncryptionAlg:                 nil,
-          userInfoEncryptionEnc:                 nil,
-          requestSignAlg:                        nil,
-          requestEncryptionAlg:                  nil,
-          requestEncryptionEnc:                  nil,
-          tokenAuthMethod:                       nil,
-          tokenAuthSignAlg:                      nil,
-          defaultMaxAge:                         0,
-          defaultAcrs:                           nil,
-          authTimeRequired:                      false,
-          loginUri:                              nil,
-          requestUris:                           nil,
-          description:                           nil,
-          descriptions:                          nil,
-          createdAt:                             0,
-          modifiedAt:                            0,
-          extension:                             nil,
-          tlsClientAuthSubjectDn:                nil,
-          tlsClientAuthSanDns:                   nil,
-          tlsClientAuthSanUri:                   nil,
-          tlsClientAuthSanIp:                    nil,
-          tlsClientAuthSanEmail:                 nil,
-          tlsClientCertificateBoundAccessTokens: false,
-          selfSignedCertificateKeyId:            nil,
-          softwareId:                            nil,
-          softwareVersion:                       nil,
-          authorizationSignAlg:                  nil,
-          authorizationEncryptionAlg:            nil,
-          authorizationEncryptionEnc:            nil,
-          bcDeliveryMode:                        nil,
-          bcNotificationEndpoint:                nil,
-          bcRequestSignAlg:                      nil,
-          bcUserCodeRequired:                    false,
-          dynamicallyRegistered:                 false,
-          registrationAccessTokenHash:           nil,
-          authorizationDetailsTypes:             nil,
-          parRequired:                           false,
-          requestObjectRequired:                 false,
-          attributes:                            nil,
-          customMetadata:                        nil
+          number:                                      0,
+          serviceNumber:                               0,
+          developer:                                   nil,
+          clientId:                                    0,
+          clientIdAlias:                               nil,
+          clientIdAliasEnabled:                        false,
+          clientSecret:                                nil,
+          clientType:                                  nil,
+          redirectUris:                                nil,
+          responseTypes:                               nil,
+          grantTypes:                                  nil,
+          applicationType:                             nil,
+          contacts:                                    nil,
+          clientName:                                  nil,
+          clientNames:                                 nil,
+          logoUri:                                     nil,
+          logoUris:                                    nil,
+          clientUri:                                   nil,
+          clientUris:                                  nil,
+          policyUri:                                   nil,
+          policyUris:                                  nil,
+          tosUri:                                      nil,
+          tosUris:                                     nil,
+          jwksUri:                                     nil,
+          jwks:                                        nil,
+          derivedSectorIdentifier:                     nil,
+          sectorIdentifierUri:                         nil,
+          subjectType:                                 nil,
+          idTokenSignAlg:                              nil,
+          idTokenEncryptionAlg:                        nil,
+          idTokenEncryptionEnc:                        nil,
+          userInfoSignAlg:                             nil,
+          userInfoEncryptionAlg:                       nil,
+          userInfoEncryptionEnc:                       nil,
+          requestSignAlg:                              nil,
+          requestEncryptionAlg:                        nil,
+          requestEncryptionEnc:                        nil,
+          tokenAuthMethod:                             nil,
+          tokenAuthSignAlg:                            nil,
+          defaultMaxAge:                               0,
+          defaultAcrs:                                 nil,
+          authTimeRequired:                            false,
+          loginUri:                                    nil,
+          requestUris:                                 nil,
+          description:                                 nil,
+          descriptions:                                nil,
+          createdAt:                                   0,
+          modifiedAt:                                  0,
+          extension:                                   nil,
+          tlsClientAuthSubjectDn:                      nil,
+          tlsClientAuthSanDns:                         nil,
+          tlsClientAuthSanUri:                         nil,
+          tlsClientAuthSanIp:                          nil,
+          tlsClientAuthSanEmail:                       nil,
+          tlsClientCertificateBoundAccessTokens:       false,
+          selfSignedCertificateKeyId:                  nil,
+          softwareId:                                  nil,
+          softwareVersion:                             nil,
+          authorizationSignAlg:                        nil,
+          authorizationEncryptionAlg:                  nil,
+          authorizationEncryptionEnc:                  nil,
+          bcDeliveryMode:                              nil,
+          bcNotificationEndpoint:                      nil,
+          bcRequestSignAlg:                            nil,
+          bcUserCodeRequired:                          false,
+          dynamicallyRegistered:                       false,
+          registrationAccessTokenHash:                 nil,
+          authorizationDetailsTypes:                   nil,
+          parRequired:                                 false,
+          requestObjectRequired:                       false,
+          attributes:                                  nil,
+          customMetadata:                              nil,
+          frontChannelRequestObjectEncryptionRequired: false,
+          requestObjectEncryptionAlgMatchRequired:     false,
+          requestObjectEncryptionEncMatchRequired:     false
         }
       end
 
       def set_params(hash)
-        @number                                = hash[:number]
-        @serviceNumber                         = hash[:serviceNumber]
-        @developer                             = hash[:developer]
-        @clientId                              = hash[:clientId]
-        @clientIdAlias                         = hash[:clientIdAlias]
-        @clientIdAliasEnabled                  = hash[:clientIdAliasEnabled]
-        @clientSecret                          = hash[:clientSecret]
-        @clientType                            = hash[:clientType]
-        @redirectUris                          = hash[:redirectUris]
-        @responseTypes                         = hash[:responseTypes]
-        @grantTypes                            = hash[:grantTypes]
-        @applicationType                       = hash[:applicationType]
-        @contacts                              = hash[:contacts]
-        @clientName                            = hash[:clientName]
-        @clientNames                           = get_parsed_array(hash[:clientNames]) { |e| Authlete::Model::TaggedValue.parse(e) }
-        @logoUri                               = hash[:logoUri]
-        @logoUris                              = get_parsed_array(hash[:logoUris]) { |e| Authlete::Model::TaggedValue.parse(e) }
-        @clientUri                             = hash[:clientUri]
-        @clientUris                            = get_parsed_array(hash[:clientUris]) { |e| Authlete::Model::TaggedValue.parse(e) }
-        @policyUri                             = hash[:policyUri]
-        @policyUris                            = get_parsed_array(hash[:policyUris]) { |e| Authlete::Model::TaggedValue.parse(e) }
-        @tosUri                                = hash[:tosUri]
-        @tosUris                               = get_parsed_array(hash[:tosUris]) { |e| Authlete::Model::TaggedValue.parse(e) }
-        @jwksUri                               = hash[:jwksUri]
-        @jwks                                  = hash[:jwks]
-        @derivedSectorIdentifier               = hash[:derivedSectorIdentifier]
-        @sectorIdentifierUri                   = hash[:sectorIdentifierUri]
-        @subjectType                           = hash[:subjectType]
-        @idTokenSignAlg                        = hash[:idTokenSignAlg]
-        @idTokenEncryptionAlg                  = hash[:idTokenEncryptionAlg]
-        @idTokenEncryptionEnc                  = hash[:idTokenEncryptionEnc]
-        @userInfoSignAlg                       = hash[:userInfoSignAlg]
-        @userInfoEncryptionAlg                 = hash[:userInfoEncryptionAlg]
-        @userInfoEncryptionEnc                 = hash[:userInfoEncryptionEnc]
-        @requestSignAlg                        = hash[:requestSignAlg]
-        @requestEncryptionAlg                  = hash[:requestEncryptionAlg]
-        @requestEncryptionEnc                  = hash[:requestEncryptionEnc]
-        @tokenAuthMethod                       = hash[:tokenAuthMethod]
-        @tokenAuthSignAlg                      = hash[:tokenAuthSignAlg]
-        @defaultMaxAge                         = hash[:defaultMaxAge]
-        @defaultAcrs                           = hash[:defaultAcrs]
-        @authTimeRequired                      = hash[:authTimeRequired]
-        @loginUri                              = hash[:loginUri]
-        @requestUris                           = hash[:requestUris]
-        @description                           = hash[:description]
-        @descriptions                          = get_parsed_array(hash[:descriptions]) { |e| Authlete::Model::TaggedValue.parse(e) }
-        @createdAt                             = hash[:createdAt]
-        @modifiedAt                            = hash[:modifiedAt]
-        @extension                             = Authlete::Model::ClientExtension.parse(hash[:extension])
-        @tlsClientAuthSubjectDn                = hash[:tlsClientAuthSubjectDn]
-        @tlsClientAuthSanDns                   = hash[:tlsClientAuthSanDns]
-        @tlsClientAuthSanUri                   = hash[:tlsClientAuthSanUri]
-        @tlsClientAuthSanIp                    = hash[:tlsClientAuthSanIp]
-        @tlsClientAuthSanEmail                 = hash[:tlsClientAuthSanEmail]
-        @tlsClientCertificateBoundAccessTokens = hash[:tlsClientCertificateBoundAccessTokens]
-        @selfSignedCertificateKeyId            = hash[:selfSignedCertificateKeyId]
-        @softwareId                            = hash[:softwareId]
-        @softwareVersion                       = hash[:softwareVersion]
-        @authorizationSignAlg                  = hash[:authorizationSignAlg]
-        @authorizationEncryptionAlg            = hash[:authorizationEncryptionAlg]
-        @authorizationEncryptionEnc            = hash[:authorizationEncryptionEnc]
-        @bcDeliveryMode                        = hash[:bcDeliveryMode]
-        @bcNotificationEndpoint                = hash[:bcNotificationEndpoint]
-        @bcRequestSignAlg                      = hash[:bcRequestSignAlg]
-        @bcUserCodeRequired                    = hash[:bcUserCodeRequired]
-        @dynamicallyRegistered                 = hash[:dynamicallyRegistered]
-        @registrationAccessTokenHash           = hash[:registrationAccessTokenHash]
-        @authorizationDetailsTypes             = hash[:authorizationDetailsTypes]
-        @parRequired                           = hash[:parRequired]
-        @requestObjectRequired                 = hash[:requestObjectRequired]
-        @attributes                            = get_parsed_array(hash[:attributes]) { |e| Authlete::Model::Pair.parse(e) }
-        @customMetadata                        = hash[:customMetadata]
+        @number                                      = hash[:number]
+        @serviceNumber                               = hash[:serviceNumber]
+        @developer                                   = hash[:developer]
+        @clientId                                    = hash[:clientId]
+        @clientIdAlias                               = hash[:clientIdAlias]
+        @clientIdAliasEnabled                        = hash[:clientIdAliasEnabled]
+        @clientSecret                                = hash[:clientSecret]
+        @clientType                                  = hash[:clientType]
+        @redirectUris                                = hash[:redirectUris]
+        @responseTypes                               = hash[:responseTypes]
+        @grantTypes                                  = hash[:grantTypes]
+        @applicationType                             = hash[:applicationType]
+        @contacts                                    = hash[:contacts]
+        @clientName                                  = hash[:clientName]
+        @clientNames                                 = get_parsed_array(hash[:clientNames]) { |e| Authlete::Model::TaggedValue.parse(e) }
+        @logoUri                                     = hash[:logoUri]
+        @logoUris                                    = get_parsed_array(hash[:logoUris]) { |e| Authlete::Model::TaggedValue.parse(e) }
+        @clientUri                                   = hash[:clientUri]
+        @clientUris                                  = get_parsed_array(hash[:clientUris]) { |e| Authlete::Model::TaggedValue.parse(e) }
+        @policyUri                                   = hash[:policyUri]
+        @policyUris                                  = get_parsed_array(hash[:policyUris]) { |e| Authlete::Model::TaggedValue.parse(e) }
+        @tosUri                                      = hash[:tosUri]
+        @tosUris                                     = get_parsed_array(hash[:tosUris]) { |e| Authlete::Model::TaggedValue.parse(e) }
+        @jwksUri                                     = hash[:jwksUri]
+        @jwks                                        = hash[:jwks]
+        @derivedSectorIdentifier                     = hash[:derivedSectorIdentifier]
+        @sectorIdentifierUri                         = hash[:sectorIdentifierUri]
+        @subjectType                                 = hash[:subjectType]
+        @idTokenSignAlg                              = hash[:idTokenSignAlg]
+        @idTokenEncryptionAlg                        = hash[:idTokenEncryptionAlg]
+        @idTokenEncryptionEnc                        = hash[:idTokenEncryptionEnc]
+        @userInfoSignAlg                             = hash[:userInfoSignAlg]
+        @userInfoEncryptionAlg                       = hash[:userInfoEncryptionAlg]
+        @userInfoEncryptionEnc                       = hash[:userInfoEncryptionEnc]
+        @requestSignAlg                              = hash[:requestSignAlg]
+        @requestEncryptionAlg                        = hash[:requestEncryptionAlg]
+        @requestEncryptionEnc                        = hash[:requestEncryptionEnc]
+        @tokenAuthMethod                             = hash[:tokenAuthMethod]
+        @tokenAuthSignAlg                            = hash[:tokenAuthSignAlg]
+        @defaultMaxAge                               = hash[:defaultMaxAge]
+        @defaultAcrs                                 = hash[:defaultAcrs]
+        @authTimeRequired                            = hash[:authTimeRequired]
+        @loginUri                                    = hash[:loginUri]
+        @requestUris                                 = hash[:requestUris]
+        @description                                 = hash[:description]
+        @descriptions                                = get_parsed_array(hash[:descriptions]) { |e| Authlete::Model::TaggedValue.parse(e) }
+        @createdAt                                   = hash[:createdAt]
+        @modifiedAt                                  = hash[:modifiedAt]
+        @extension                                   = Authlete::Model::ClientExtension.parse(hash[:extension])
+        @tlsClientAuthSubjectDn                      = hash[:tlsClientAuthSubjectDn]
+        @tlsClientAuthSanDns                         = hash[:tlsClientAuthSanDns]
+        @tlsClientAuthSanUri                         = hash[:tlsClientAuthSanUri]
+        @tlsClientAuthSanIp                          = hash[:tlsClientAuthSanIp]
+        @tlsClientAuthSanEmail                       = hash[:tlsClientAuthSanEmail]
+        @tlsClientCertificateBoundAccessTokens       = hash[:tlsClientCertificateBoundAccessTokens]
+        @selfSignedCertificateKeyId                  = hash[:selfSignedCertificateKeyId]
+        @softwareId                                  = hash[:softwareId]
+        @softwareVersion                             = hash[:softwareVersion]
+        @authorizationSignAlg                        = hash[:authorizationSignAlg]
+        @authorizationEncryptionAlg                  = hash[:authorizationEncryptionAlg]
+        @authorizationEncryptionEnc                  = hash[:authorizationEncryptionEnc]
+        @bcDeliveryMode                              = hash[:bcDeliveryMode]
+        @bcNotificationEndpoint                      = hash[:bcNotificationEndpoint]
+        @bcRequestSignAlg                            = hash[:bcRequestSignAlg]
+        @bcUserCodeRequired                          = hash[:bcUserCodeRequired]
+        @dynamicallyRegistered                       = hash[:dynamicallyRegistered]
+        @registrationAccessTokenHash                 = hash[:registrationAccessTokenHash]
+        @authorizationDetailsTypes                   = hash[:authorizationDetailsTypes]
+        @parRequired                                 = hash[:parRequired]
+        @requestObjectRequired                       = hash[:requestObjectRequired]
+        @attributes                                  = get_parsed_array(hash[:attributes]) { |e| Authlete::Model::Pair.parse(e) }
+        @customMetadata                              = hash[:customMetadata]
+        @frontChannelRequestObjectEncryptionRequired = hash[:frontChannelRequestObjectEncryptionRequired]
+        @requestObjectEncryptionAlgMatchRequired     = hash[:requestObjectEncryptionAlgMatchRequired]
+        @requestObjectEncryptionEncMatchRequired     = hash[:requestObjectEncryptionEncMatchRequired]
       end
 
       def to_hash_value(key, var)

@@ -445,232 +445,250 @@ module Authlete
       alias_method  :token_expiration_linked,  :tokenExpirationLinked
       alias_method  :token_expiration_linked=, :tokenExpirationLinked=
 
+      attr_accessor :frontChannelRequestObjectEncryptionRequired
+      alias_method  :front_channel_request_object_encryption_required,  :frontChannelRequestObjectEncryptionRequired
+      alias_method  :front_channel_request_object_encryption_required=, :frontChannelRequestObjectEncryptionRequired=
+
+      attr_accessor :requestObjectEncryptionAlgMatchRequired
+      alias_method  :request_object_encryption_alg_match_required,  :requestObjectEncryptionAlgMatchRequired
+      alias_method  :request_object_encryption_alg_match_required=, :requestObjectEncryptionAlgMatchRequired=
+
+      attr_accessor :requestObjectEncryptionEncMatchRequired
+      alias_method  :request_object_encryption_enc_match_required,  :requestObjectEncryptionEncMatchRequired
+      alias_method  :request_object_encryption_enc_match_required=, :requestObjectEncryptionEncMatchRequired=
+
       private
 
       def defaults
         {
-          number:                                    0,
-          serviceOwnerNumber:                        0,
-          serviceName:                               nil,
-          apiKey:                                    0,
-          apiSecret:                                 nil,
-          issuer:                                    nil,
-          authorizationEndpoint:                     nil,
-          tokenEndpoint:                             nil,
-          revocationEndpoint:                        nil,
-          supportedRevocationAuthMethods:            nil,
-          userInfoEndpoint:                          nil,
-          jwksUri:                                   nil,
-          jwks:                                      nil,
-          registrationEndpoint:                      nil,
-          registrationManagementEndpoint:            nil,
-          supportedScopes:                           nil,
-          supportedResponseTypes:                    nil,
-          supportedGrantTypes:                       nil,
-          supportedAcrs:                             nil,
-          supportedTokenAuthMethods:                 nil,
-          supportedDisplays:                         nil,
-          supportedClaimTypes:                       nil,
-          supportedClaims:                           nil,
-          serviceDocumentation:                      nil,
-          supportedClaimLocales:                     nil,
-          supportedUiLocales:                        nil,
-          policyUri:                                 nil,
-          tosUri:                                    nil,
-          authenticationCallbackEndpoint:            nil,
-          authenticationCallbackApiKey:              nil,
-          authenticationCallbackApiSecret:           nil,
-          supportedSnses:                            nil,
-          snsCredentials:                            nil,
-          createdAt:                                 0,
-          modifiedAt:                                0,
-          developerAuthenticationCallbackEndpoint:   nil,
-          developerAuthenticationCallbackApiKey:     nil,
-          developerAuthenticationCallbackApiSecret:  nil,
-          supportedDeveloperSnses:                   nil,
-          developerSnsCredentials:                   nil,
-          clientsPerDeveloper:                       0,
-          directAuthorizationEndpointEnabled:        false,
-          directTokenEndpointEnabled:                false,
-          directRevocationEndpointEnabled:           false,
-          directUserInfoEndpointEnabled:             false,
-          directJwksEndpointEnabled:                 false,
-          directIntrospectionEndpointEnabled:        false,
-          singleAccessTokenPerSubject:               false,
-          pkceRequired:                              false,
-          pkceS256Required:                          false,
-          refreshTokenKept:                          false,
-          refreshTokenDurationKept:                  false,
-          errorDescriptionOmitted:                   false,
-          errorUriOmitted:                           false,
-          clientIdAliasEnabled:                      false,
-          supportedServiceProfiles:                  nil,
-          tlsClientCertificateBoundAccessTokens:     false,
-          introspectionEndpoint:                     nil,
-          supportedIntrospectionAuthMethods:         nil,
-          mutualTlsValidatePkiCertChain:             false,
-          trustedRootCertificates:                   nil,
-          dynamicRegistrationSupported:              false,
-          endSessionEndpoint:                        nil,
-          description:                               nil,
-          accessTokenType:                           nil,
-          accessTokenSignAlg:                        nil,
-          accessTokenDuration:                       0,
-          refreshTokenDuration:                      0,
-          idTokenDuration:                           0,
-          authorizationResponseDuration:             0,
-          pushedAuthReqDuration:                     0,
-          metadata:                                  nil,
-          accessTokenSignatureKeyId:                 nil,
-          authorizationSignatureKeyId:               nil,
-          idTokenSignatureKeyId:                     nil,
-          userInfoSignatureKeyId:                    nil,
-          supportedBackchannelTokenDeliveryModes:    nil,
-          backchannelAuthenticationEndpoint:         nil,
-          backchannelUserCodeParameterSupported:     false,
-          backchannelAuthReqIdDuration:              0,
-          backchannelPollingInterval:                0,
-          backchannelBindingMessageRequiredInFapi:   false,
-          allowableClockSkew:                        0,
-          deviceAuthorizationEndpoint:               nil,
-          deviceVerificationUri:                     nil,
-          deviceVerificationUriComplete:             nil,
-          deviceFlowCodeDuration:                    0,
-          deviceFlowPollingInterval:                 0,
-          userCodeCharset:                           nil,
-          userCodeLength:                            0,
-          pushedAuthReqEndpoint:                     nil,
-          mtlsEndpointAliases:                       nil,
-          supportedAuthorizationDetailsTypes:        nil,
-          supportedTrustFrameworks:                  nil,
-          supportedEvidence:                         nil,
-          supportedIdentityDocuments:                nil,
-          supportedVerificationMethods:              nil,
-          supportedVerifiedClaims:                   nil,
-          missingClientIdAllowed:                    false,
-          parRequired:                               false,
-          requestObjectRequired:                     false,
-          traditionalRequestObjectProcessingApplied: false,
-          claimShortcutRestrictive:                  false,
-          scopeRequired:                             false,
-          nbfOptional:                               false,
-          issSuppressed:                             false,
-          attributes:                                nil,
-          supportedCustomClientMetadata:             nil,
-          tokenExpirationLinked:                     false
+          number:                                      0,
+          serviceOwnerNumber:                          0,
+          serviceName:                                 nil,
+          apiKey:                                      0,
+          apiSecret:                                   nil,
+          issuer:                                      nil,
+          authorizationEndpoint:                       nil,
+          tokenEndpoint:                               nil,
+          revocationEndpoint:                          nil,
+          supportedRevocationAuthMethods:              nil,
+          userInfoEndpoint:                            nil,
+          jwksUri:                                     nil,
+          jwks:                                        nil,
+          registrationEndpoint:                        nil,
+          registrationManagementEndpoint:              nil,
+          supportedScopes:                             nil,
+          supportedResponseTypes:                      nil,
+          supportedGrantTypes:                         nil,
+          supportedAcrs:                               nil,
+          supportedTokenAuthMethods:                   nil,
+          supportedDisplays:                           nil,
+          supportedClaimTypes:                         nil,
+          supportedClaims:                             nil,
+          serviceDocumentation:                        nil,
+          supportedClaimLocales:                       nil,
+          supportedUiLocales:                          nil,
+          policyUri:                                   nil,
+          tosUri:                                      nil,
+          authenticationCallbackEndpoint:              nil,
+          authenticationCallbackApiKey:                nil,
+          authenticationCallbackApiSecret:             nil,
+          supportedSnses:                              nil,
+          snsCredentials:                              nil,
+          createdAt:                                   0,
+          modifiedAt:                                  0,
+          developerAuthenticationCallbackEndpoint:     nil,
+          developerAuthenticationCallbackApiKey:       nil,
+          developerAuthenticationCallbackApiSecret:    nil,
+          supportedDeveloperSnses:                     nil,
+          developerSnsCredentials:                     nil,
+          clientsPerDeveloper:                         0,
+          directAuthorizationEndpointEnabled:          false,
+          directTokenEndpointEnabled:                  false,
+          directRevocationEndpointEnabled:             false,
+          directUserInfoEndpointEnabled:               false,
+          directJwksEndpointEnabled:                   false,
+          directIntrospectionEndpointEnabled:          false,
+          singleAccessTokenPerSubject:                 false,
+          pkceRequired:                                false,
+          pkceS256Required:                            false,
+          refreshTokenKept:                            false,
+          refreshTokenDurationKept:                    false,
+          errorDescriptionOmitted:                     false,
+          errorUriOmitted:                             false,
+          clientIdAliasEnabled:                        false,
+          supportedServiceProfiles:                    nil,
+          tlsClientCertificateBoundAccessTokens:       false,
+          introspectionEndpoint:                       nil,
+          supportedIntrospectionAuthMethods:           nil,
+          mutualTlsValidatePkiCertChain:               false,
+          trustedRootCertificates:                     nil,
+          dynamicRegistrationSupported:                false,
+          endSessionEndpoint:                          nil,
+          description:                                 nil,
+          accessTokenType:                             nil,
+          accessTokenSignAlg:                          nil,
+          accessTokenDuration:                         0,
+          refreshTokenDuration:                        0,
+          idTokenDuration:                             0,
+          authorizationResponseDuration:               0,
+          pushedAuthReqDuration:                       0,
+          metadata:                                    nil,
+          accessTokenSignatureKeyId:                   nil,
+          authorizationSignatureKeyId:                 nil,
+          idTokenSignatureKeyId:                       nil,
+          userInfoSignatureKeyId:                      nil,
+          supportedBackchannelTokenDeliveryModes:      nil,
+          backchannelAuthenticationEndpoint:           nil,
+          backchannelUserCodeParameterSupported:       false,
+          backchannelAuthReqIdDuration:                0,
+          backchannelPollingInterval:                  0,
+          backchannelBindingMessageRequiredInFapi:     false,
+          allowableClockSkew:                          0,
+          deviceAuthorizationEndpoint:                 nil,
+          deviceVerificationUri:                       nil,
+          deviceVerificationUriComplete:               nil,
+          deviceFlowCodeDuration:                      0,
+          deviceFlowPollingInterval:                   0,
+          userCodeCharset:                             nil,
+          userCodeLength:                              0,
+          pushedAuthReqEndpoint:                       nil,
+          mtlsEndpointAliases:                         nil,
+          supportedAuthorizationDetailsTypes:          nil,
+          supportedTrustFrameworks:                    nil,
+          supportedEvidence:                           nil,
+          supportedIdentityDocuments:                  nil,
+          supportedVerificationMethods:                nil,
+          supportedVerifiedClaims:                     nil,
+          missingClientIdAllowed:                      false,
+          parRequired:                                 false,
+          requestObjectRequired:                       false,
+          traditionalRequestObjectProcessingApplied:   false,
+          claimShortcutRestrictive:                    false,
+          scopeRequired:                               false,
+          nbfOptional:                                 false,
+          issSuppressed:                               false,
+          attributes:                                  nil,
+          supportedCustomClientMetadata:               nil,
+          tokenExpirationLinked:                       false,
+          frontChannelRequestObjectEncryptionRequired: false,
+          requestObjectEncryptionAlgMatchRequired:     false,
+          requestObjectEncryptionEncMatchRequired:     false
         }
       end
 
       def set_params(hash)
-        @number                                    = hash[:number]
-        @serviceOwnerNumber                        = hash[:serviceOwnerNumber]
-        @serviceName                               = hash[:serviceName]
-        @apiKey                                    = hash[:apiKey]
-        @apiSecret                                 = hash[:apiSecret]
-        @issuer                                    = hash[:issuer]
-        @authorizationEndpoint                     = hash[:authorizationEndpoint]
-        @tokenEndpoint                             = hash[:tokenEndpoint]
-        @revocationEndpoint                        = hash[:revocationEndpoint]
-        @supportedRevocationAuthMethods            = hash[:supportedRevocationAuthMethods]
-        @userInfoEndpoint                          = hash[:userInfoEndpoint]
-        @jwksUri                                   = hash[:jwksUri]
-        @jwks                                      = hash[:jwks]
-        @registrationEndpoint                      = hash[:registrationEndpoint]
-        @registrationManagementEndpoint            = hash[:registrationManagementEndpoint]
-        @supportedScopes                           = get_parsed_array(hash[:supportedScopes]) { |e| Authlete::Model::Scope.parse(e) }
-        @supportedResponseTypes                    = hash[:supportedResponseTypes]
-        @supportedGrantTypes                       = hash[:supportedGrantTypes]
-        @supportedAcrs                             = hash[:supportedAcrs]
-        @supportedTokenAuthMethods                 = hash[:supportedTokenAuthMethods]
-        @supportedDisplays                         = hash[:supportedDisplays]
-        @supportedClaimTypes                       = hash[:supportedClaimTypes]
-        @supportedClaims                           = hash[:supportedClaims]
-        @serviceDocumentation                      = hash[:serviceDocumentation]
-        @supportedClaimLocales                     = hash[:supportedClaimLocales]
-        @supportedUiLocales                        = hash[:supportedUiLocales]
-        @policyUri                                 = hash[:policyUri]
-        @tosUri                                    = hash[:tosUri]
-        @authenticationCallbackEndpoint            = hash[:authenticationCallbackEndpoint]
-        @authenticationCallbackApiKey              = hash[:authenticationCallbackApiKey]
-        @authenticationCallbackApiSecret           = hash[:authenticationCallbackApiSecret]
-        @supportedSnses                            = hash[:supportedSnses]
-        @snsCredentials                            = get_parsed_array(hash[:snsCredentials]) { |e| Authlete::Model::SnsCredentials.parse(e) }
-        @createdAt                                 = hash[:createdAt]
-        @modifiedAt                                = hash[:modifiedAt]
-        @developerAuthenticationCallbackEndpoint   = hash[:developerAuthenticationCallbackEndpoint]
-        @developerAuthenticationCallbackApiKey     = hash[:developerAuthenticationCallbackApiKey]
-        @developerAuthenticationCallbackApiSecret  = hash[:developerAuthenticationCallbackApiSecret]
-        @supportedDeveloperSnses                   = hash[:supportedDeveloperSnses]
-        @developerSnsCredentials                   = get_parsed_array(hash[:developerSnsCredentials]) { |e| Authlete::Model::SnsCredentials.parse(e) }
-        @clientsPerDeveloper                       = hash[:clientsPerDeveloper]
-        @directAuthorizationEndpointEnabled        = hash[:directAuthorizationEndpointEnabled]
-        @directTokenEndpointEnabled                = hash[:directTokenEndpointEnabled]
-        @directRevocationEndpointEnabled           = hash[:directRevocationEndpointEnabled]
-        @directUserInfoEndpointEnabled             = hash[:directUserInfoEndpointEnabled]
-        @directJwksEndpointEnabled                 = hash[:directJwksEndpointEnabled]
-        @directIntrospectionEndpointEnabled        = hash[:directIntrospectionEndpointEnabled]
-        @singleAccessTokenPerSubject               = hash[:singleAccessTokenPerSubject]
-        @pkceRequired                              = hash[:pkceRequired]
-        @pkceS256Required                          = hash[:pkceS256Required]
-        @refreshTokenKept                          = hash[:refreshTokenKept]
-        @refreshTokenDurationKept                  = hash[:refreshTokenDurationKept]
-        @errorDescriptionOmitted                   = hash[:errorDescriptionOmitted]
-        @errorUriOmitted                           = hash[:errorUriOmitted]
-        @clientIdAliasEnabled                      = hash[:clientIdAliasEnabled]
-        @supportedServiceProfiles                  = hash[:supportedServiceProfiles]
-        @tlsClientCertificateBoundAccessTokens     = hash[:tlsClientCertificateBoundAccessTokens]
-        @introspectionEndpoint                     = hash[:introspectionEndpoint]
-        @supportedIntrospectionAuthMethods         = hash[:supportedIntrospectionAuthMethods]
-        @mutualTlsValidatePkiCertChain             = hash[:mutualTlsValidatePkiCertChain]
-        @trustedRootCertificates                   = hash[:trustedRootCertificates]
-        @dynamicRegistrationSupported              = hash[:dynamicRegistrationSupported]
-        @endSessionEndpoint                        = hash[:endSessionEndpoint]
-        @description                               = hash[:description]
-        @accessTokenType                           = hash[:accessTokenType]
-        @accessTokenSignAlg                        = hash[:accessTokenSignAlg]
-        @accessTokenDuration                       = hash[:accessTokenDuration]
-        @refreshTokenDuration                      = hash[:refreshTokenDuration]
-        @idTokenDuration                           = hash[:idTokenDuration]
-        @authorizationResponseDuration             = hash[:authorizationResponseDuration]
-        @pushedAuthReqDuration                     = hash[:pushedAuthReqDuration]
-        @metadata                                  = get_parsed_array(hash[:metadata]) { |e| Authlete::Model::Pair.parse(e) }
-        @accessTokenSignatureKeyId                 = hash[:accessTokenSignatureKeyId]
-        @authorizationSignatureKeyId               = hash[:authorizationSignatureKeyId]
-        @idTokenSignatureKeyId                     = hash[:idTokenSignatureKeyId]
-        @userInfoSignatureKeyId                    = hash[:userInfoSignatureKeyId]
-        @supportedBackchannelTokenDeliveryModes    = hash[:supportedBackchannelTokenDeliveryModes]
-        @backchannelAuthenticationEndpoint         = hash[:backchannelAuthenticationEndpoint]
-        @backchannelUserCodeParameterSupported     = hash[:backchannelUserCodeParameterSupported]
-        @backchannelAuthReqIdDuration              = hash[:backchannelAuthReqIdDuration]
-        @backchannelPollingInterval                = hash[:backchannelPollingInterval]
-        @backchannelBindingMessageRequiredInFapi   = hash[:backchannelBindingMessageRequiredInFapi]
-        @allowableClockSkew                        = hash[:allowableClockSkew]
-        @deviceAuthorizationEndpoint               = hash[:deviceAuthorizationEndpoint]
-        @deviceVerificationUri                     = hash[:deviceVerificationUri]
-        @deviceVerificationUriComplete             = hash[:deviceVerificationUriComplete]
-        @deviceFlowCodeDuration                    = hash[:deviceFlowCodeDuration]
-        @deviceFlowPollingInterval                 = hash[:deviceFlowPollingInterval]
-        @userCodeCharset                           = hash[:userCodeCharset]
-        @userCodeLength                            = hash[:userCodeLength]
-        @pushedAuthReqEndpoint                     = hash[:pushedAuthReqEndpoint]
-        @mtlsEndpointAliases                       = get_parsed_array(hash[:mtlsEndpointAliases]) { |e| Authlete::Model::NamedUri.parse(e) }
-        @supportedAuthorizationDetailsTypes        = hash[:supportedAuthorizationDetailsTypes]
-        @supportedTrustFrameworks                  = hash[:supportedTrustFrameworks]
-        @supportedEvidence                         = hash[:supportedEvidence]
-        @supportedIdentityDocuments                = hash[:supportedIdentityDocuments]
-        @supportedVerificationMethods              = hash[:supportedVerificationMethods]
-        @supportedVerifiedClaims                   = hash[:supportedVerifiedClaims]
-        @missingClientIdAllowed                    = hash[:missingClientIdAllowed]
-        @parRequired                               = hash[:parRequired]
-        @requestObjectRequired                     = hash[:requestObjectRequired]
-        @traditionalRequestObjectProcessingApplied = hash[:traditionalRequestObjectProcessingApplied]
-        @claimShortcutRestrictive                  = hash[:claimShortcutRestrictive]
-        @scopeRequired                             = hash[:scopeRequired]
-        @nbfOptional                               = hash[:nbfOptional]
-        @issSuppressed                             = hash[:issSuppressed]
-        @attributes                                = get_parsed_array(hash[:attributes]) { |e| Authlete::Model::Pair.parse(e) }
-        @supportedCustomClientMetadata             = hash[:supportedCustomClientMetadata]
-        @tokenExpirationLinked                     = hash[:tokenExpirationLinked]
+        @number                                      = hash[:number]
+        @serviceOwnerNumber                          = hash[:serviceOwnerNumber]
+        @serviceName                                 = hash[:serviceName]
+        @apiKey                                      = hash[:apiKey]
+        @apiSecret                                   = hash[:apiSecret]
+        @issuer                                      = hash[:issuer]
+        @authorizationEndpoint                       = hash[:authorizationEndpoint]
+        @tokenEndpoint                               = hash[:tokenEndpoint]
+        @revocationEndpoint                          = hash[:revocationEndpoint]
+        @supportedRevocationAuthMethods              = hash[:supportedRevocationAuthMethods]
+        @userInfoEndpoint                            = hash[:userInfoEndpoint]
+        @jwksUri                                     = hash[:jwksUri]
+        @jwks                                        = hash[:jwks]
+        @registrationEndpoint                        = hash[:registrationEndpoint]
+        @registrationManagementEndpoint              = hash[:registrationManagementEndpoint]
+        @supportedScopes                             = get_parsed_array(hash[:supportedScopes]) { |e| Authlete::Model::Scope.parse(e) }
+        @supportedResponseTypes                      = hash[:supportedResponseTypes]
+        @supportedGrantTypes                         = hash[:supportedGrantTypes]
+        @supportedAcrs                               = hash[:supportedAcrs]
+        @supportedTokenAuthMethods                   = hash[:supportedTokenAuthMethods]
+        @supportedDisplays                           = hash[:supportedDisplays]
+        @supportedClaimTypes                         = hash[:supportedClaimTypes]
+        @supportedClaims                             = hash[:supportedClaims]
+        @serviceDocumentation                        = hash[:serviceDocumentation]
+        @supportedClaimLocales                       = hash[:supportedClaimLocales]
+        @supportedUiLocales                          = hash[:supportedUiLocales]
+        @policyUri                                   = hash[:policyUri]
+        @tosUri                                      = hash[:tosUri]
+        @authenticationCallbackEndpoint              = hash[:authenticationCallbackEndpoint]
+        @authenticationCallbackApiKey                = hash[:authenticationCallbackApiKey]
+        @authenticationCallbackApiSecret             = hash[:authenticationCallbackApiSecret]
+        @supportedSnses                              = hash[:supportedSnses]
+        @snsCredentials                              = get_parsed_array(hash[:snsCredentials]) { |e| Authlete::Model::SnsCredentials.parse(e) }
+        @createdAt                                   = hash[:createdAt]
+        @modifiedAt                                  = hash[:modifiedAt]
+        @developerAuthenticationCallbackEndpoint     = hash[:developerAuthenticationCallbackEndpoint]
+        @developerAuthenticationCallbackApiKey       = hash[:developerAuthenticationCallbackApiKey]
+        @developerAuthenticationCallbackApiSecret    = hash[:developerAuthenticationCallbackApiSecret]
+        @supportedDeveloperSnses                     = hash[:supportedDeveloperSnses]
+        @developerSnsCredentials                     = get_parsed_array(hash[:developerSnsCredentials]) { |e| Authlete::Model::SnsCredentials.parse(e) }
+        @clientsPerDeveloper                         = hash[:clientsPerDeveloper]
+        @directAuthorizationEndpointEnabled          = hash[:directAuthorizationEndpointEnabled]
+        @directTokenEndpointEnabled                  = hash[:directTokenEndpointEnabled]
+        @directRevocationEndpointEnabled             = hash[:directRevocationEndpointEnabled]
+        @directUserInfoEndpointEnabled               = hash[:directUserInfoEndpointEnabled]
+        @directJwksEndpointEnabled                   = hash[:directJwksEndpointEnabled]
+        @directIntrospectionEndpointEnabled          = hash[:directIntrospectionEndpointEnabled]
+        @singleAccessTokenPerSubject                 = hash[:singleAccessTokenPerSubject]
+        @pkceRequired                                = hash[:pkceRequired]
+        @pkceS256Required                            = hash[:pkceS256Required]
+        @refreshTokenKept                            = hash[:refreshTokenKept]
+        @refreshTokenDurationKept                    = hash[:refreshTokenDurationKept]
+        @errorDescriptionOmitted                     = hash[:errorDescriptionOmitted]
+        @errorUriOmitted                             = hash[:errorUriOmitted]
+        @clientIdAliasEnabled                        = hash[:clientIdAliasEnabled]
+        @supportedServiceProfiles                    = hash[:supportedServiceProfiles]
+        @tlsClientCertificateBoundAccessTokens       = hash[:tlsClientCertificateBoundAccessTokens]
+        @introspectionEndpoint                       = hash[:introspectionEndpoint]
+        @supportedIntrospectionAuthMethods           = hash[:supportedIntrospectionAuthMethods]
+        @mutualTlsValidatePkiCertChain               = hash[:mutualTlsValidatePkiCertChain]
+        @trustedRootCertificates                     = hash[:trustedRootCertificates]
+        @dynamicRegistrationSupported                = hash[:dynamicRegistrationSupported]
+        @endSessionEndpoint                          = hash[:endSessionEndpoint]
+        @description                                 = hash[:description]
+        @accessTokenType                             = hash[:accessTokenType]
+        @accessTokenSignAlg                          = hash[:accessTokenSignAlg]
+        @accessTokenDuration                         = hash[:accessTokenDuration]
+        @refreshTokenDuration                        = hash[:refreshTokenDuration]
+        @idTokenDuration                             = hash[:idTokenDuration]
+        @authorizationResponseDuration               = hash[:authorizationResponseDuration]
+        @pushedAuthReqDuration                       = hash[:pushedAuthReqDuration]
+        @metadata                                    = get_parsed_array(hash[:metadata]) { |e| Authlete::Model::Pair.parse(e) }
+        @accessTokenSignatureKeyId                   = hash[:accessTokenSignatureKeyId]
+        @authorizationSignatureKeyId                 = hash[:authorizationSignatureKeyId]
+        @idTokenSignatureKeyId                       = hash[:idTokenSignatureKeyId]
+        @userInfoSignatureKeyId                      = hash[:userInfoSignatureKeyId]
+        @supportedBackchannelTokenDeliveryModes      = hash[:supportedBackchannelTokenDeliveryModes]
+        @backchannelAuthenticationEndpoint           = hash[:backchannelAuthenticationEndpoint]
+        @backchannelUserCodeParameterSupported       = hash[:backchannelUserCodeParameterSupported]
+        @backchannelAuthReqIdDuration                = hash[:backchannelAuthReqIdDuration]
+        @backchannelPollingInterval                  = hash[:backchannelPollingInterval]
+        @backchannelBindingMessageRequiredInFapi     = hash[:backchannelBindingMessageRequiredInFapi]
+        @allowableClockSkew                          = hash[:allowableClockSkew]
+        @deviceAuthorizationEndpoint                 = hash[:deviceAuthorizationEndpoint]
+        @deviceVerificationUri                       = hash[:deviceVerificationUri]
+        @deviceVerificationUriComplete               = hash[:deviceVerificationUriComplete]
+        @deviceFlowCodeDuration                      = hash[:deviceFlowCodeDuration]
+        @deviceFlowPollingInterval                   = hash[:deviceFlowPollingInterval]
+        @userCodeCharset                             = hash[:userCodeCharset]
+        @userCodeLength                              = hash[:userCodeLength]
+        @pushedAuthReqEndpoint                       = hash[:pushedAuthReqEndpoint]
+        @mtlsEndpointAliases                         = get_parsed_array(hash[:mtlsEndpointAliases]) { |e| Authlete::Model::NamedUri.parse(e) }
+        @supportedAuthorizationDetailsTypes          = hash[:supportedAuthorizationDetailsTypes]
+        @supportedTrustFrameworks                    = hash[:supportedTrustFrameworks]
+        @supportedEvidence                           = hash[:supportedEvidence]
+        @supportedIdentityDocuments                  = hash[:supportedIdentityDocuments]
+        @supportedVerificationMethods                = hash[:supportedVerificationMethods]
+        @supportedVerifiedClaims                     = hash[:supportedVerifiedClaims]
+        @missingClientIdAllowed                      = hash[:missingClientIdAllowed]
+        @parRequired                                 = hash[:parRequired]
+        @requestObjectRequired                       = hash[:requestObjectRequired]
+        @traditionalRequestObjectProcessingApplied   = hash[:traditionalRequestObjectProcessingApplied]
+        @claimShortcutRestrictive                    = hash[:claimShortcutRestrictive]
+        @scopeRequired                               = hash[:scopeRequired]
+        @nbfOptional                                 = hash[:nbfOptional]
+        @issSuppressed                               = hash[:issSuppressed]
+        @attributes                                  = get_parsed_array(hash[:attributes]) { |e| Authlete::Model::Pair.parse(e) }
+        @supportedCustomClientMetadata               = hash[:supportedCustomClientMetadata]
+        @tokenExpirationLinked                       = hash[:tokenExpirationLinked]
+        @frontChannelRequestObjectEncryptionRequired = hash[:frontChannelRequestObjectEncryptionRequired]
+        @requestObjectEncryptionAlgMatchRequired     = hash[:requestObjectEncryptionAlgMatchRequired]
+        @requestObjectEncryptionEncMatchRequired     = hash[:requestObjectEncryptionEncMatchRequired]
       end
 
       def to_hash_value(key, var)
