@@ -67,6 +67,10 @@ module Authlete
 
       attr_accessor :jwks
 
+      attr_accessor :hsks
+      alias_method  :hsks,   :hsks
+      alias_method  :hsks=,  :hsks=
+
       attr_accessor :registrationEndpoint
       alias_method  :registration_endpoint,  :registrationEndpoint
       alias_method  :registration_endpoint=, :registrationEndpoint=
@@ -474,6 +478,7 @@ module Authlete
           userInfoEndpoint:                            nil,
           jwksUri:                                     nil,
           jwks:                                        nil,
+          hsks:                                        nil,
           registrationEndpoint:                        nil,
           registrationManagementEndpoint:              nil,
           supportedScopes:                             nil,
@@ -590,6 +595,7 @@ module Authlete
         @userInfoEndpoint                            = hash[:userInfoEndpoint]
         @jwksUri                                     = hash[:jwksUri]
         @jwks                                        = hash[:jwks]
+        @hsks                                        = hash[:hsks]
         @registrationEndpoint                        = hash[:registrationEndpoint]
         @registrationManagementEndpoint              = hash[:registrationManagementEndpoint]
         @supportedScopes                             = get_parsed_array(hash[:supportedScopes]) { |e| Authlete::Model::Scope.parse(e) }

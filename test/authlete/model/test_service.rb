@@ -34,6 +34,7 @@ class ServiceTest < Minitest::Test
   USER_INFO_ENDPOINT                               = '<user-info-endpoint>'
   JWKS_URI                                         = '<jwks-uri>'
   JWKS                                             = '<jwks>'
+  HSKS                                             = ['kty', 'use', 'alg', 'kid', 'hsmName', 'handle', 'publicKey']
   REGISTRATION_ENDPOINT                            = '<registration-endpoint>'
   REGISTRATION_MANAGEMENT_ENDPOINT                 = '<registration-management-endpoint>'
   SUPPORTED_SCOPE_NAME                             = 'scope0'
@@ -165,6 +166,7 @@ class ServiceTest < Minitest::Test
         "userInfoEndpoint":                            "<user-info-endpoint>",
         "jwksUri":                                     "<jwks-uri>",
         "jwks":                                        "<jwks>",
+        "hsks":                                        ["kty", "use", "alg", "kid", "hsmName", "handle", "publicKey"],
         "registrationEndpoint":                        "<registration-endpoint>",
         "registrationManagementEndpoint":              "<registration-management-endpoint>",
         "supportedScopes":                             [ { "name": "scope0", "description": "<scope0-description>" } ],
@@ -284,6 +286,7 @@ class ServiceTest < Minitest::Test
       userInfoEndpoint:                            '<user-info-endpoint>',
       jwksUri:                                     '<jwks-uri>',
       jwks:                                        '<jwks>',
+      hsks:                                        ['kty', 'use', 'alg', 'kid', 'hsmName', 'handle', 'publicKey'],
       registrationEndpoint:                        '<registration-endpoint>',
       registrationManagementEndpoint:              '<registration-management-endpoint>',
       supportedScopes:                             [ { name: 'scope0', description: '<scope0-description>', defaultEntry: false, descriptions: nil, attributes: nil } ],
@@ -401,6 +404,7 @@ class ServiceTest < Minitest::Test
     obj.user_info_endpoint                            = USER_INFO_ENDPOINT
     obj.jwks_uri                                      = JWKS_URI
     obj.jwks                                          = JWKS
+    obj.hsks                                          = HSKS
     obj.registration_endpoint                         = REGISTRATION_ENDPOINT
     obj.registration_management_endpoint              = REGISTRATION_MANAGEMENT_ENDPOINT
     obj.supported_scopes                              = SUPPORTED_SCOPES
@@ -517,6 +521,7 @@ class ServiceTest < Minitest::Test
     assert_equal USER_INFO_ENDPOINT,                               obj.userInfoEndpoint
     assert_equal JWKS_URI,                                         obj.jwksUri
     assert_equal JWKS,                                             obj.jwks
+    assert_equal HSKS,                                             obj.hsks
     assert_equal REGISTRATION_ENDPOINT,                            obj.registrationEndpoint
     assert_equal REGISTRATION_MANAGEMENT_ENDPOINT,                 obj.registrationManagementEndpoint
     assert_equal SUPPORTED_SCOPE_NAME,                             obj.supportedScopes[0].name
