@@ -68,8 +68,10 @@ module Authlete
       attr_accessor :jwks
 
       attr_accessor :hsks
-      alias_method  :hsks,   :hsks
-      alias_method  :hsks=,  :hsks=
+
+      attr_accessor :hsmEnabled
+      alias_method  :hsm_enabled,  :hsmEnabled
+      alias_method  :hsm_enabled=,  :hsmEnabled=
 
       attr_accessor :registrationEndpoint
       alias_method  :registration_endpoint,  :registrationEndpoint
@@ -479,6 +481,7 @@ module Authlete
           jwksUri:                                     nil,
           jwks:                                        nil,
           hsks:                                        nil,
+          hsmEnabled:                                  false,
           registrationEndpoint:                        nil,
           registrationManagementEndpoint:              nil,
           supportedScopes:                             nil,
@@ -595,7 +598,8 @@ module Authlete
         @userInfoEndpoint                            = hash[:userInfoEndpoint]
         @jwksUri                                     = hash[:jwksUri]
         @jwks                                        = hash[:jwks]
-        @hsks                                        = hash[:hsks]
+        @hsks                                        = get_parsed_array(hash[:hsks]) { |e| Authlete::Model::Hsk.parse(e) }
+        @hsmEnabled                                  = hash[:hsmEnabled]
         @registrationEndpoint                        = hash[:registrationEndpoint]
         @registrationManagementEndpoint              = hash[:registrationManagementEndpoint]
         @supportedScopes                             = get_parsed_array(hash[:supportedScopes]) { |e| Authlete::Model::Scope.parse(e) }
@@ -702,7 +706,7 @@ module Authlete
 
         case key
           when :snsCredentials, :developerSnsCredentials, :supportedScopes,
-               :metadata, :mtlsEndpointAliases, :attributes
+               :metadata, :mtlsEndpointAliases, :attributes, :hsks
             raw_val&.map { |e| e.to_hash }
           else
             raw_val
