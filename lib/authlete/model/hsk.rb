@@ -43,24 +43,24 @@ module Authlete
 
       def defaults
         {
-          kty:        nil,
-          use:        nil,
-          alg:        nil,
-          kid:        nil,
-          hsmName:    nil,
-          handle:     nil,
-          publicKey:  nil,
+          kty:       nil,
+          use:       nil,
+          alg:       nil,
+          kid:       nil,
+          hsmName:   nil,
+          handle:    nil,
+          publicKey: nil,
         }
       end
 
       def set_params(hash)
-        @kty         = hash[:kty]
-        @use         = hash[:use]
-        @alg         = hash[:alg]
-        @kid         = hash[:kid]
-        @hsmName     = hash[:hsmName]
-        @handle      = hash[:handle]
-        @publicKey   = hash[:publicKey]
+        @kty       = hash[:kty]
+        @use       = hash[:use]
+        @alg       = hash[:alg]
+        @kid       = hash[:kid]
+        @hsmName   = hash[:hsmName]
+        @handle    = hash[:handle]
+        @publicKey = hash[:publicKey]
       end
     end
   end

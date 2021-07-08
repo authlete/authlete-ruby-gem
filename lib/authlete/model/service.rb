@@ -67,12 +67,6 @@ module Authlete
 
       attr_accessor :jwks
 
-      attr_accessor :hsks
-
-      attr_accessor :hsmEnabled
-      alias_method  :hsm_enabled,  :hsmEnabled
-      alias_method  :hsm_enabled=,  :hsmEnabled=
-
       attr_accessor :registrationEndpoint
       alias_method  :registration_endpoint,  :registrationEndpoint
       alias_method  :registration_endpoint=, :registrationEndpoint=
@@ -463,6 +457,12 @@ module Authlete
       alias_method  :request_object_encryption_enc_match_required,  :requestObjectEncryptionEncMatchRequired
       alias_method  :request_object_encryption_enc_match_required=, :requestObjectEncryptionEncMatchRequired=
 
+      attr_accessor :hsks
+
+      attr_accessor :hsmEnabled
+      alias_method  :hsm_enabled,  :hsmEnabled
+      alias_method  :hsm_enabled=, :hsmEnabled=
+
       private
 
       def defaults
@@ -480,8 +480,6 @@ module Authlete
           userInfoEndpoint:                            nil,
           jwksUri:                                     nil,
           jwks:                                        nil,
-          hsks:                                        nil,
-          hsmEnabled:                                  false,
           registrationEndpoint:                        nil,
           registrationManagementEndpoint:              nil,
           supportedScopes:                             nil,
@@ -580,7 +578,9 @@ module Authlete
           tokenExpirationLinked:                       false,
           frontChannelRequestObjectEncryptionRequired: false,
           requestObjectEncryptionAlgMatchRequired:     false,
-          requestObjectEncryptionEncMatchRequired:     false
+          requestObjectEncryptionEncMatchRequired:     false,
+          hsks:                                        nil,
+          hsmEnabled:                                  false
         }
       end
 
@@ -598,8 +598,6 @@ module Authlete
         @userInfoEndpoint                            = hash[:userInfoEndpoint]
         @jwksUri                                     = hash[:jwksUri]
         @jwks                                        = hash[:jwks]
-        @hsks                                        = get_parsed_array(hash[:hsks]) { |e| Authlete::Model::Hsk.parse(e) }
-        @hsmEnabled                                  = hash[:hsmEnabled]
         @registrationEndpoint                        = hash[:registrationEndpoint]
         @registrationManagementEndpoint              = hash[:registrationManagementEndpoint]
         @supportedScopes                             = get_parsed_array(hash[:supportedScopes]) { |e| Authlete::Model::Scope.parse(e) }
@@ -699,6 +697,8 @@ module Authlete
         @frontChannelRequestObjectEncryptionRequired = hash[:frontChannelRequestObjectEncryptionRequired]
         @requestObjectEncryptionAlgMatchRequired     = hash[:requestObjectEncryptionAlgMatchRequired]
         @requestObjectEncryptionEncMatchRequired     = hash[:requestObjectEncryptionEncMatchRequired]
+        @hsks                                        = get_parsed_array(hash[:hsks]) { |e| Authlete::Model::Hsk.parse(e) }
+        @hsmEnabled                                  = hash[:hsmEnabled]
       end
 
       def to_hash_value(key, var)

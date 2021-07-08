@@ -34,15 +34,6 @@ class ServiceTest < Minitest::Test
   USER_INFO_ENDPOINT                               = '<user-info-endpoint>'
   JWKS_URI                                         = '<jwks-uri>'
   JWKS                                             = '<jwks>'
-  HSKS_KTY                                         = 'EC'
-  HSKS_USE                                         = 'sig'
-  HSKS_ALG                                         = 'ES256'
-  HSKS_KID                                         = 'jane'
-  HSKS_HSMNAME                                     = 'google'
-  HSKS_HANDLE                                      = '<handle>'
-  HSKS_PUBLICKEY                                   = '<public-key>'
-  HSKS                                             = [ Authlete::Model::Hsk.new(kty: HSKS_KTY, use: HSKS_USE, alg: HSKS_ALG, kid: HSKS_KID, hsmName: HSKS_HSMNAME, handle: HSKS_HANDLE, publicKey: HSKS_PUBLICKEY) ]
-  HSM_ENABLED                                      = false
   REGISTRATION_ENDPOINT                            = '<registration-endpoint>'
   REGISTRATION_MANAGEMENT_ENDPOINT                 = '<registration-management-endpoint>'
   SUPPORTED_SCOPE_NAME                             = 'scope0'
@@ -156,6 +147,15 @@ class ServiceTest < Minitest::Test
   FRONT_CHANNEL_REQUEST_OBJECT_ENCRYPTION_REQUIRED = false
   REQUEST_OBJECT_ENCRYPTION_ALG_MATCH_REQUIRED     = false
   REQUEST_OBJECT_ENCRYPTION_ENC_MATCH_REQUIRED     = false
+  HSKS_KTY                                         = 'EC'
+  HSKS_USE                                         = 'sig'
+  HSKS_ALG                                         = 'ES256'
+  HSKS_KID                                         = 'jane'
+  HSKS_HSMNAME                                     = 'google'
+  HSKS_HANDLE                                      = '<handle>'
+  HSKS_PUBLICKEY                                   = '<public-key>'
+  HSKS                                             = [ Authlete::Model::Hsk.new(kty: HSKS_KTY, use: HSKS_USE, alg: HSKS_ALG, kid: HSKS_KID, hsmName: HSKS_HSMNAME, handle: HSKS_HANDLE, publicKey: HSKS_PUBLICKEY) ]
+  HSM_ENABLED                                      = false
 
 
   def generate_json
@@ -295,8 +295,6 @@ class ServiceTest < Minitest::Test
       userInfoEndpoint:                            '<user-info-endpoint>',
       jwksUri:                                     '<jwks-uri>',
       jwks:                                        '<jwks>',
-      hsks:                                        [ { kty: 'EC', use: 'sig', alg: 'ES256', kid: 'jane', hsmName: 'google', handle: '<handle>', publicKey: '<public-key>' } ],
-      hsmEnabled:                                  false,
       registrationEndpoint:                        '<registration-endpoint>',
       registrationManagementEndpoint:              '<registration-management-endpoint>',
       supportedScopes:                             [ { name: 'scope0', description: '<scope0-description>', defaultEntry: false, descriptions: nil, attributes: nil } ],
@@ -395,7 +393,9 @@ class ServiceTest < Minitest::Test
       tokenExpirationLinked:                       false,
       frontChannelRequestObjectEncryptionRequired: false,
       requestObjectEncryptionAlgMatchRequired:     false,
-      requestObjectEncryptionEncMatchRequired:     false
+      requestObjectEncryptionEncMatchRequired:     false,
+      hsks:                                        [ { kty: 'EC', use: 'sig', alg: 'ES256', kid: 'jane', hsmName: 'google', handle: '<handle>', publicKey: '<public-key>' } ],
+      hsmEnabled:                                  false
     }
   end
 
@@ -414,8 +414,6 @@ class ServiceTest < Minitest::Test
     obj.user_info_endpoint                            = USER_INFO_ENDPOINT
     obj.jwks_uri                                      = JWKS_URI
     obj.jwks                                          = JWKS
-    obj.hsks                                          = HSKS
-    obj.hsm_enabled                                   = HSM_ENABLED
     obj.registration_endpoint                         = REGISTRATION_ENDPOINT
     obj.registration_management_endpoint              = REGISTRATION_MANAGEMENT_ENDPOINT
     obj.supported_scopes                              = SUPPORTED_SCOPES
@@ -515,6 +513,8 @@ class ServiceTest < Minitest::Test
     obj.frontChannelRequestObjectEncryptionRequired   = FRONT_CHANNEL_REQUEST_OBJECT_ENCRYPTION_REQUIRED
     obj.requestObjectEncryptionAlgMatchRequired       = REQUEST_OBJECT_ENCRYPTION_ALG_MATCH_REQUIRED
     obj.requestObjectEncryptionEncMatchRequired       = REQUEST_OBJECT_ENCRYPTION_ENC_MATCH_REQUIRED
+    obj.hsks                                          = HSKS
+    obj.hsm_enabled                                   = HSM_ENABLED
   end
 
 
@@ -532,14 +532,6 @@ class ServiceTest < Minitest::Test
     assert_equal USER_INFO_ENDPOINT,                               obj.userInfoEndpoint
     assert_equal JWKS_URI,                                         obj.jwksUri
     assert_equal JWKS,                                             obj.jwks
-    assert_equal HSKS_KTY,                                         obj.hsks[0].kty
-    assert_equal HSKS_USE,                                         obj.hsks[0].use
-    assert_equal HSKS_ALG,                                         obj.hsks[0].alg
-    assert_equal HSKS_KID,                                         obj.hsks[0].kid
-    assert_equal HSKS_HSMNAME,                                     obj.hsks[0].hsmName
-    assert_equal HSKS_HANDLE,                                      obj.hsks[0].handle
-    assert_equal HSKS_PUBLICKEY,                                   obj.hsks[0].publicKey
-    assert_equal HSM_ENABLED,                                      obj.hsmEnabled
     assert_equal REGISTRATION_ENDPOINT,                            obj.registrationEndpoint
     assert_equal REGISTRATION_MANAGEMENT_ENDPOINT,                 obj.registrationManagementEndpoint
     assert_equal SUPPORTED_SCOPE_NAME,                             obj.supportedScopes[0].name
@@ -647,6 +639,14 @@ class ServiceTest < Minitest::Test
     assert_equal FRONT_CHANNEL_REQUEST_OBJECT_ENCRYPTION_REQUIRED, obj.frontChannelRequestObjectEncryptionRequired
     assert_equal REQUEST_OBJECT_ENCRYPTION_ALG_MATCH_REQUIRED,     obj.requestObjectEncryptionAlgMatchRequired
     assert_equal REQUEST_OBJECT_ENCRYPTION_ENC_MATCH_REQUIRED,     obj.requestObjectEncryptionEncMatchRequired
+    assert_equal HSKS_KTY,                                         obj.hsks[0].kty
+    assert_equal HSKS_USE,                                         obj.hsks[0].use
+    assert_equal HSKS_ALG,                                         obj.hsks[0].alg
+    assert_equal HSKS_KID,                                         obj.hsks[0].kid
+    assert_equal HSKS_HSMNAME,                                     obj.hsks[0].hsmName
+    assert_equal HSKS_HANDLE,                                      obj.hsks[0].handle
+    assert_equal HSKS_PUBLICKEY,                                   obj.hsks[0].publicKey
+    assert_equal HSM_ENABLED,                                      obj.hsmEnabled
   end
 
 

@@ -21,25 +21,25 @@ require 'minitest/autorun'
 
 
 class HskTest < Minitest::Test
-  KTY         = 'EC'
-  USE         = 'sig'
-  ALG         = 'ES256'
-  KID         = 'jane'
-  HSM_NAME    = 'google'
-  HANDLE      = '<handle>'
-  PUBLIC_KEY  = '<public-key>'
+  KTY        = 'EC'
+  USE        = 'sig'
+  ALG        = 'ES256'
+  KID        = 'jane'
+  HSM_NAME   = 'google'
+  HANDLE     = '<handle>'
+  PUBLIC_KEY = '<public-key>'
 
 
   def generate_json
     return <<~JSON
       {
-        "kty":        "EC",
-        "use":        "sig",
-        "alg":        "ES256",
-        "kid":        "jane",
-        "hsmName":    "google",
-        "handle":     "<handle>",
-        "publicKey":  "<public-key>"
+        "kty":       "EC",
+        "use":       "sig",
+        "alg":       "ES256",
+        "kid":       "jane",
+        "hsmName":   "google",
+        "handle":    "<handle>",
+        "publicKey": "<public-key>"
       }
     JSON
   end
@@ -47,36 +47,36 @@ class HskTest < Minitest::Test
 
   def generate_hash
     {
-      kty:        'EC',
-      use:        'sig',
-      alg:        'ES256',
-      kid:        'jane',
-      hsmName:    'google',
-      handle:     '<handle>',
-      publicKey:  '<public-key>'
+      kty:       'EC',
+      use:       'sig',
+      alg:       'ES256',
+      kid:       'jane',
+      hsmName:   'google',
+      handle:    '<handle>',
+      publicKey: '<public-key>'
     }
   end
 
 
   def set_params(obj)
-    obj.kty         = KTY
-    obj.use         = USE
-    obj.alg         = ALG
-    obj.kid         = KID
-    obj.hsmName     = HSM_NAME
-    obj.handle      = HANDLE
-    obj.publicKey   = PUBLIC_KEY
+    obj.kty       = KTY
+    obj.use       = USE
+    obj.alg       = ALG
+    obj.kid       = KID
+    obj.hsmName   = HSM_NAME
+    obj.handle    = HANDLE
+    obj.publicKey = PUBLIC_KEY
   end
 
 
   def match(obj)
-    assert_equal KTY,         obj.kty
-    assert_equal USE,         obj.use
-    assert_equal ALG,         obj.alg
-    assert_equal KID,         obj.kid
-    assert_equal HSM_NAME,    obj.hsmName
-    assert_equal HANDLE,      obj.handle
-    assert_equal PUBLIC_KEY,  obj.publicKey
+    assert_equal KTY,        obj.kty
+    assert_equal USE,        obj.use
+    assert_equal ALG,        obj.alg
+    assert_equal KID,        obj.kid
+    assert_equal HSM_NAME,   obj.hsmName
+    assert_equal HANDLE,     obj.handle
+    assert_equal PUBLIC_KEY, obj.publicKey
   end
 
 
