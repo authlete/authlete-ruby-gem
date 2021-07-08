@@ -457,6 +457,12 @@ module Authlete
       alias_method  :request_object_encryption_enc_match_required,  :requestObjectEncryptionEncMatchRequired
       alias_method  :request_object_encryption_enc_match_required=, :requestObjectEncryptionEncMatchRequired=
 
+      attr_accessor :hsks
+
+      attr_accessor :hsmEnabled
+      alias_method  :hsm_enabled,  :hsmEnabled
+      alias_method  :hsm_enabled=, :hsmEnabled=
+
       private
 
       def defaults
@@ -572,7 +578,9 @@ module Authlete
           tokenExpirationLinked:                       false,
           frontChannelRequestObjectEncryptionRequired: false,
           requestObjectEncryptionAlgMatchRequired:     false,
-          requestObjectEncryptionEncMatchRequired:     false
+          requestObjectEncryptionEncMatchRequired:     false,
+          hsks:                                        nil,
+          hsmEnabled:                                  false
         }
       end
 
@@ -689,6 +697,8 @@ module Authlete
         @frontChannelRequestObjectEncryptionRequired = hash[:frontChannelRequestObjectEncryptionRequired]
         @requestObjectEncryptionAlgMatchRequired     = hash[:requestObjectEncryptionAlgMatchRequired]
         @requestObjectEncryptionEncMatchRequired     = hash[:requestObjectEncryptionEncMatchRequired]
+        @hsks                                        = get_parsed_array(hash[:hsks]) { |e| Authlete::Model::Hsk.parse(e) }
+        @hsmEnabled                                  = hash[:hsmEnabled]
       end
 
       def to_hash_value(key, var)
@@ -696,7 +706,7 @@ module Authlete
 
         case key
           when :snsCredentials, :developerSnsCredentials, :supportedScopes,
-               :metadata, :mtlsEndpointAliases, :attributes
+               :metadata, :mtlsEndpointAliases, :attributes, :hsks
             raw_val&.map { |e| e.to_hash }
           else
             raw_val

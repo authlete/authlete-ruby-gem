@@ -39,6 +39,7 @@ module Authlete
     autoload :SnsCredentials, 'authlete/model/sns-credentials'
     autoload :TaggedValue, 'authlete/model/tagged-value'
     autoload :NamedUri, 'authlete/model/named-uri'
+    autoload :Hsk, 'authlete/model/hsk'
 
     module Request
       autoload :AuthenticationCallbackRequest, 'authlete/model/request/authentication-callback-request'
