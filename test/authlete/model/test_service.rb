@@ -156,6 +156,7 @@ class ServiceTest < Minitest::Test
   HSKS_PUBLICKEY                                   = '<public-key>'
   HSKS                                             = [ Authlete::Model::Hsk.new(kty: HSKS_KTY, use: HSKS_USE, alg: HSKS_ALG, kid: HSKS_KID, hsmName: HSKS_HSMNAME, handle: HSKS_HANDLE, publicKey: HSKS_PUBLICKEY) ]
   HSM_ENABLED                                      = false
+  REFRESH_TOKEN_DURATION_RESET                     = false
 
 
   def generate_json
@@ -274,7 +275,8 @@ class ServiceTest < Minitest::Test
         "tokenExpirationLinked":                       false,
         "frontChannelRequestObjectEncryptionRequired": false,
         "requestObjectEncryptionAlgMatchRequired":     false,
-        "requestObjectEncryptionEncMatchRequired":     false
+        "requestObjectEncryptionEncMatchRequired":     false,
+        "refreshTokenDurationReset":                   false
       }
     JSON
   end
@@ -395,7 +397,8 @@ class ServiceTest < Minitest::Test
       requestObjectEncryptionAlgMatchRequired:     false,
       requestObjectEncryptionEncMatchRequired:     false,
       hsks:                                        [ { kty: 'EC', use: 'sig', alg: 'ES256', kid: 'jane', hsmName: 'google', handle: '<handle>', publicKey: '<public-key>' } ],
-      hsmEnabled:                                  false
+      hsmEnabled:                                  false,
+      refreshTokenDurationReset:                   false
     }
   end
 
@@ -515,6 +518,7 @@ class ServiceTest < Minitest::Test
     obj.requestObjectEncryptionEncMatchRequired       = REQUEST_OBJECT_ENCRYPTION_ENC_MATCH_REQUIRED
     obj.hsks                                          = HSKS
     obj.hsm_enabled                                   = HSM_ENABLED
+    obj.refresh_token_duration_reset                  = REFRESH_TOKEN_DURATION_RESET
   end
 
 
@@ -647,6 +651,7 @@ class ServiceTest < Minitest::Test
     assert_equal HSKS_HANDLE,                                      obj.hsks[0].handle
     assert_equal HSKS_PUBLICKEY,                                   obj.hsks[0].publicKey
     assert_equal HSM_ENABLED,                                      obj.hsmEnabled
+    assert_equal REFRESH_TOKEN_DURATION_RESET,                     obj.refreshTokenDurationReset
   end
 
 
