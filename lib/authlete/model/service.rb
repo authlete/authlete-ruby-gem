@@ -463,6 +463,10 @@ module Authlete
       alias_method  :hsm_enabled,  :hsmEnabled
       alias_method  :hsm_enabled=, :hsmEnabled=
 
+      attr_accessor :refreshTokenDurationReset
+      alias_method  :refresh_token_duration_reset,  :refreshTokenDurationReset
+      alias_method  :refresh_token_duration_reset=, :refreshTokenDurationReset=
+
       private
 
       def defaults
@@ -580,7 +584,8 @@ module Authlete
           requestObjectEncryptionAlgMatchRequired:     false,
           requestObjectEncryptionEncMatchRequired:     false,
           hsks:                                        nil,
-          hsmEnabled:                                  false
+          hsmEnabled:                                  false,
+          refreshTokenDurationReset:                   false
         }
       end
 
@@ -699,6 +704,7 @@ module Authlete
         @requestObjectEncryptionEncMatchRequired     = hash[:requestObjectEncryptionEncMatchRequired]
         @hsks                                        = get_parsed_array(hash[:hsks]) { |e| Authlete::Model::Hsk.parse(e) }
         @hsmEnabled                                  = hash[:hsmEnabled]
+        @refreshTokenDurationReset                   = hash[:refreshTokenDurationReset]
       end
 
       def to_hash_value(key, var)
