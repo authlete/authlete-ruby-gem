@@ -157,7 +157,8 @@ class ServiceTest < Minitest::Test
   HSKS                                             = [ Authlete::Model::Hsk.new(kty: HSKS_KTY, use: HSKS_USE, alg: HSKS_ALG, kid: HSKS_KID, hsmName: HSKS_HSMNAME, handle: HSKS_HANDLE, publicKey: HSKS_PUBLICKEY) ]
   HSM_ENABLED                                      = false
   REFRESH_TOKEN_DURATION_RESET                     = false
-
+  GRANT_MANAGEMENT_ENDPOINT                        = '<grant-management-endpoint>'
+  GRANT_MANAGEMENT_ACTION_REQUIRED                 = false
 
   def generate_json
     return <<~JSON
@@ -276,7 +277,9 @@ class ServiceTest < Minitest::Test
         "frontChannelRequestObjectEncryptionRequired": false,
         "requestObjectEncryptionAlgMatchRequired":     false,
         "requestObjectEncryptionEncMatchRequired":     false,
-        "refreshTokenDurationReset":                   false
+        "refreshTokenDurationReset":                   false,
+        "grantManagementEndpoint":                     "<grant-management-endpoint>",
+        "grantManagementActionRequired":               false
       }
     JSON
   end
@@ -398,7 +401,9 @@ class ServiceTest < Minitest::Test
       requestObjectEncryptionEncMatchRequired:     false,
       hsks:                                        [ { kty: 'EC', use: 'sig', alg: 'ES256', kid: 'jane', hsmName: 'google', handle: '<handle>', publicKey: '<public-key>' } ],
       hsmEnabled:                                  false,
-      refreshTokenDurationReset:                   false
+      refreshTokenDurationReset:                   false,
+      grantManagementEndpoint:                     '<grant-management-endpoint>',
+      grantManagementActionRequired:               false,
     }
   end
 
@@ -519,6 +524,8 @@ class ServiceTest < Minitest::Test
     obj.hsks                                          = HSKS
     obj.hsm_enabled                                   = HSM_ENABLED
     obj.refresh_token_duration_reset                  = REFRESH_TOKEN_DURATION_RESET
+    obj.grant_management_endpoint                     = GRANT_MANAGEMENT_ENDPOINT
+    obj.grant_management_action_required              = GRANT_MANAGEMENT_ACTION_REQUIRED
   end
 
 
@@ -652,6 +659,8 @@ class ServiceTest < Minitest::Test
     assert_equal HSKS_PUBLICKEY,                                   obj.hsks[0].publicKey
     assert_equal HSM_ENABLED,                                      obj.hsmEnabled
     assert_equal REFRESH_TOKEN_DURATION_RESET,                     obj.refreshTokenDurationReset
+    assert_equal GRANT_MANAGEMENT_ENDPOINT,                        obj.grantManagementEndpoint
+    assert_equal GRANT_MANAGEMENT_ACTION_REQUIRED,                 obj.grantManagementActionRequired
   end
 
 

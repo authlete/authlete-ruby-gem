@@ -467,6 +467,13 @@ module Authlete
       alias_method  :refresh_token_duration_reset,  :refreshTokenDurationReset
       alias_method  :refresh_token_duration_reset=, :refreshTokenDurationReset=
 
+      attr_accessor :grantManagementEndpoint
+      alias_method  :grant_management_endpoint,  :grantManagementEndpoint
+      alias_method  :grant_management_endpoint=, :grantManagementEndpoint=
+
+      attr_accessor :grantManagementActionRequired
+      alias_method  :grant_management_action_required,  :grantManagementActionRequired
+      alias_method  :grant_management_action_required=, :grantManagementActionRequired=
       private
 
       def defaults
@@ -585,7 +592,9 @@ module Authlete
           requestObjectEncryptionEncMatchRequired:     false,
           hsks:                                        nil,
           hsmEnabled:                                  false,
-          refreshTokenDurationReset:                   false
+          refreshTokenDurationReset:                   false,
+          grantManagementEndpoint:                     nil,
+          grantManagementActionRequired:               false,
         }
       end
 
@@ -705,6 +714,8 @@ module Authlete
         @hsks                                        = get_parsed_array(hash[:hsks]) { |e| Authlete::Model::Hsk.parse(e) }
         @hsmEnabled                                  = hash[:hsmEnabled]
         @refreshTokenDurationReset                   = hash[:refreshTokenDurationReset]
+        @grantManagementEndpoint                     = hash[:grantManagementEndpoint]
+        @grantManagementActionRequired               = hash[:grantManagementActionRequired]
       end
 
       def to_hash_value(key, var)
