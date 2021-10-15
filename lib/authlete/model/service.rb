@@ -468,13 +468,12 @@ module Authlete
       alias_method  :refresh_token_duration_reset=, :refreshTokenDurationReset=
 
       attr_accessor :grantManagementEndpoint
-      alias_method  :grant_management_endpoint, :grantManagementEndpoint
-      alias_method  :grant_management_endpoint=, :grantManagementEndpoint=
+      alias_method  :grant_management_endpoint,   :grantManagementEndpoint
+      alias_method  :grant_management_endpoint=,  :grantManagementEndpoint=
 
       attr_accessor :grantManagementActionRequired
-      alias_method  :grant_management_action_required,  :grantManagementActionRequired
-      alias_method  :grant_management_action_required=,  :grantManagementActionRequired=
-
+      alias_method  :grant_management_action_required,    :grantManagementActionRequired
+      alias_method  :grant_management_action_required=,   :grantManagementActionRequired=
       private
 
       def defaults

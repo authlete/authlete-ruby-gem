@@ -526,7 +526,6 @@ class ServiceTest < Minitest::Test
     obj.refresh_token_duration_reset                  = REFRESH_TOKEN_DURATION_RESET
     obj.grant_management_endpoint                     = GRANT_MANAGEMENT_ENDPOINT
     obj.grant_management_action_required              = GRANT_MANAGEMENT_ACTION_REQUIRED
-
   end
 
 
