@@ -406,7 +406,7 @@ class ServiceTest < Minitest::Test
       refreshTokenDurationReset:                   false,
       grantManagementEndpoint:                     '<grant-management-endpoint>',
       grantManagementActionRequired:               false,
-      unauthorizedOnClientConfigSupported:         false,
+      unauthorizedOnClientConfigSupported:         false
     }
   end
 
