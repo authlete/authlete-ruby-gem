@@ -474,6 +474,10 @@ module Authlete
       attr_accessor :grantManagementActionRequired
       alias_method  :grant_management_action_required,  :grantManagementActionRequired
       alias_method  :grant_management_action_required=, :grantManagementActionRequired=
+
+      attr_accessor :unauthorizedOnClientConfigSupported
+      alias_method  :unauthorized_on_client_config_supported,  :unauthorizedOnClientConfigSupported
+      alias_method  :unauthorized_on_client_config_supported=, :unauthorizedOnClientConfigSupported=
       private
 
       def defaults
@@ -595,6 +599,7 @@ module Authlete
           refreshTokenDurationReset:                   false,
           grantManagementEndpoint:                     nil,
           grantManagementActionRequired:               false,
+          unauthorizedOnClientConfigSupported:         false
         }
       end
 
@@ -716,6 +721,7 @@ module Authlete
         @refreshTokenDurationReset                   = hash[:refreshTokenDurationReset]
         @grantManagementEndpoint                     = hash[:grantManagementEndpoint]
         @grantManagementActionRequired               = hash[:grantManagementActionRequired]
+        @unauthorizedOnClientConfigSupported         = hash[:unauthorizedOnClientConfigSupported]
       end
 
       def to_hash_value(key, var)
