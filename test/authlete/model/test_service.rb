@@ -159,6 +159,7 @@ class ServiceTest < Minitest::Test
   REFRESH_TOKEN_DURATION_RESET                     = false
   GRANT_MANAGEMENT_ENDPOINT                        = '<grant-management-endpoint>'
   GRANT_MANAGEMENT_ACTION_REQUIRED                 = false
+  UNATHORIZED_ON_CLIENT_CONFIG_SUPPORTED           = false
 
   def generate_json
     return <<~JSON
@@ -279,7 +280,8 @@ class ServiceTest < Minitest::Test
         "requestObjectEncryptionEncMatchRequired":     false,
         "refreshTokenDurationReset":                   false,
         "grantManagementEndpoint":                     "<grant-management-endpoint>",
-        "grantManagementActionRequired":               false
+        "grantManagementActionRequired":               false,
+        "unauthorizedOnClientConfigSupported":         false
       }
     JSON
   end
@@ -404,6 +406,7 @@ class ServiceTest < Minitest::Test
       refreshTokenDurationReset:                   false,
       grantManagementEndpoint:                     '<grant-management-endpoint>',
       grantManagementActionRequired:               false,
+      unauthorizedOnClientConfigSupported:         false,
     }
   end
 
@@ -526,6 +529,7 @@ class ServiceTest < Minitest::Test
     obj.refresh_token_duration_reset                  = REFRESH_TOKEN_DURATION_RESET
     obj.grant_management_endpoint                     = GRANT_MANAGEMENT_ENDPOINT
     obj.grant_management_action_required              = GRANT_MANAGEMENT_ACTION_REQUIRED
+    obj.unauthorized_on_client_config_supported       = UNATHORIZED_ON_CLIENT_CONFIG_SUPPORTED
   end
 
 
@@ -661,6 +665,7 @@ class ServiceTest < Minitest::Test
     assert_equal REFRESH_TOKEN_DURATION_RESET,                     obj.refreshTokenDurationReset
     assert_equal GRANT_MANAGEMENT_ENDPOINT,                        obj.grantManagementEndpoint
     assert_equal GRANT_MANAGEMENT_ACTION_REQUIRED,                 obj.grantManagementActionRequired
+    assert_equal UNATHORIZED_ON_CLIENT_CONFIG_SUPPORTED,           obj.unauthorizedOnClientConfigSupported
   end
 
 
