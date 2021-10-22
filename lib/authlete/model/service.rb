@@ -478,6 +478,10 @@ module Authlete
       attr_accessor :unauthorizedOnClientConfigSupported
       alias_method  :unauthorized_on_client_config_supported,  :unauthorizedOnClientConfigSupported
       alias_method  :unauthorized_on_client_config_supported=, :unauthorizedOnClientConfigSupported=
+
+      attr_accessor :dcrScopeUsedAsRequestable
+      alias_method  :dcr_scope_used_as_requestable, :dcrScopeUsedAsRequestable
+      alias_method  :dcr_scope_used_as_requestable=, :dcrScopeUsedAsRequestable=
       private
 
       def defaults
@@ -599,7 +603,8 @@ module Authlete
           refreshTokenDurationReset:                   false,
           grantManagementEndpoint:                     nil,
           grantManagementActionRequired:               false,
-          unauthorizedOnClientConfigSupported:         false
+          unauthorizedOnClientConfigSupported:         false,
+          dcrScopeUsedAsRequestable:                   false
         }
       end
 
@@ -722,6 +727,7 @@ module Authlete
         @grantManagementEndpoint                     = hash[:grantManagementEndpoint]
         @grantManagementActionRequired               = hash[:grantManagementActionRequired]
         @unauthorizedOnClientConfigSupported         = hash[:unauthorizedOnClientConfigSupported]
+        @dcrScopeUsedAsRequestable                   = hash[:dcrScopeUsedAsRequestable]
       end
 
       def to_hash_value(key, var)
