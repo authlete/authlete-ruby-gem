@@ -480,7 +480,7 @@ module Authlete
       alias_method  :unauthorized_on_client_config_supported=, :unauthorizedOnClientConfigSupported=
 
       attr_accessor :dcrScopeUsedAsRequestable
-      alias_method  :dcr_scope_used_as_requestable, :dcrScopeUsedAsRequestable
+      alias_method  :dcr_scope_used_as_requestable,  :dcrScopeUsedAsRequestable
       alias_method  :dcr_scope_used_as_requestable=, :dcrScopeUsedAsRequestable=
       private
 
