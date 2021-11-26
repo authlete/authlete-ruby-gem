@@ -482,6 +482,10 @@ module Authlete
       attr_accessor :dcrScopeUsedAsRequestable
       alias_method  :dcr_scope_used_as_requestable,  :dcrScopeUsedAsRequestable
       alias_method  :dcr_scope_used_as_requestable=, :dcrScopeUsedAsRequestable=
+
+      attr_accessor :predefinedTransformedClaims
+      alias_method  :predefined_transformed_claims, :predefinedTransformedClaims
+      alias_method  :predefined_transformed_claims=, :predefinedTransformedClaims=
       private
 
       def defaults
@@ -604,7 +608,8 @@ module Authlete
           grantManagementEndpoint:                     nil,
           grantManagementActionRequired:               false,
           unauthorizedOnClientConfigSupported:         false,
-          dcrScopeUsedAsRequestable:                   false
+          dcrScopeUsedAsRequestable:                   false,
+          predefinedTransformedClaims:                 nil
         }
       end
 
@@ -728,6 +733,7 @@ module Authlete
         @grantManagementActionRequired               = hash[:grantManagementActionRequired]
         @unauthorizedOnClientConfigSupported         = hash[:unauthorizedOnClientConfigSupported]
         @dcrScopeUsedAsRequestable                   = hash[:dcrScopeUsedAsRequestable]
+        @predefinedTransformedClaims                 = hash[:predefinedTransformedClaims]
       end
 
       def to_hash_value(key, var)

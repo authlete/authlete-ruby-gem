@@ -161,6 +161,7 @@ class ServiceTest < Minitest::Test
   GRANT_MANAGEMENT_ACTION_REQUIRED                 = false
   UNATHORIZED_ON_CLIENT_CONFIG_SUPPORTED           = false
   DCR_SCOPE_USED_AS_REQUESTABLE                    = false
+  PREDEFINED_TRANSFORMED_CLAIMS                    = '<predefined_transformed_claims>'
 
   def generate_json
     return <<~JSON
@@ -283,7 +284,8 @@ class ServiceTest < Minitest::Test
         "grantManagementEndpoint":                     "<grant-management-endpoint>",
         "grantManagementActionRequired":               false,
         "unauthorizedOnClientConfigSupported":         false,
-        "dcrScopeUsedAsRequestable":                   false
+        "dcrScopeUsedAsRequestable":                   false,
+        "predefinedTransformedClaims":                 "<predefined_transformed_claims>"
       }
     JSON
   end
@@ -409,7 +411,8 @@ class ServiceTest < Minitest::Test
       grantManagementEndpoint:                     '<grant-management-endpoint>',
       grantManagementActionRequired:               false,
       unauthorizedOnClientConfigSupported:         false,
-      dcrScopeUsedAsRequestable:                   false
+      dcrScopeUsedAsRequestable:                   false,
+      predefinedTransformedClaims:                 '<predefined_transformed_claims>'
     }
   end
 
@@ -534,6 +537,7 @@ class ServiceTest < Minitest::Test
     obj.grant_management_action_required              = GRANT_MANAGEMENT_ACTION_REQUIRED
     obj.unauthorized_on_client_config_supported       = UNATHORIZED_ON_CLIENT_CONFIG_SUPPORTED
     obj.dcr_scope_used_as_requestable                 = DCR_SCOPE_USED_AS_REQUESTABLE
+    obj.predefined_transformed_claims                 = PREDEFINED_TRANSFORMED_CLAIMS
   end
 
 
@@ -671,6 +675,7 @@ class ServiceTest < Minitest::Test
     assert_equal GRANT_MANAGEMENT_ACTION_REQUIRED,                 obj.grantManagementActionRequired
     assert_equal UNATHORIZED_ON_CLIENT_CONFIG_SUPPORTED,           obj.unauthorizedOnClientConfigSupported
     assert_equal DCR_SCOPE_USED_AS_REQUESTABLE,                    obj.dcrScopeUsedAsRequestable
+    assert_equal PREDEFINED_TRANSFORMED_CLAIMS,                    obj.predefined_transformed_claims
   end
 
 
