@@ -484,8 +484,12 @@ module Authlete
       alias_method  :dcr_scope_used_as_requestable=, :dcrScopeUsedAsRequestable=
 
       attr_accessor :predefinedTransformedClaims
-      alias_method  :predefined_transformed_claims, :predefinedTransformedClaims
+      alias_method  :predefined_transformed_claims,  :predefinedTransformedClaims
       alias_method  :predefined_transformed_claims=, :predefinedTransformedClaims=
+
+      attr_accessor :loopbackRedirectionUriVariable
+      alias_method  :loopback_redirection_uri_variable,  :loopbackRedirectionUriVariable
+      alias_method  :loopback_redirection_uri_variable=, :loopbackRedirectionUriVariable=
       private
 
       def defaults
@@ -609,7 +613,8 @@ module Authlete
           grantManagementActionRequired:               false,
           unauthorizedOnClientConfigSupported:         false,
           dcrScopeUsedAsRequestable:                   false,
-          predefinedTransformedClaims:                 nil
+          predefinedTransformedClaims:                 nil,
+          loopbackRedirectionUriVariable:              false
         }
       end
 
@@ -734,6 +739,7 @@ module Authlete
         @unauthorizedOnClientConfigSupported         = hash[:unauthorizedOnClientConfigSupported]
         @dcrScopeUsedAsRequestable                   = hash[:dcrScopeUsedAsRequestable]
         @predefinedTransformedClaims                 = hash[:predefinedTransformedClaims]
+        @loopbackRedirectionUriVariable              = hash[:loopbackRedirectionUriVariable]
       end
 
       def to_hash_value(key, var)
