@@ -162,6 +162,7 @@ class ServiceTest < Minitest::Test
   UNATHORIZED_ON_CLIENT_CONFIG_SUPPORTED           = false
   DCR_SCOPE_USED_AS_REQUESTABLE                    = false
   PREDEFINED_TRANSFORMED_CLAIMS                    = '<predefined_transformed_claims>'
+  LOOPBACK_REDIRECTION_URI_VARIABLE                = false
 
   def generate_json
     return <<~JSON
@@ -285,7 +286,8 @@ class ServiceTest < Minitest::Test
         "grantManagementActionRequired":               false,
         "unauthorizedOnClientConfigSupported":         false,
         "dcrScopeUsedAsRequestable":                   false,
-        "predefinedTransformedClaims":                 "<predefined_transformed_claims>"
+        "predefinedTransformedClaims":                 "<predefined_transformed_claims>",
+        "loopbackRedirectionUriVariable":              false
       }
     JSON
   end
@@ -412,7 +414,8 @@ class ServiceTest < Minitest::Test
       grantManagementActionRequired:               false,
       unauthorizedOnClientConfigSupported:         false,
       dcrScopeUsedAsRequestable:                   false,
-      predefinedTransformedClaims:                 '<predefined_transformed_claims>'
+      predefinedTransformedClaims:                 '<predefined_transformed_claims>',
+      loopbackRedirectionUriVariable:              false
     }
   end
 
@@ -538,6 +541,7 @@ class ServiceTest < Minitest::Test
     obj.unauthorized_on_client_config_supported       = UNATHORIZED_ON_CLIENT_CONFIG_SUPPORTED
     obj.dcr_scope_used_as_requestable                 = DCR_SCOPE_USED_AS_REQUESTABLE
     obj.predefined_transformed_claims                 = PREDEFINED_TRANSFORMED_CLAIMS
+    obj.loopback_redirection_uri_variable             = LOOPBACK_REDIRECTION_URI_VARIABLE
   end
 
 
@@ -676,6 +680,7 @@ class ServiceTest < Minitest::Test
     assert_equal UNATHORIZED_ON_CLIENT_CONFIG_SUPPORTED,           obj.unauthorizedOnClientConfigSupported
     assert_equal DCR_SCOPE_USED_AS_REQUESTABLE,                    obj.dcrScopeUsedAsRequestable
     assert_equal PREDEFINED_TRANSFORMED_CLAIMS,                    obj.predefined_transformed_claims
+    assert_equal LOOPBACK_REDIRECTION_URI_VARIABLE,                obj.loopback_redirection_uri_variable
   end
 
 
