@@ -119,7 +119,7 @@ class ClientTest < Minitest::Test
   FRONT_CHANNEL_REQUEST_OBJECT_ENCRYPTION_REQUIRED = false
   REQUEST_OBJECT_ENCRYPTION_ALG_MATCH_REQUIRED     = false
   REQUEST_OBJECT_ENCRYPTION_ENC_MATCH_REQUIRED     = false
-
+  DIGEST_ALGORITHM                                 = '<digest-algorithm>'
 
   def generate_json
     return <<~JSON
@@ -203,7 +203,8 @@ class ClientTest < Minitest::Test
         "customMetadata":                              "<custom-metadata>",
         "frontChannelRequestObjectEncryptionRequired": false,
         "requestObjectEncryptionAlgMatchRequired":     false,
-        "requestObjectEncryptionEncMatchRequired":     false
+        "requestObjectEncryptionEncMatchRequired":     false,
+        "digestAlgorithm":                             "<digest-algorithm>"
       }
     JSON
   end
@@ -290,7 +291,8 @@ class ClientTest < Minitest::Test
       customMetadata:                              '<custom-metadata>',
       frontChannelRequestObjectEncryptionRequired: false,
       requestObjectEncryptionAlgMatchRequired:     false,
-      requestObjectEncryptionEncMatchRequired:     false
+      requestObjectEncryptionEncMatchRequired:     false,
+      digestAlgorithm:                             '<digest-algorithm>'
     }
   end
 
@@ -371,6 +373,7 @@ class ClientTest < Minitest::Test
     obj.frontChannelRequestObjectEncryptionRequired = FRONT_CHANNEL_REQUEST_OBJECT_ENCRYPTION_REQUIRED
     obj.requestObjectEncryptionAlgMatchRequired     = REQUEST_OBJECT_ENCRYPTION_ALG_MATCH_REQUIRED
     obj.requestObjectEncryptionEncMatchRequired     = REQUEST_OBJECT_ENCRYPTION_ENC_MATCH_REQUIRED
+    obj.digestAlgorithm                             = DIGEST_ALGORITHM
   end
 
 
@@ -458,6 +461,7 @@ class ClientTest < Minitest::Test
     assert_equal FRONT_CHANNEL_REQUEST_OBJECT_ENCRYPTION_REQUIRED, obj.frontChannelRequestObjectEncryptionRequired
     assert_equal REQUEST_OBJECT_ENCRYPTION_ALG_MATCH_REQUIRED,     obj.requestObjectEncryptionAlgMatchRequired
     assert_equal REQUEST_OBJECT_ENCRYPTION_ENC_MATCH_REQUIRED,     obj.requestObjectEncryptionEncMatchRequired
+    assert_equal DIGEST_ALGORITHM,                                 obj.digestAlgorithm
   end
 
 
