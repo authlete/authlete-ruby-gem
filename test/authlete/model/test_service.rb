@@ -163,6 +163,13 @@ class ServiceTest < Minitest::Test
   DCR_SCOPE_USED_AS_REQUESTABLE                    = false
   PREDEFINED_TRANSFORMED_CLAIMS                    = '<predefined_transformed_claims>'
   LOOPBACK_REDIRECTION_URI_VARIABLE                = false
+  SUPPORTED_DOCUMENTS                              = ['<supported-documents1>', '<supported-documents1>']
+  SUPPORTED_DOCUMENTS_METHODS                      = ['<supported-documents-methods1>', '<supported-documents-methods1>']
+  SUPPORTED_DOCUMENTS_VALIDATION_METHODS           = ['<supported-documents-validation-methods1>', '<supported-documents-validation-methods1>']
+  SUPPORTED_DOCUMENTS_VERIFICATION_METHODS         = ['<supported-documents-verification-methods1>', '<supported-documents-verification-methods1>']
+  SUPPORTED_ELECTRONIC_RECORDS                    = ['<supported-electronic-records1>', '<supported-electronic-records1>']
+  SUPPORTED_ATTACHMENTS                            = [ 'EMBEDDED', 'EXTERNAL']
+  SUPPORTED_DIGEST_ALGORITHMS                      = ['<supported-digest-algorithms1>', '<supported-digest-algorithms1>']
 
   def generate_json
     return <<~JSON
@@ -287,7 +294,14 @@ class ServiceTest < Minitest::Test
         "unauthorizedOnClientConfigSupported":         false,
         "dcrScopeUsedAsRequestable":                   false,
         "predefinedTransformedClaims":                 "<predefined_transformed_claims>",
-        "loopbackRedirectionUriVariable":              false
+        "loopbackRedirectionUriVariable":              false,
+        "supportedDocuments":                          ["<supported-documents1>", "<supported-documents1>"],
+        "supportedDocumentsMethods":                   ["<supported-documents-methods1>", "<supported-documents-methods1>"],
+        "supportedDocumentsValidationMethods":         ["<supported-documents-validation-methods1>", "<supported-documents-validation-methods1>"],
+        "supportedDocumentsVerificationMethods":       ["<supported-documents-verification-methods1>", "<supported-documents-verification-methods1>"],
+        "supportedElectronicRecords":                  ["<supported-electronic-records1>", "<supported-electronic-records1>"],
+        "supportedAttachments":                        [ "EMBEDDED", "EXTERNAL"],
+        "supportedDigestAlgorithms":                   ["<supported-digest-algorithms1>", "<supported-digest-algorithms1>"]
       }
     JSON
   end
@@ -415,7 +429,14 @@ class ServiceTest < Minitest::Test
       unauthorizedOnClientConfigSupported:         false,
       dcrScopeUsedAsRequestable:                   false,
       predefinedTransformedClaims:                 '<predefined_transformed_claims>',
-      loopbackRedirectionUriVariable:              false
+      loopbackRedirectionUriVariable:              false,
+      supportedDocuments:                          ['<supported-documents1>', '<supported-documents1>'],
+      supportedDocumentsMethods:                   ['<supported-documents-methods1>', '<supported-documents-methods1>'],
+      supportedDocumentsValidationMethods:         ['<supported-documents-validation-methods1>', '<supported-documents-validation-methods1>'],
+      supportedDocumentsVerificationMethods:       ['<supported-documents-verification-methods1>', '<supported-documents-verification-methods1>'],
+      supportedElectronicRecords:                  ['<supported-electronic-records1>', '<supported-electronic-records1>'],
+      supportedAttachments:                        [ 'EMBEDDED', 'EXTERNAL'],
+      supportedDigestAlgorithms:                   ['<supported-digest-algorithms1>', '<supported-digest-algorithms1>']
     }
   end
 
@@ -542,6 +563,13 @@ class ServiceTest < Minitest::Test
     obj.dcr_scope_used_as_requestable                 = DCR_SCOPE_USED_AS_REQUESTABLE
     obj.predefined_transformed_claims                 = PREDEFINED_TRANSFORMED_CLAIMS
     obj.loopback_redirection_uri_variable             = LOOPBACK_REDIRECTION_URI_VARIABLE
+    obj.supported_documents                           = SUPPORTED_DOCUMENTS
+    obj.supported_documents_methods                   = SUPPORTED_DOCUMENTS_METHODS
+    obj.supported_documents_validation_methods        = SUPPORTED_DOCUMENTS_VALIDATION_METHODS
+    obj.supported_documents_verification_methods      = SUPPORTED_DOCUMENTS_VERIFICATION_METHODS
+    obj.supported_electronic_records                 = SUPPORTED_ELECTRONIC_RECORDS
+    obj.supported_attachments                         = SUPPORTED_ATTACHMENTS
+    obj.supported_digest_algorithms                   = SUPPORTED_DIGEST_ALGORITHMS
   end
 
 
@@ -681,6 +709,13 @@ class ServiceTest < Minitest::Test
     assert_equal DCR_SCOPE_USED_AS_REQUESTABLE,                    obj.dcrScopeUsedAsRequestable
     assert_equal PREDEFINED_TRANSFORMED_CLAIMS,                    obj.predefined_transformed_claims
     assert_equal LOOPBACK_REDIRECTION_URI_VARIABLE,                obj.loopback_redirection_uri_variable
+    assert_equal SUPPORTED_DOCUMENTS,                              obj.supported_documents
+    assert_equal SUPPORTED_DOCUMENTS_METHODS,                      obj.supported_documents_methods
+    assert_equal SUPPORTED_DOCUMENTS_VALIDATION_METHODS,           obj.supported_documents_validation_methods
+    assert_equal SUPPORTED_DOCUMENTS_VERIFICATION_METHODS,         obj.supported_documents_verification_methods
+    assert_equal SUPPORTED_ELECTRONIC_RECORDS,                     obj.supported_electronic_records
+    assert_equal SUPPORTED_ATTACHMENTS,                            obj.supported_attachments
+    assert_equal SUPPORTED_DIGEST_ALGORITHMS,                      obj.supported_digest_algorithms
   end
 
 

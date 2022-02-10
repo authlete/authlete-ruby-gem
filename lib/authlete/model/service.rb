@@ -490,6 +490,34 @@ module Authlete
       attr_accessor :loopbackRedirectionUriVariable
       alias_method  :loopback_redirection_uri_variable,  :loopbackRedirectionUriVariable
       alias_method  :loopback_redirection_uri_variable=, :loopbackRedirectionUriVariable=
+
+      attr_accessor :supportedDocuments
+      alias_method  :supported_documents,   :supportedDocuments
+      alias_method  :supported_documents=,  :supportedDocuments=
+
+      attr_accessor :supportedDocumentsMethods
+      alias_method  :supported_documents_methods,   :supportedDocumentsMethods
+      alias_method  :supported_documents_methods=,  :supportedDocumentsMethods=
+
+      attr_accessor :supportedDocumentsValidationMethods
+      alias_method  :supported_documents_validation_methods,   :supportedDocumentsValidationMethods
+      alias_method  :supported_documents_validation_methods=,  :supportedDocumentsValidationMethods=
+
+      attr_accessor :supportedDocumentsVerificationMethods
+      alias_method  :supported_documents_verification_methods,   :supportedDocumentsVerificationMethods
+      alias_method  :supported_documents_verification_methods=,  :supportedDocumentsVerificationMethods=
+
+      attr_accessor :supportedElectronicRecords
+      alias_method  :supported_electronic_records,   :supportedElectronicRecords
+      alias_method  :supported_electronic_records=,  :supportedElectronicRecords=
+
+      attr_accessor :supportedAttachments
+      alias_method  :supported_attachments,   :supportedAttachments
+      alias_method  :supported_attachments=,  :supportedAttachments=
+
+      attr_accessor :supportedDigestAlgorithms
+      alias_method  :supported_digest_algorithms,   :supportedDigestAlgorithms
+      alias_method  :supported_digest_algorithms=,  :supportedDigestAlgorithms=
       private
 
       def defaults
@@ -614,7 +642,14 @@ module Authlete
           unauthorizedOnClientConfigSupported:         false,
           dcrScopeUsedAsRequestable:                   false,
           predefinedTransformedClaims:                 nil,
-          loopbackRedirectionUriVariable:              false
+          loopbackRedirectionUriVariable:              false,
+          supportedDocuments:                          nil,
+          supportedDocumentsMethods:                   nil,
+          supportedDocumentsValidationMethods:         nil,
+          supportedDocumentsVerificationMethods:       nil,
+          supportedElectronicRecords:                  nil,
+          supportedAttachments:                        nil,
+          supportedDigestAlgorithms:                   nil,
         }
       end
 
@@ -740,6 +775,13 @@ module Authlete
         @dcrScopeUsedAsRequestable                   = hash[:dcrScopeUsedAsRequestable]
         @predefinedTransformedClaims                 = hash[:predefinedTransformedClaims]
         @loopbackRedirectionUriVariable              = hash[:loopbackRedirectionUriVariable]
+        @supportedDocuments                          = hash[:supportedDocuments]
+        @supportedDocumentsMethods                   = hash[:supportedDocumentsMethods]
+        @supportedDocumentsValidationMethods         = hash[:supportedDocumentsValidationMethods]
+        @supportedDocumentsVerificationMethods       = hash[:supportedDocumentsVerificationMethods]
+        @supportedElectronicRecords                  = hash[:supportedElectronicRecords]
+        @supportedAttachments                        = hash[:supportedAttachments]
+        @supportedDigestAlgorithms                   = hash[:supportedDigestAlgorithms]
       end
 
       def to_hash_value(key, var)

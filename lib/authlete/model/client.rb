@@ -305,6 +305,9 @@ module Authlete
       alias_method  :request_object_encryption_enc_match_required,  :requestObjectEncryptionEncMatchRequired
       alias_method  :request_object_encryption_enc_match_required=, :requestObjectEncryptionEncMatchRequired=
 
+      attr_accessor :digestAlgorithm
+      alias_method  :digest_algorithm,  :digestAlgorithm
+      alias_method  :digest_algorithm=, :digestAlgorithm=
       private
 
       def defaults
@@ -383,7 +386,8 @@ module Authlete
           customMetadata:                              nil,
           frontChannelRequestObjectEncryptionRequired: false,
           requestObjectEncryptionAlgMatchRequired:     false,
-          requestObjectEncryptionEncMatchRequired:     false
+          requestObjectEncryptionEncMatchRequired:     false,
+          digestAlgorithm:                             nil
         }
       end
 
@@ -463,6 +467,7 @@ module Authlete
         @frontChannelRequestObjectEncryptionRequired = hash[:frontChannelRequestObjectEncryptionRequired]
         @requestObjectEncryptionAlgMatchRequired     = hash[:requestObjectEncryptionAlgMatchRequired]
         @requestObjectEncryptionEncMatchRequired     = hash[:requestObjectEncryptionEncMatchRequired]
+        @digestAlgorithm                             = hash[:digestAlgorithm]
       end
 
       def to_hash_value(key, var)
