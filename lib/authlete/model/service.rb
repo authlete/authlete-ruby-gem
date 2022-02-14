@@ -518,6 +518,10 @@ module Authlete
       attr_accessor :supportedDigestAlgorithms
       alias_method  :supported_digest_algorithms,   :supportedDigestAlgorithms
       alias_method  :supported_digest_algorithms=,  :supportedDigestAlgorithms=
+      
+      attr_accessor :requestObjectAudienceChecked
+      alias_method  :request_object_audience_checked,   :requestObjectAudienceChecked
+      alias_method  :request_object_audience_checked=,  :requestObjectAudienceChecked=
       private
 
       def defaults
@@ -650,6 +654,7 @@ module Authlete
           supportedElectronicRecords:                  nil,
           supportedAttachments:                        nil,
           supportedDigestAlgorithms:                   nil,
+          requestObjectAudienceChecked:                false,
         }
       end
 
@@ -782,6 +787,7 @@ module Authlete
         @supportedElectronicRecords                  = hash[:supportedElectronicRecords]
         @supportedAttachments                        = hash[:supportedAttachments]
         @supportedDigestAlgorithms                   = hash[:supportedDigestAlgorithms]
+        @requestObjectAudienceChecked                = hash[:requestObjectAudienceChecked]
       end
 
       def to_hash_value(key, var)
