@@ -522,8 +522,12 @@ module Authlete
       attr_accessor :requestObjectAudienceChecked
       alias_method  :request_object_audience_checked,   :requestObjectAudienceChecked
       alias_method  :request_object_audience_checked=,  :requestObjectAudienceChecked=
+      
+      attr_accessor :accessTokenForExternalAttachmentEmbedded
+      alias_method  :access_token_for_external_attachment_embedded,  :accessTokenForExternalAttachmentEmbedded
+      alias_method  :access_token_for_external_attachment_embedded=, :accessTokenForExternalAttachmentEmbedded=
       private
-
+      
       def defaults
         {
           number:                                      0,
@@ -655,6 +659,7 @@ module Authlete
           supportedAttachments:                        nil,
           supportedDigestAlgorithms:                   nil,
           requestObjectAudienceChecked:                false,
+          accessTokenForExternalAttachmentEmbedded:    false,
         }
       end
 
@@ -788,6 +793,7 @@ module Authlete
         @supportedAttachments                        = hash[:supportedAttachments]
         @supportedDigestAlgorithms                   = hash[:supportedDigestAlgorithms]
         @requestObjectAudienceChecked                = hash[:requestObjectAudienceChecked]
+        @accessTokenForExternalAttachmentEmbedded    = hash[:accessTokenForExternalAttachmentEmbedded]
       end
 
       def to_hash_value(key, var)
