@@ -172,6 +172,7 @@ class ServiceTest < Minitest::Test
   SUPPORTED_DIGEST_ALGORITHMS                      = ['<supported-digest-algorithms1>', '<supported-digest-algorithms1>']
   REQUEST_OBJECT_AUDIENCE_CHECKED                  = true
   ACCESS_TOKEN_FOR_EXTERNAL_ATTACHMENT_EMBEDDED    = false
+  REFRESH_TOKEN_IDEMPOTENT                         = false
 
   def generate_json
     return <<~JSON
@@ -305,7 +306,8 @@ class ServiceTest < Minitest::Test
         "supportedAttachments":                        [ "EMBEDDED", "EXTERNAL"],
         "supportedDigestAlgorithms":                   ["<supported-digest-algorithms1>", "<supported-digest-algorithms1>"],
         "requestObjectAudienceChecked":                true,
-        "accessTokenForExternalAttachmentEmbedded":    false
+        "accessTokenForExternalAttachmentEmbedded":    false,
+        "refreshTokenIdempotent":                      false
       }
     JSON
   end
@@ -442,7 +444,8 @@ class ServiceTest < Minitest::Test
       supportedAttachments:                        [ 'EMBEDDED', 'EXTERNAL'],
       supportedDigestAlgorithms:                   ['<supported-digest-algorithms1>', '<supported-digest-algorithms1>'],
       requestObjectAudienceChecked:                true,
-      accessTokenForExternalAttachmentEmbedded:    false
+      accessTokenForExternalAttachmentEmbedded:    false,
+      refreshTokenIdempotent:                      false
     }
   end
 
@@ -578,6 +581,7 @@ class ServiceTest < Minitest::Test
     obj.supported_digest_algorithms                   = SUPPORTED_DIGEST_ALGORITHMS
     obj.request_object_audience_checked               = REQUEST_OBJECT_AUDIENCE_CHECKED
     obj.access_token_for_external_attachment_embedded = ACCESS_TOKEN_FOR_EXTERNAL_ATTACHMENT_EMBEDDED
+    obj.refresh_token_idempotent                      = REFRESH_TOKEN_IDEMPOTENT
   end
 
 
@@ -726,6 +730,7 @@ class ServiceTest < Minitest::Test
     assert_equal SUPPORTED_DIGEST_ALGORITHMS,                      obj.supported_digest_algorithms
     assert_equal REQUEST_OBJECT_AUDIENCE_CHECKED,                  obj.request_object_audience_checked
     assert_equal ACCESS_TOKEN_FOR_EXTERNAL_ATTACHMENT_EMBEDDED,    obj.access_token_for_external_attachment_embedded
+    assert_equal REFRESH_TOKEN_IDEMPOTENT,                         obj.refresh_token_idempotent
   end
 
 
