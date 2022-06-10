@@ -526,6 +526,10 @@ module Authlete
       attr_accessor :accessTokenForExternalAttachmentEmbedded
       alias_method  :access_token_for_external_attachment_embedded,  :accessTokenForExternalAttachmentEmbedded
       alias_method  :access_token_for_external_attachment_embedded=, :accessTokenForExternalAttachmentEmbedded=
+
+      attr_accessor :refreshTokenIdempotent
+      alias_method  :refresh_token_idempotent,  :refreshTokenIdempotent
+      alias_method  :refresh_token_idempotent=, :refreshTokenIdempotent=
       private
       
       def defaults
@@ -660,6 +664,7 @@ module Authlete
           supportedDigestAlgorithms:                   nil,
           requestObjectAudienceChecked:                false,
           accessTokenForExternalAttachmentEmbedded:    false,
+          refreshTokenIdempotent:                      false,
         }
       end
 
@@ -794,6 +799,7 @@ module Authlete
         @supportedDigestAlgorithms                   = hash[:supportedDigestAlgorithms]
         @requestObjectAudienceChecked                = hash[:requestObjectAudienceChecked]
         @accessTokenForExternalAttachmentEmbedded    = hash[:accessTokenForExternalAttachmentEmbedded]
+        @refreshTokenIdempotent                      = hash[:refreshTokenIdempotent]
       end
 
       def to_hash_value(key, var)
