@@ -173,6 +173,13 @@ class ServiceTest < Minitest::Test
   REQUEST_OBJECT_AUDIENCE_CHECKED                  = true
   ACCESS_TOKEN_FOR_EXTERNAL_ATTACHMENT_EMBEDDED    = false
   REFRESH_TOKEN_IDEMPOTENT                         = false
+  FEDERATION_ENABLED                               = false
+  ORGANIZATION_NAME                                = '<organization-name>'
+  AUTHORITY_HINTS                                  = [ '<authority>', '<hints>']
+  FEDERATION_JWKS                                  = '<federation-jwks>'
+  SIGNED_JWKS_URI                                  = '<signed-jwks-uri>'
+  FEDERATION_REGISTRATION_ENDPOINT                 = '<federation-registration-endpoint>'
+  CLIENT_REGISTRATION_TYPES                        = [ 'AUTOMATIC', 'EXPLICIT']
 
   def generate_json
     return <<~JSON
@@ -307,10 +314,17 @@ class ServiceTest < Minitest::Test
         "supportedDigestAlgorithms":                   ["<supported-digest-algorithms1>", "<supported-digest-algorithms1>"],
         "requestObjectAudienceChecked":                true,
         "accessTokenForExternalAttachmentEmbedded":    false,
-        "refreshTokenIdempotent":                      false
+        "refreshTokenIdempotent":                      false,
+        "federationEnabled":                           false,
+        "organizationName":                            "<organization-name>",
+        "authorityHints":                              [ "<authority>", "<hints>"],
+        "federationJwks":                              "<federation-jwks>",
+        "signedJwksUri":                               "<signed-jwks-uri>",
+        "federationRegistrationEndpoint":              "<federation-registration-endpoint>",
+        "clientRegistrationTypes":                     [ "AUTOMATIC", "EXPLICIT"]
       }
-    JSON
-  end
+      JSON
+    end
 
 
   def generate_hash
@@ -445,7 +459,14 @@ class ServiceTest < Minitest::Test
       supportedDigestAlgorithms:                   ['<supported-digest-algorithms1>', '<supported-digest-algorithms1>'],
       requestObjectAudienceChecked:                true,
       accessTokenForExternalAttachmentEmbedded:    false,
-      refreshTokenIdempotent:                      false
+      refreshTokenIdempotent:                      false,
+      federationEnabled:                           false,
+      organizationName:                            '<organization-name>',
+      authorityHints:                              [ '<authority>', '<hints>'],
+      federationJwks:                              '<federation-jwks>',
+      signedJwksUri:                               '<signed-jwks-uri>',
+      federationRegistrationEndpoint:              '<federation-registration-endpoint>',
+      clientRegistrationTypes:                     [ 'AUTOMATIC', 'EXPLICIT'],
     }
   end
 
@@ -582,6 +603,13 @@ class ServiceTest < Minitest::Test
     obj.request_object_audience_checked               = REQUEST_OBJECT_AUDIENCE_CHECKED
     obj.access_token_for_external_attachment_embedded = ACCESS_TOKEN_FOR_EXTERNAL_ATTACHMENT_EMBEDDED
     obj.refresh_token_idempotent                      = REFRESH_TOKEN_IDEMPOTENT
+    obj.federation_enabled                            = FEDERATION_ENABLED
+    obj.organization_name                             = ORGANIZATION_NAME
+    obj.authority_hints                               = AUTHORITY_HINTS
+    obj.federation_jwks                               = FEDERATION_JWKS
+    obj.signed_jwks_uri                               = SIGNED_JWKS_URI
+    obj.federation_registration_endpoint              = FEDERATION_REGISTRATION_ENDPOINT
+    obj.client_registration_types                     = CLIENT_REGISTRATION_TYPES
   end
 
 
@@ -731,6 +759,13 @@ class ServiceTest < Minitest::Test
     assert_equal REQUEST_OBJECT_AUDIENCE_CHECKED,                  obj.request_object_audience_checked
     assert_equal ACCESS_TOKEN_FOR_EXTERNAL_ATTACHMENT_EMBEDDED,    obj.access_token_for_external_attachment_embedded
     assert_equal REFRESH_TOKEN_IDEMPOTENT,                         obj.refresh_token_idempotent
+    assert_equal FEDERATION_ENABLED,                               obj.federation_enabled
+    assert_equal ORGANIZATION_NAME,                                obj.organization_name
+    assert_equal AUTHORITY_HINTS,                                  obj.authority_hints
+    assert_equal FEDERATION_JWKS,                                  obj.federation_jwks
+    assert_equal SIGNED_JWKS_URI,                                  obj.signed_jwks_uri
+    assert_equal FEDERATION_REGISTRATION_ENDPOINT,                 obj.federation_registration_endpoint
+    assert_equal CLIENT_REGISTRATION_TYPES,                        obj.client_registration_types
   end
 
 

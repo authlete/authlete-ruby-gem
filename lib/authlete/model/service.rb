@@ -530,6 +530,35 @@ module Authlete
       attr_accessor :refreshTokenIdempotent
       alias_method  :refresh_token_idempotent,  :refreshTokenIdempotent
       alias_method  :refresh_token_idempotent=, :refreshTokenIdempotent=
+
+      attr_accessor :federationEnabled
+      alias_method  :federation_enabled,  :federationEnabled
+      alias_method  :federation_enabled=, :federationEnabled=
+
+      attr_accessor :organizationName
+      alias_method  :organization_name,  :organizationName
+      alias_method  :organization_name=, :organizationName=
+
+      attr_accessor :authorityHints
+      alias_method  :authority_hints,  :authorityHints
+      alias_method  :authority_hints=, :authorityHints=
+
+      attr_accessor :federationJwks
+      alias_method  :federation_jwks,  :federationJwks
+      alias_method  :federation_jwks=, :federationJwks=
+
+      attr_accessor :signedJwksUri
+      alias_method  :signed_jwks_uri,  :signedJwksUri
+      alias_method  :signed_jwks_uri=, :signedJwksUri=
+
+      attr_accessor :federationRegistrationEndpoint
+      alias_method  :federation_registration_endpoint,  :federationRegistrationEndpoint
+      alias_method  :federation_registration_endpoint=, :federationRegistrationEndpoint=
+
+      attr_accessor :clientRegistrationTypes
+      alias_method  :client_registration_types,  :clientRegistrationTypes
+      alias_method  :client_registration_types=, :clientRegistrationTypes=
+
       private
       
       def defaults
@@ -665,6 +694,13 @@ module Authlete
           requestObjectAudienceChecked:                false,
           accessTokenForExternalAttachmentEmbedded:    false,
           refreshTokenIdempotent:                      false,
+          federationEnabled:                           false,
+          organizationName:                            nil,
+          authorityHints:                              nil,
+          federationJwks:                              nil,
+          signedJwksUri:                               nil,
+          federationRegistrationEndpoint:              nil,
+          clientRegistrationTypes:                     nil,
         }
       end
 
@@ -800,6 +836,14 @@ module Authlete
         @requestObjectAudienceChecked                = hash[:requestObjectAudienceChecked]
         @accessTokenForExternalAttachmentEmbedded    = hash[:accessTokenForExternalAttachmentEmbedded]
         @refreshTokenIdempotent                      = hash[:refreshTokenIdempotent]
+        @federationEnabled                           = hash[:federationEnabled]
+        @organizationName                            = hash[:organizationName]
+        @authorityHints                              = hash[:authorityHints]
+        @federationJwks                              = hash[:federationJwks]
+        @signedJwksUri                               = hash[:signedJwksUri]
+        @federationRegistrationEndpoint              = hash[:federationRegistrationEndpoint]
+        @clientRegistrationTypes                     = hash[:clientRegistrationTypes]
+
       end
 
       def to_hash_value(key, var)
