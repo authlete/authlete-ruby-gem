@@ -16,5 +16,29 @@
 
 
 module Authlete
-  VERSION = "1.19.0"
+  module Model
+    class TrustAnchor < Authlete::Model::Base
+      include Authlete::Model::Hashable
+
+      attr_accessor :entityId
+      alias_method  :entity_id,  :entityId
+      alias_method  :entity_id=, :entityId=
+
+      attr_accessor :jwks
+
+      private
+
+      def defaults
+        {
+          entityId: nil,
+          jwks:     nil
+        }
+      end
+
+      def set_params(hash)
+        @entityId  = hash[:entityId]
+        @jwks      = hash[:jwks]
+      end
+    end
+  end
 end
