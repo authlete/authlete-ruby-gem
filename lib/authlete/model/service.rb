@@ -559,6 +559,10 @@ module Authlete
       alias_method  :client_registration_types,  :clientRegistrationTypes
       alias_method  :client_registration_types=, :clientRegistrationTypes=
 
+      attr_accessor :trustAnchors
+      alias_method  :trust_anchors,  :trustAnchors
+      alias_method  :trust_anchors=, :trustAnchors=
+
       private
       
       def defaults
@@ -701,6 +705,7 @@ module Authlete
           signedJwksUri:                               nil,
           federationRegistrationEndpoint:              nil,
           clientRegistrationTypes:                     nil,
+          trustAnchors:                                nil,
         }
       end
 
@@ -843,6 +848,7 @@ module Authlete
         @signedJwksUri                               = hash[:signedJwksUri]
         @federationRegistrationEndpoint              = hash[:federationRegistrationEndpoint]
         @clientRegistrationTypes                     = hash[:clientRegistrationTypes]
+        @trustAnchors                                = get_parsed_array(hash[:trustAnchors]) { |e| Authlete::Model::TrustAnchor.parse(e) }
 
       end
 
@@ -851,7 +857,7 @@ module Authlete
 
         case key
           when :snsCredentials, :developerSnsCredentials, :supportedScopes,
-               :metadata, :mtlsEndpointAliases, :attributes, :hsks
+               :metadata, :mtlsEndpointAliases, :attributes, :hsks, :trustAnchors
             raw_val&.map { |e| e.to_hash }
           else
             raw_val

@@ -40,6 +40,7 @@ module Authlete
     autoload :TaggedValue, 'authlete/model/tagged-value'
     autoload :NamedUri, 'authlete/model/named-uri'
     autoload :Hsk, 'authlete/model/hsk'
+    autoload :TrustAnchor, 'authlete/model/trust-anchor'
 
     module Request
       autoload :AuthenticationCallbackRequest, 'authlete/model/request/authentication-callback-request'
