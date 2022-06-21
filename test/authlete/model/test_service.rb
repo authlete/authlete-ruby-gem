@@ -179,7 +179,7 @@ class ServiceTest < Minitest::Test
   FEDERATION_JWKS                                  = '<federation-jwks>'
   SIGNED_JWKS_URI                                  = '<signed-jwks-uri>'
   FEDERATION_REGISTRATION_ENDPOINT                 = '<federation-registration-endpoint>'
-  CLIENT_REGISTRATION_TYPES                        = [ 'AUTOMATIC', 'EXPLICIT']
+  SUPPORTED_CLIENT_REGISTRATION_TYPES              = [ 'AUTOMATIC', 'EXPLICIT']
   TRUST_ANCHOR_ENTITY_ID                           = '<entity-id>'
   TRUST_ANCHOR_JWKS                                = '<jwks>'
   TRUST_ANCHORS                                    = [ Authlete::Model::TrustAnchor.new(entityId: TRUST_ANCHOR_ENTITY_ID, jwks: TRUST_ANCHOR_JWKS) ]
@@ -325,7 +325,7 @@ class ServiceTest < Minitest::Test
         "federationJwks":                              "<federation-jwks>",
         "signedJwksUri":                               "<signed-jwks-uri>",
         "federationRegistrationEndpoint":              "<federation-registration-endpoint>",
-        "clientRegistrationTypes":                     [ "AUTOMATIC", "EXPLICIT"],
+        "supportedClientRegistrationTypes":            [ "AUTOMATIC", "EXPLICIT"],
         "trustAnchors":                                [{ "entityId": "<entity-id>", "jwks": "<jwks>" }]
       }
       JSON
@@ -472,7 +472,7 @@ class ServiceTest < Minitest::Test
       federationJwks:                              '<federation-jwks>',
       signedJwksUri:                               '<signed-jwks-uri>',
       federationRegistrationEndpoint:              '<federation-registration-endpoint>',
-      clientRegistrationTypes:                     [ 'AUTOMATIC', 'EXPLICIT'],
+      supportedClientRegistrationTypes:            [ 'AUTOMATIC', 'EXPLICIT'],
       trustAnchors:                                [{ entityId: "<entity-id>", jwks: "<jwks>" }],
     }
   end
@@ -616,7 +616,7 @@ class ServiceTest < Minitest::Test
     obj.federation_jwks                               = FEDERATION_JWKS
     obj.signed_jwks_uri                               = SIGNED_JWKS_URI
     obj.federation_registration_endpoint              = FEDERATION_REGISTRATION_ENDPOINT
-    obj.client_registration_types                     = CLIENT_REGISTRATION_TYPES
+    obj.supported_client_registration_types           = SUPPORTED_CLIENT_REGISTRATION_TYPES
     obj.trust_anchors                                 = TRUST_ANCHORS
   end
 
@@ -773,7 +773,7 @@ class ServiceTest < Minitest::Test
     assert_equal FEDERATION_JWKS,                                  obj.federation_jwks
     assert_equal SIGNED_JWKS_URI,                                  obj.signed_jwks_uri
     assert_equal FEDERATION_REGISTRATION_ENDPOINT,                 obj.federation_registration_endpoint
-    assert_equal CLIENT_REGISTRATION_TYPES,                        obj.client_registration_types
+    assert_equal SUPPORTED_CLIENT_REGISTRATION_TYPES,              obj.supported_client_registration_types
     assert_equal TRUST_ANCHOR_ENTITY_ID,                           obj.trustAnchors[0].entityId
     assert_equal TRUST_ANCHOR_JWKS,                                obj.trustAnchors[0].jwks
   end

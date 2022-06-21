@@ -555,9 +555,9 @@ module Authlete
       alias_method  :federation_registration_endpoint,  :federationRegistrationEndpoint
       alias_method  :federation_registration_endpoint=, :federationRegistrationEndpoint=
 
-      attr_accessor :clientRegistrationTypes
-      alias_method  :client_registration_types,  :clientRegistrationTypes
-      alias_method  :client_registration_types=, :clientRegistrationTypes=
+      attr_accessor :supportedClientRegistrationTypes
+      alias_method  :supported_client_registration_types,  :supportedClientRegistrationTypes
+      alias_method  :supported_client_registration_types=, :supportedClientRegistrationTypes=
 
       attr_accessor :trustAnchors
       alias_method  :trust_anchors,  :trustAnchors
@@ -704,7 +704,7 @@ module Authlete
           federationJwks:                              nil,
           signedJwksUri:                               nil,
           federationRegistrationEndpoint:              nil,
-          clientRegistrationTypes:                     nil,
+          supportedClientRegistrationTypes:            nil,
           trustAnchors:                                nil,
         }
       end
@@ -847,7 +847,7 @@ module Authlete
         @federationJwks                              = hash[:federationJwks]
         @signedJwksUri                               = hash[:signedJwksUri]
         @federationRegistrationEndpoint              = hash[:federationRegistrationEndpoint]
-        @clientRegistrationTypes                     = hash[:clientRegistrationTypes]
+        @supportedClientRegistrationTypes            = hash[:supportedClientRegistrationTypes]
         @trustAnchors                                = get_parsed_array(hash[:trustAnchors]) { |e| Authlete::Model::TrustAnchor.parse(e) }
 
       end
