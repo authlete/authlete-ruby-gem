@@ -120,6 +120,7 @@ class ClientTest < Minitest::Test
   REQUEST_OBJECT_ENCRYPTION_ALG_MATCH_REQUIRED     = false
   REQUEST_OBJECT_ENCRYPTION_ENC_MATCH_REQUIRED     = false
   DIGEST_ALGORITHM                                 = '<digest-algorithm>'
+  SINGLE_ACCESS_TOKEN_PER_SUBJECT                  = false
 
   def generate_json
     return <<~JSON
@@ -204,7 +205,8 @@ class ClientTest < Minitest::Test
         "frontChannelRequestObjectEncryptionRequired": false,
         "requestObjectEncryptionAlgMatchRequired":     false,
         "requestObjectEncryptionEncMatchRequired":     false,
-        "digestAlgorithm":                             "<digest-algorithm>"
+        "digestAlgorithm":                             "<digest-algorithm>",
+        "singleAccessTokenPerSubject":                 false
       }
     JSON
   end
@@ -292,7 +294,8 @@ class ClientTest < Minitest::Test
       frontChannelRequestObjectEncryptionRequired: false,
       requestObjectEncryptionAlgMatchRequired:     false,
       requestObjectEncryptionEncMatchRequired:     false,
-      digestAlgorithm:                             '<digest-algorithm>'
+      digestAlgorithm:                             '<digest-algorithm>',
+      singleAccessTokenPerSubject:                 false
     }
   end
 
@@ -374,6 +377,7 @@ class ClientTest < Minitest::Test
     obj.requestObjectEncryptionAlgMatchRequired     = REQUEST_OBJECT_ENCRYPTION_ALG_MATCH_REQUIRED
     obj.requestObjectEncryptionEncMatchRequired     = REQUEST_OBJECT_ENCRYPTION_ENC_MATCH_REQUIRED
     obj.digestAlgorithm                             = DIGEST_ALGORITHM
+    obj.singleAccessTokenPerSubject                 = SINGLE_ACCESS_TOKEN_PER_SUBJECT
   end
 
 
@@ -462,6 +466,7 @@ class ClientTest < Minitest::Test
     assert_equal REQUEST_OBJECT_ENCRYPTION_ALG_MATCH_REQUIRED,     obj.requestObjectEncryptionAlgMatchRequired
     assert_equal REQUEST_OBJECT_ENCRYPTION_ENC_MATCH_REQUIRED,     obj.requestObjectEncryptionEncMatchRequired
     assert_equal DIGEST_ALGORITHM,                                 obj.digestAlgorithm
+    assert_equal SINGLE_ACCESS_TOKEN_PER_SUBJECT,                  obj.singleAccessTokenPerSubject
   end
 
 
