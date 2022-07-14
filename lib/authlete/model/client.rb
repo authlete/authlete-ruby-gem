@@ -308,6 +308,10 @@ module Authlete
       attr_accessor :digestAlgorithm
       alias_method  :digest_algorithm,  :digestAlgorithm
       alias_method  :digest_algorithm=, :digestAlgorithm=
+
+      attr_accessor :singleAccessTokenPerSubject
+      alias_method  :single_access_token_per_subject,  :singleAccessTokenPerSubject
+      alias_method  :single_access_token_per_subject=, :singleAccessTokenPerSubject=    
       private
 
       def defaults
@@ -387,7 +391,8 @@ module Authlete
           frontChannelRequestObjectEncryptionRequired: false,
           requestObjectEncryptionAlgMatchRequired:     false,
           requestObjectEncryptionEncMatchRequired:     false,
-          digestAlgorithm:                             nil
+          digestAlgorithm:                             nil,
+          singleAccessTokenPerSubject:                 false
         }
       end
 
@@ -468,6 +473,7 @@ module Authlete
         @requestObjectEncryptionAlgMatchRequired     = hash[:requestObjectEncryptionAlgMatchRequired]
         @requestObjectEncryptionEncMatchRequired     = hash[:requestObjectEncryptionEncMatchRequired]
         @digestAlgorithm                             = hash[:digestAlgorithm]
+        @singleAccessTokenPerSubject                 = hash[:singleAccessTokenPerSubject]
       end
 
       def to_hash_value(key, var)
