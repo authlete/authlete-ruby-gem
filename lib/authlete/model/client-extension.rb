@@ -36,6 +36,9 @@ module Authlete
       alias_method  :refresh_token_duration,  :refreshTokenDuration
       alias_method  :refresh_token_duration=, :refreshTokenDuration=
 
+      attr_accessor :tokenExchangePermitted
+      alias_method  :token_exchange_permitted,  :tokenExchangePermitted
+      alias_method  :token_exchange_permitted=, :tokenExchangePermitted=
       private
 
       def defaults
@@ -43,7 +46,8 @@ module Authlete
           requestableScopes:        nil,
           requestableScopesEnabled: false,
           accessTokenDuration:      0,
-          refreshTokenDuration:     0
+          refreshTokenDuration:     0,
+          tokenExchangePermitted:   false
         }
       end
 
@@ -52,6 +56,7 @@ module Authlete
         @requestableScopesEnabled = hash[:requestableScopesEnabled]
         @accessTokenDuration      = hash[:accessTokenDuration]
         @refreshTokenDuration     = hash[:refreshTokenDuration]
+        @tokenExchangePermitted   = hash[:tokenExchangePermitted]
       end
     end
   end
