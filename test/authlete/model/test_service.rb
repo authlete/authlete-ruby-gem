@@ -183,7 +183,9 @@ class ServiceTest < Minitest::Test
   TRUST_ANCHOR_ENTITY_ID                           = '<entity-id>'
   TRUST_ANCHOR_JWKS                                = '<jwks>'
   TRUST_ANCHORS                                    = [ Authlete::Model::TrustAnchor.new(entityId: TRUST_ANCHOR_ENTITY_ID, jwks: TRUST_ANCHOR_JWKS) ]
-
+  TOKEN_EXCHANGE_BY_IDENTIFIABLE_CLIENTS_ONLY      = false
+  TOKEN_EXCHANGE_BY_CONFIDENTIAL_CLIENTS_ONLY      = false
+  TOKEN_EXCHANGE_BY_PERMITTED_CLIENTS_ONLY         = false
 
   def generate_json
     return <<~JSON
@@ -326,7 +328,10 @@ class ServiceTest < Minitest::Test
         "signedJwksUri":                               "<signed-jwks-uri>",
         "federationRegistrationEndpoint":              "<federation-registration-endpoint>",
         "supportedClientRegistrationTypes":            [ "AUTOMATIC", "EXPLICIT"],
-        "trustAnchors":                                [{ "entityId": "<entity-id>", "jwks": "<jwks>" }]
+        "trustAnchors":                                [{ "entityId": "<entity-id>", "jwks": "<jwks>" }],
+        "tokenExchangeByIdentifiableClientsOnly":      false,
+        "tokenExchangeByConfidentialClientsOnly":      false,
+        "tokenExchangeByPermittedClientsOnly":         false
       }
       JSON
 
@@ -474,6 +479,9 @@ class ServiceTest < Minitest::Test
       federationRegistrationEndpoint:              '<federation-registration-endpoint>',
       supportedClientRegistrationTypes:            [ 'AUTOMATIC', 'EXPLICIT'],
       trustAnchors:                                [{ entityId: "<entity-id>", jwks: "<jwks>" }],
+      tokenExchangeByIdentifiableClientsOnly:      false,
+      tokenExchangeByConfidentialClientsOnly:      false,
+      tokenExchangeByPermittedClientsOnly:         false,
     }
   end
 
@@ -618,6 +626,9 @@ class ServiceTest < Minitest::Test
     obj.federation_registration_endpoint              = FEDERATION_REGISTRATION_ENDPOINT
     obj.supported_client_registration_types           = SUPPORTED_CLIENT_REGISTRATION_TYPES
     obj.trust_anchors                                 = TRUST_ANCHORS
+    obj.token_exchange_by_identifiable_clients_only   = TOKEN_EXCHANGE_BY_IDENTIFIABLE_CLIENTS_ONLY
+    obj.token_exchange_by_confidential_clients_only   = TOKEN_EXCHANGE_BY_CONFIDENTIAL_CLIENTS_ONLY
+    obj.token_exchange_by_permitted_clients_only      = TOKEN_EXCHANGE_BY_PERMITTED_CLIENTS_ONLY
   end
 
 
@@ -776,6 +787,9 @@ class ServiceTest < Minitest::Test
     assert_equal SUPPORTED_CLIENT_REGISTRATION_TYPES,              obj.supported_client_registration_types
     assert_equal TRUST_ANCHOR_ENTITY_ID,                           obj.trustAnchors[0].entityId
     assert_equal TRUST_ANCHOR_JWKS,                                obj.trustAnchors[0].jwks
+    assert_equal TOKEN_EXCHANGE_BY_IDENTIFIABLE_CLIENTS_ONLY,      obj.token_exchange_by_identifiable_clients_only
+    assert_equal TOKEN_EXCHANGE_BY_CONFIDENTIAL_CLIENTS_ONLY,      obj.token_exchange_by_confidential_clients_only
+    assert_equal TOKEN_EXCHANGE_BY_PERMITTED_CLIENTS_ONLY,         obj.token_exchange_by_permitted_clients_only
   end
 
 
