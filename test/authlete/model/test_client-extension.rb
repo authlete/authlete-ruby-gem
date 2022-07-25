@@ -25,6 +25,7 @@ class ClientExtensionTest < Minitest::Test
   REQUESTABLE_SCOPES_ENABLED = true
   ACCESS_TOKEN_DURATION      = 10000
   REFRESH_TOKEN_DURATION     = 10000
+  TOKEN_EXCHANGE_PERMITTED   = false
 
 
   def generate_json
@@ -33,7 +34,8 @@ class ClientExtensionTest < Minitest::Test
         "requestableScopes":        [ "<requestable-scope0>", "<requestable-scope1>" ],
         "requestableScopesEnabled": true,
         "accessTokenDuration":      10000,
-        "refreshTokenDuration":     10000
+        "refreshTokenDuration":     10000,
+        "tokenExchangePermitted":   false
       }
     JSON
   end
@@ -44,7 +46,8 @@ class ClientExtensionTest < Minitest::Test
       requestableScopes:        %w(<requestable-scope0> <requestable-scope1>),
       requestableScopesEnabled: true,
       accessTokenDuration:      10000,
-      refreshTokenDuration:     10000
+      refreshTokenDuration:     10000,
+      tokenExchangePermitted:   false
     }
   end
 
@@ -54,6 +57,7 @@ class ClientExtensionTest < Minitest::Test
     obj.requestable_scopes_enabled = REQUESTABLE_SCOPES_ENABLED
     obj.access_token_duration      = ACCESS_TOKEN_DURATION
     obj.refresh_token_duration     = REFRESH_TOKEN_DURATION
+    obj.token_exchange_permitted   = TOKEN_EXCHANGE_PERMITTED
   end
 
 
@@ -62,6 +66,7 @@ class ClientExtensionTest < Minitest::Test
     assert_equal REQUESTABLE_SCOPES_ENABLED, obj.requestableScopesEnabled
     assert_equal ACCESS_TOKEN_DURATION,      obj.accessTokenDuration
     assert_equal REFRESH_TOKEN_DURATION,     obj.refreshTokenDuration
+    assert_equal TOKEN_EXCHANGE_PERMITTED,   obj.tokenExchangePermitted
   end
 
 

@@ -85,11 +85,13 @@ class ClientTest < Minitest::Test
   REQUESTABLE_SCOPES_ENABLED                       = true
   ACCESS_TOKEN_DURATION                            = 10000
   REFRESH_TOKEN_DURATION                           = 10000
+  TOKEN_EXCHANGE_PERMITTED                         = false
   EXTENSION                                        = Authlete::Model::ClientExtension.new(
                                                        requestableScopes:        REQUESTABLE_SCOPES,
                                                        requestableScopesEnabled: REQUESTABLE_SCOPES_ENABLED,
                                                        accessTokenDuration:      ACCESS_TOKEN_DURATION,
-                                                       refreshTokenDuration:     REFRESH_TOKEN_DURATION
+                                                       refreshTokenDuration:     REFRESH_TOKEN_DURATION,
+                                                       tokenExchangePermitted:   TOKEN_EXCHANGE_PERMITTED
                                                      )
   TLS_CLIENT_AUTH_SUBJECT_DN                       = '<tls-client-auth-subject-dn>'
   TLS_CLIENT_AUTH_SAN_DNS                          = '<tls-client-auth-san-dns>'
@@ -177,7 +179,8 @@ class ClientTest < Minitest::Test
                                                          "requestableScopes":        [ "<requestable-scope0>", "<requestable-scope1>" ],
                                                          "requestableScopesEnabled": true,
                                                          "accessTokenDuration":      10000,
-                                                         "refreshTokenDuration":     10000
+                                                         "refreshTokenDuration":     10000,
+                                                         "tokenExchangePermitted":   false
                                                        },
         "tlsClientAuthSubjectDn":                      "<tls-client-auth-subject-dn>",
         "tlsClientAuthSanDns":                         "<tls-client-auth-san-dns>",
@@ -266,7 +269,8 @@ class ClientTest < Minitest::Test
                                                      requestableScopes:        [ '<requestable-scope0>', '<requestable-scope1>' ],
                                                      requestableScopesEnabled: true,
                                                      accessTokenDuration:      10000,
-                                                     refreshTokenDuration:     10000
+                                                     refreshTokenDuration:     10000,
+                                                     tokenExchangePermitted:   false
                                                    },
       tlsClientAuthSubjectDn:                      '<tls-client-auth-subject-dn>',
       tlsClientAuthSanDns:                         '<tls-client-auth-san-dns>',
@@ -440,6 +444,7 @@ class ClientTest < Minitest::Test
     assert_equal REQUESTABLE_SCOPES_ENABLED,                       obj.extension.requestableScopesEnabled
     assert_equal ACCESS_TOKEN_DURATION,                            obj.extension.accessTokenDuration
     assert_equal REFRESH_TOKEN_DURATION,                           obj.extension.refreshTokenDuration
+    assert_equal TOKEN_EXCHANGE_PERMITTED,                         obj.extension.tokenExchangePermitted
     assert_equal TLS_CLIENT_AUTH_SUBJECT_DN,                       obj.tlsClientAuthSubjectDn
     assert_equal TLS_CLIENT_AUTH_SAN_DNS,                          obj.tlsClientAuthSanDns
     assert_equal TLS_CLIENT_AUTH_SAN_URI,                          obj.tlsClientAuthSanUri

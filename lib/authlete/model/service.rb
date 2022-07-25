@@ -563,6 +563,18 @@ module Authlete
       alias_method  :trust_anchors,  :trustAnchors
       alias_method  :trust_anchors=, :trustAnchors=
 
+      attr_accessor :tokenExchangeByIdentifiableClientsOnly
+      alias_method  :token_exchange_by_identifiable_clients_only,  :tokenExchangeByIdentifiableClientsOnly
+      alias_method  :token_exchange_by_identifiable_clients_only=, :tokenExchangeByIdentifiableClientsOnly=
+
+      attr_accessor :tokenExchangeByConfidentialClientsOnly
+      alias_method  :token_exchange_by_confidential_clients_only,  :tokenExchangeByConfidentialClientsOnly
+      alias_method  :token_exchange_by_confidential_clients_only=, :tokenExchangeByConfidentialClientsOnly=
+
+      attr_accessor :tokenExchangeByPermittedClientsOnly
+      alias_method  :token_exchange_by_permitted_clients_only,  :tokenExchangeByPermittedClientsOnly
+      alias_method  :token_exchange_by_permitted_clients_only=, :tokenExchangeByPermittedClientsOnly=
+
       private
       
       def defaults
@@ -706,6 +718,9 @@ module Authlete
           federationRegistrationEndpoint:              nil,
           supportedClientRegistrationTypes:            nil,
           trustAnchors:                                nil,
+          tokenExchangeByIdentifiableClientsOnly:      false,
+          tokenExchangeByConfidentialClientsOnly:      false,
+          tokenExchangeByPermittedClientsOnly:         false,
         }
       end
 
@@ -849,6 +864,9 @@ module Authlete
         @federationRegistrationEndpoint              = hash[:federationRegistrationEndpoint]
         @supportedClientRegistrationTypes            = hash[:supportedClientRegistrationTypes]
         @trustAnchors                                = get_parsed_array(hash[:trustAnchors]) { |e| Authlete::Model::TrustAnchor.parse(e) }
+        @tokenExchangeByIdentifiableClientsOnly      = hash[:tokenExchangeByIdentifiableClientsOnly]
+        @tokenExchangeByConfidentialClientsOnly      = hash[:tokenExchangeByConfidentialClientsOnly]
+        @tokenExchangeByPermittedClientsOnly         = hash[:tokenExchangeByPermittedClientsOnly]
 
       end
 
