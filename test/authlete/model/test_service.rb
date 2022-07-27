@@ -186,6 +186,8 @@ class ServiceTest < Minitest::Test
   TOKEN_EXCHANGE_BY_IDENTIFIABLE_CLIENTS_ONLY      = false
   TOKEN_EXCHANGE_BY_CONFIDENTIAL_CLIENTS_ONLY      = false
   TOKEN_EXCHANGE_BY_PERMITTED_CLIENTS_ONLY         = false
+  TOKEN_EXCHANGE_ENCRYPTED_JWT_REJECTED            = false
+  TOKEN_EXCHANGE_UNSIGNED_JWT_REJECTED             = false
 
   def generate_json
     return <<~JSON
@@ -331,7 +333,9 @@ class ServiceTest < Minitest::Test
         "trustAnchors":                                [{ "entityId": "<entity-id>", "jwks": "<jwks>" }],
         "tokenExchangeByIdentifiableClientsOnly":      false,
         "tokenExchangeByConfidentialClientsOnly":      false,
-        "tokenExchangeByPermittedClientsOnly":         false
+        "tokenExchangeByPermittedClientsOnly":         false,
+        "tokenExchangeEncryptedJwtRejected":           false,
+        "tokenExchangeUnsignedJwtRejected":            false
       }
       JSON
 
@@ -482,6 +486,8 @@ class ServiceTest < Minitest::Test
       tokenExchangeByIdentifiableClientsOnly:      false,
       tokenExchangeByConfidentialClientsOnly:      false,
       tokenExchangeByPermittedClientsOnly:         false,
+      tokenExchangeEncryptedJwtRejected:           false,
+      tokenExchangeUnsignedJwtRejected:            false,
     }
   end
 
@@ -790,6 +796,8 @@ class ServiceTest < Minitest::Test
     assert_equal TOKEN_EXCHANGE_BY_IDENTIFIABLE_CLIENTS_ONLY,      obj.token_exchange_by_identifiable_clients_only
     assert_equal TOKEN_EXCHANGE_BY_CONFIDENTIAL_CLIENTS_ONLY,      obj.token_exchange_by_confidential_clients_only
     assert_equal TOKEN_EXCHANGE_BY_PERMITTED_CLIENTS_ONLY,         obj.token_exchange_by_permitted_clients_only
+    assert_equal TOKEN_EXCHANGE_ENCRYPTED_JWT_REJECTED,            obj.token_exchange_encrypted_jwt_rejected
+    assert_equal TOKEN_EXCHANGE_UNSIGNED_JWT_REJECTED,             obj.token_exchange_unsigned_jwt_rejected
   end
 
 
