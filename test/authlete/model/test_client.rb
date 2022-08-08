@@ -123,6 +123,8 @@ class ClientTest < Minitest::Test
   REQUEST_OBJECT_ENCRYPTION_ENC_MATCH_REQUIRED     = false
   DIGEST_ALGORITHM                                 = '<digest-algorithm>'
   SINGLE_ACCESS_TOKEN_PER_SUBJECT                  = false
+  PKCE_REQUIRED                                    = false
+  PKCE_S256_REQUIRED                               = false
 
   def generate_json
     return <<~JSON
@@ -209,11 +211,13 @@ class ClientTest < Minitest::Test
         "requestObjectEncryptionAlgMatchRequired":     false,
         "requestObjectEncryptionEncMatchRequired":     false,
         "digestAlgorithm":                             "<digest-algorithm>",
-        "singleAccessTokenPerSubject":                 false
+        "singleAccessTokenPerSubject":                 false,
+        "pkceRequired":                                false,
+        "pkceS256Required":                            false
       }
-    JSON
-  end
-
+      JSON
+    end
+    
 
   def generate_hash
     {
@@ -299,7 +303,9 @@ class ClientTest < Minitest::Test
       requestObjectEncryptionAlgMatchRequired:     false,
       requestObjectEncryptionEncMatchRequired:     false,
       digestAlgorithm:                             '<digest-algorithm>',
-      singleAccessTokenPerSubject:                 false
+      singleAccessTokenPerSubject:                 false,
+      pkceRequired:                                false,
+      pkceS256Required:                            false,
     }
   end
 
@@ -382,6 +388,8 @@ class ClientTest < Minitest::Test
     obj.requestObjectEncryptionEncMatchRequired     = REQUEST_OBJECT_ENCRYPTION_ENC_MATCH_REQUIRED
     obj.digestAlgorithm                             = DIGEST_ALGORITHM
     obj.singleAccessTokenPerSubject                 = SINGLE_ACCESS_TOKEN_PER_SUBJECT
+    obj.pkceRequired                                = PKCE_REQUIRED
+    obj.pkceS256Required                            = PKCE_S256_REQUIRED
   end
 
 
@@ -472,6 +480,8 @@ class ClientTest < Minitest::Test
     assert_equal REQUEST_OBJECT_ENCRYPTION_ENC_MATCH_REQUIRED,     obj.requestObjectEncryptionEncMatchRequired
     assert_equal DIGEST_ALGORITHM,                                 obj.digestAlgorithm
     assert_equal SINGLE_ACCESS_TOKEN_PER_SUBJECT,                  obj.singleAccessTokenPerSubject
+    assert_equal PKCE_REQUIRED,                                    obj.pkceRequired
+    assert_equal PKCE_S256_REQUIRED,                               obj.pkceS256Required
   end
 
 

@@ -312,6 +312,14 @@ module Authlete
       attr_accessor :singleAccessTokenPerSubject
       alias_method  :single_access_token_per_subject,  :singleAccessTokenPerSubject
       alias_method  :single_access_token_per_subject=, :singleAccessTokenPerSubject=    
+
+      attr_accessor :pkceRequired
+      alias_method  :pkce_required,  :pkceRequired
+      alias_method  :pkce_required=, :pkceRequired=
+
+      attr_accessor :pkceS256Required
+      alias_method  :pkce_s256_required,  :pkceS256Required
+      alias_method  :pkce_s256_required=, :pkceS256Required=    
       private
 
       def defaults
@@ -392,7 +400,9 @@ module Authlete
           requestObjectEncryptionAlgMatchRequired:     false,
           requestObjectEncryptionEncMatchRequired:     false,
           digestAlgorithm:                             nil,
-          singleAccessTokenPerSubject:                 false
+          singleAccessTokenPerSubject:                 false,
+          pkceRequired:                                false,
+          pkceS256Required:                            false,
         }
       end
 
@@ -474,6 +484,8 @@ module Authlete
         @requestObjectEncryptionEncMatchRequired     = hash[:requestObjectEncryptionEncMatchRequired]
         @digestAlgorithm                             = hash[:digestAlgorithm]
         @singleAccessTokenPerSubject                 = hash[:singleAccessTokenPerSubject]
+        @pkceRequired                                = hash[:pkceRequired]
+        @pkceS256Required                            = hash[:pkceS256Required]
       end
 
       def to_hash_value(key, var)
