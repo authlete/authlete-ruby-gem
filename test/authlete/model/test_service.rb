@@ -188,6 +188,9 @@ class ServiceTest < Minitest::Test
   TOKEN_EXCHANGE_BY_PERMITTED_CLIENTS_ONLY         = false
   TOKEN_EXCHANGE_ENCRYPTED_JWT_REJECTED            = false
   TOKEN_EXCHANGE_UNSIGNED_JWT_REJECTED             = false
+  JWT_GRANT_BY_IDENTIFIABLE_CLIENTS_ONLY           = false
+  JWT_GRANT_ENCRYPTED_JWT_REJECTED                 = false
+  JWT_GRANT_UNSIGNED_JWT_REJECTED                  = false
 
   def generate_json
     return <<~JSON
@@ -335,7 +338,10 @@ class ServiceTest < Minitest::Test
         "tokenExchangeByConfidentialClientsOnly":      false,
         "tokenExchangeByPermittedClientsOnly":         false,
         "tokenExchangeEncryptedJwtRejected":           false,
-        "tokenExchangeUnsignedJwtRejected":            false
+        "tokenExchangeUnsignedJwtRejected":            false,
+        "jwtGrantByIdentifiableClientsOnly":           false,
+        "jwtGrantEncryptedJwtRejected":                false,
+        "jwtGrantUnsignedJwtRejected":                 false
       }
       JSON
 
@@ -488,6 +494,9 @@ class ServiceTest < Minitest::Test
       tokenExchangeByPermittedClientsOnly:         false,
       tokenExchangeEncryptedJwtRejected:           false,
       tokenExchangeUnsignedJwtRejected:            false,
+      jwtGrantByIdentifiableClientsOnly:           false,
+      jwtGrantEncryptedJwtRejected:                false,
+      jwtGrantUnsignedJwtRejected:                 false
     }
   end
 
@@ -635,6 +644,9 @@ class ServiceTest < Minitest::Test
     obj.token_exchange_by_identifiable_clients_only   = TOKEN_EXCHANGE_BY_IDENTIFIABLE_CLIENTS_ONLY
     obj.token_exchange_by_confidential_clients_only   = TOKEN_EXCHANGE_BY_CONFIDENTIAL_CLIENTS_ONLY
     obj.token_exchange_by_permitted_clients_only      = TOKEN_EXCHANGE_BY_PERMITTED_CLIENTS_ONLY
+    obj.jwtGrantByIdentifiableClientsOnly             = JWT_GRANT_BY_IDENTIFIABLE_CLIENTS_ONLY
+    obj.jwtGrantEncryptedJwtRejected                  = JWT_GRANT_ENCRYPTED_JWT_REJECTED
+    obj.jwtGrantUnsignedJwtRejected                   = JWT_GRANT_UNSIGNED_JWT_REJECTED
   end
 
 
@@ -798,6 +810,9 @@ class ServiceTest < Minitest::Test
     assert_equal TOKEN_EXCHANGE_BY_PERMITTED_CLIENTS_ONLY,         obj.token_exchange_by_permitted_clients_only
     assert_equal TOKEN_EXCHANGE_ENCRYPTED_JWT_REJECTED,            obj.token_exchange_encrypted_jwt_rejected
     assert_equal TOKEN_EXCHANGE_UNSIGNED_JWT_REJECTED,             obj.token_exchange_unsigned_jwt_rejected
+    assert_equal JWT_GRANT_BY_IDENTIFIABLE_CLIENTS_ONLY,           obj.jwtGrantByIdentifiableClientsOnly
+    assert_equal JWT_GRANT_ENCRYPTED_JWT_REJECTED,                 obj.jwtGrantEncryptedJwtRejected
+    assert_equal JWT_GRANT_UNSIGNED_JWT_REJECTED,                  obj.jwtGrantUnsignedJwtRejected
   end
 
 

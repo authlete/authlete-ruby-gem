@@ -583,6 +583,18 @@ module Authlete
       alias_method  :token_exchange_unsigned_jwt_rejected,  :tokenExchangeUnsignedJwtRejected
       alias_method  :token_exchange_unsigned_jwt_rejected=, :tokenExchangeUnsignedJwtRejected=
 
+      attr_accessor :jwtGrantByIdentifiableClientsOnly
+      alias_method  :jwt_grant_by_identifiable_clients_only,  :jwtGrantByIdentifiableClientsOnly
+      alias_method  :jwt_grant_by_identifiable_clients_only=, :jwtGrantByIdentifiableClientsOnly=
+
+      attr_accessor :jwtGrantEncryptedJwtRejected
+      alias_method  :jwt_grant_encrypted_jwt_rejected,  :jwtGrantEncryptedJwtRejected
+      alias_method  :jwt_grant_encrypted_jwt_rejected=, :jwtGrantEncryptedJwtRejected=
+
+      attr_accessor :jwtGrantUnsignedJwtRejected
+      alias_method  :jwt_grant_unsigned_jwt_rejected,  :jwtGrantUnsignedJwtRejected
+      alias_method  :jwt_grant_unsigned_jwt_rejected=, :jwtGrantUnsignedJwtRejected=
+
       private
       
       def defaults
@@ -731,6 +743,9 @@ module Authlete
           tokenExchangeByPermittedClientsOnly:         false,
           tokenExchangeEncryptedJwtRejected:           false,
           tokenExchangeUnsignedJwtRejected:            false,
+          jwtGrantByIdentifiableClientsOnly:           false,
+          jwtGrantEncryptedJwtRejected:                false,
+          jwtGrantUnsignedJwtRejected:                 false,
         }
       end
 
@@ -879,6 +894,9 @@ module Authlete
         @tokenExchangeByPermittedClientsOnly         = hash[:tokenExchangeByPermittedClientsOnly]
         @tokenExchangeEncryptedJwtRejected           = hash[:tokenExchangeEncryptedJwtRejected]
         @tokenExchangeUnsignedJwtRejected            = hash[:tokenExchangeUnsignedJwtRejected]
+        @jwtGrantByIdentifiableClientsOnly           = hash[:jwtGrantByIdentifiableClientsOnly]
+        @jwtGrantEncryptedJwtRejected                = hash[:jwtGrantEncryptedJwtRejected]
+        @jwtGrantUnsignedJwtRejected                 = hash[:jwtGrantUnsignedJwtRejected]
 
       end
 
