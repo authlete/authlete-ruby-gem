@@ -191,6 +191,8 @@ class ServiceTest < Minitest::Test
   JWT_GRANT_BY_IDENTIFIABLE_CLIENTS_ONLY           = false
   JWT_GRANT_ENCRYPTED_JWT_REJECTED                 = false
   JWT_GRANT_UNSIGNED_JWT_REJECTED                  = false
+  FEDERATION_SIGNATURE_KEY_ID                      = '<federation-signature-key-id>'
+  FEDERATION_CONFIGURATION_DURATION                = 100
 
   def generate_json
     return <<~JSON
@@ -341,7 +343,9 @@ class ServiceTest < Minitest::Test
         "tokenExchangeUnsignedJwtRejected":            false,
         "jwtGrantByIdentifiableClientsOnly":           false,
         "jwtGrantEncryptedJwtRejected":                false,
-        "jwtGrantUnsignedJwtRejected":                 false
+        "jwtGrantUnsignedJwtRejected":                 false,
+        "federationSignatureKeyId":                    "<federation-signature-key-id>",
+        "federationConfigurationDuration":             100
       }
       JSON
 
@@ -496,7 +500,9 @@ class ServiceTest < Minitest::Test
       tokenExchangeUnsignedJwtRejected:            false,
       jwtGrantByIdentifiableClientsOnly:           false,
       jwtGrantEncryptedJwtRejected:                false,
-      jwtGrantUnsignedJwtRejected:                 false
+      jwtGrantUnsignedJwtRejected:                 false,
+      federationSignatureKeyId:                    '<federation-signature-key-id>',
+      federationConfigurationDuration:             100
     }
   end
 
@@ -644,11 +650,12 @@ class ServiceTest < Minitest::Test
     obj.token_exchange_by_identifiable_clients_only   = TOKEN_EXCHANGE_BY_IDENTIFIABLE_CLIENTS_ONLY
     obj.token_exchange_by_confidential_clients_only   = TOKEN_EXCHANGE_BY_CONFIDENTIAL_CLIENTS_ONLY
     obj.token_exchange_by_permitted_clients_only      = TOKEN_EXCHANGE_BY_PERMITTED_CLIENTS_ONLY
-    obj.jwtGrantByIdentifiableClientsOnly             = JWT_GRANT_BY_IDENTIFIABLE_CLIENTS_ONLY
-    obj.jwtGrantEncryptedJwtRejected                  = JWT_GRANT_ENCRYPTED_JWT_REJECTED
-    obj.jwtGrantUnsignedJwtRejected                   = JWT_GRANT_UNSIGNED_JWT_REJECTED
+    obj.jwt_grant_by_identifiable_clients_only        = JWT_GRANT_BY_IDENTIFIABLE_CLIENTS_ONLY
+    obj.jwt_grant_encrypted_jwt_rejected              = JWT_GRANT_ENCRYPTED_JWT_REJECTED
+    obj.jwt_grant_unsigned_jwt_rejected               = JWT_GRANT_UNSIGNED_JWT_REJECTED
+    obj.federation_signature_key_id                   = FEDERATION_SIGNATURE_KEY_ID
+    obj.federation_configuration_duration             = FEDERATION_CONFIGURATION_DURATION
   end
-
 
   def match(obj)
     assert_equal NUMBER,                                           obj.number
@@ -813,6 +820,8 @@ class ServiceTest < Minitest::Test
     assert_equal JWT_GRANT_BY_IDENTIFIABLE_CLIENTS_ONLY,           obj.jwtGrantByIdentifiableClientsOnly
     assert_equal JWT_GRANT_ENCRYPTED_JWT_REJECTED,                 obj.jwtGrantEncryptedJwtRejected
     assert_equal JWT_GRANT_UNSIGNED_JWT_REJECTED,                  obj.jwtGrantUnsignedJwtRejected
+    assert_equal FEDERATION_SIGNATURE_KEY_ID,                      obj.federationSignatureKeyId
+    assert_equal FEDERATION_CONFIGURATION_DURATION,                obj.federationConfigurationDuration
   end
 
 

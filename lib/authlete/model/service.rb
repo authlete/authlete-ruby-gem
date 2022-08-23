@@ -595,6 +595,14 @@ module Authlete
       alias_method  :jwt_grant_unsigned_jwt_rejected,  :jwtGrantUnsignedJwtRejected
       alias_method  :jwt_grant_unsigned_jwt_rejected=, :jwtGrantUnsignedJwtRejected=
 
+      attr_accessor :federationSignatureKeyId
+      alias_method  :federation_signature_key_id,  :federationSignatureKeyId
+      alias_method  :federation_signature_key_id=, :federationSignatureKeyId=
+
+      attr_accessor :federationConfigurationDuration
+      alias_method  :federation_configuration_duration,  :federationConfigurationDuration
+      alias_method  :federation_configuration_duration=, :federationConfigurationDuration=
+
       private
       
       def defaults
@@ -746,6 +754,8 @@ module Authlete
           jwtGrantByIdentifiableClientsOnly:           false,
           jwtGrantEncryptedJwtRejected:                false,
           jwtGrantUnsignedJwtRejected:                 false,
+          federationSignatureKeyId:                    nil,
+          federationConfigurationDuration:             0,
         }
       end
 
@@ -897,6 +907,8 @@ module Authlete
         @jwtGrantByIdentifiableClientsOnly           = hash[:jwtGrantByIdentifiableClientsOnly]
         @jwtGrantEncryptedJwtRejected                = hash[:jwtGrantEncryptedJwtRejected]
         @jwtGrantUnsignedJwtRejected                 = hash[:jwtGrantUnsignedJwtRejected]
+        @federationSignatureKeyId                    = hash[:federationSignatureKeyId]
+        @federationConfigurationDuration             = hash[:federationConfigurationDuration]
 
       end
 
