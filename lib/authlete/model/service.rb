@@ -603,6 +603,10 @@ module Authlete
       alias_method  :federation_configuration_duration,  :federationConfigurationDuration
       alias_method  :federation_configuration_duration=, :federationConfigurationDuration=
 
+      attr_accessor :dcrDuplicateSoftwareIdBlocked
+      alias_method  :dcr_duplicate_software_id_blocked,  :dcrDuplicateSoftwareIdBlocked
+      alias_method  :dcr_duplicate_software_id_blocked=, :dcrDuplicateSoftwareIdBlocked=
+
       private
       
       def defaults
@@ -756,6 +760,7 @@ module Authlete
           jwtGrantUnsignedJwtRejected:                 false,
           federationSignatureKeyId:                    nil,
           federationConfigurationDuration:             0,
+          dcrDuplicateSoftwareIdBlocked:               false,
         }
       end
 
@@ -909,6 +914,7 @@ module Authlete
         @jwtGrantUnsignedJwtRejected                 = hash[:jwtGrantUnsignedJwtRejected]
         @federationSignatureKeyId                    = hash[:federationSignatureKeyId]
         @federationConfigurationDuration             = hash[:federationConfigurationDuration]
+        @dcrDuplicateSoftwareIdBlocked               = hash[:dcrDuplicateSoftwareIdBlocked]
 
       end
 

@@ -125,6 +125,7 @@ class ClientTest < Minitest::Test
   SINGLE_ACCESS_TOKEN_PER_SUBJECT                  = false
   PKCE_REQUIRED                                    = false
   PKCE_S256_REQUIRED                               = false
+  DYNAMICALLY_REGISTERED                           = false
 
   def generate_json
     return <<~JSON
@@ -213,7 +214,8 @@ class ClientTest < Minitest::Test
         "digestAlgorithm":                             "<digest-algorithm>",
         "singleAccessTokenPerSubject":                 false,
         "pkceRequired":                                false,
-        "pkceS256Required":                            false
+        "pkceS256Required":                            false,
+        "dynamicallyRegistered":                       false
       }
       JSON
     end
@@ -306,9 +308,9 @@ class ClientTest < Minitest::Test
       singleAccessTokenPerSubject:                 false,
       pkceRequired:                                false,
       pkceS256Required:                            false,
+      dynamicallyRegistered:                       false,
     }
   end
-
 
   def set_params(obj)
     obj.number                                      = NUMBER
@@ -390,6 +392,7 @@ class ClientTest < Minitest::Test
     obj.singleAccessTokenPerSubject                 = SINGLE_ACCESS_TOKEN_PER_SUBJECT
     obj.pkceRequired                                = PKCE_REQUIRED
     obj.pkceS256Required                            = PKCE_S256_REQUIRED
+    obj.dynamicallyRegistered                       = DYNAMICALLY_REGISTERED
   end
 
 
@@ -482,6 +485,7 @@ class ClientTest < Minitest::Test
     assert_equal SINGLE_ACCESS_TOKEN_PER_SUBJECT,                  obj.singleAccessTokenPerSubject
     assert_equal PKCE_REQUIRED,                                    obj.pkceRequired
     assert_equal PKCE_S256_REQUIRED,                               obj.pkceS256Required
+    assert_equal DYNAMICALLY_REGISTERED,                           obj.dynamicallyRegistered
   end
 
 
