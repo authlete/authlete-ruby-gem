@@ -1,6 +1,6 @@
 # :nodoc:
 #
-# Copyright (C) 2014-2020 Authlete, Inc.
+# Copyright (C) 2014-2022 Authlete, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -110,5 +110,18 @@ module Authlete
       autoload :UserInfoIssueResponse, 'authlete/model/response/user-info-issue-response'
       autoload :UserInfoResponse, 'authlete/model/response/user-info-response'
     end
+  end
+
+  module Types
+    autoload :ApplicationType, 'authlete/types/application-type'
+    autoload :ClientAuthMethod, 'authlete/types/client-auth-method'
+    autoload :ConstantUtility, 'authlete/types/constant-utility'
+    autoload :DeliveryMode, 'authlete/types/delivery-mode'
+    autoload :GrantType, 'authlete/types/grant-type'
+    autoload :JWEAlg, 'authlete/types/jwealg'
+    autoload :JWEEnc, 'authlete/types/jweenc'
+    autoload :JWSAlg, 'authlete/types/jwsalg'
+    autoload :ResponseType, 'authlete/types/response-type'
+    autoload :SubjectType, 'authlete/types/subject-type'
   end
 end
