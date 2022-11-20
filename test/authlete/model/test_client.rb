@@ -1,6 +1,6 @@
 # :nodoc:
 #
-# Copyright (C) 2014-2020 Authlete, Inc.
+# Copyright (C) 2014-2022 Authlete, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -55,7 +55,7 @@ class ClientTest < Minitest::Test
   TOS_URI_VALUE                                    = '<tos-uri0-value>'
   TOS_URIS                                         = [ Authlete::Model::TaggedValue.new(tag: TOS_URI_TAG, value: TOS_URI_VALUE) ]
   JWKS_URI                                         = '<jwks-uri>'
-  JWKS                                             = '<jwks>'
+  JWKS                                             = '{"keys":[]}'
   DERIVED_SECTOR_IDENTIFIER                        = '<derived-sector-identifier>'
   SECTOR_IDENTIFIER_URI                            = '<sector-identifier-uri>'
   SUBJECT_TYPE                                     = 'PUBLIC'
@@ -153,7 +153,7 @@ class ClientTest < Minitest::Test
         "tosUri":                                      "<tos-uri>",
         "tosUris":                                     [ { "tag": "<tos-uri0-tag>", "value": "<tos-uri0-value>" } ],
         "jwksUri":                                     "<jwks-uri>",
-        "jwks":                                        "<jwks>",
+        "jwks":                                        "{\\"keys\\":[]}",
         "derivedSectorIdentifier":                     "<derived-sector-identifier>",
         "sectorIdentifierUri":                         "<sector-identifier-uri>",
         "subjectType":                                 "PUBLIC",
@@ -216,8 +216,8 @@ class ClientTest < Minitest::Test
         "pkceS256Required":                            false
       }
       JSON
-    end
-    
+  end
+
 
   def generate_hash
     {
@@ -245,7 +245,7 @@ class ClientTest < Minitest::Test
       tosUri:                                      '<tos-uri>',
       tosUris:                                     [ { tag: '<tos-uri0-tag>', value: '<tos-uri0-value>' } ],
       jwksUri:                                     '<jwks-uri>',
-      jwks:                                        '<jwks>',
+      jwks:                                        '{"keys":[]}',
       derivedSectorIdentifier:                     '<derived-sector-identifier>',
       sectorIdentifierUri:                         '<sector-identifier-uri>',
       subjectType:                                 'PUBLIC',
@@ -508,5 +508,82 @@ class ClientTest < Minitest::Test
     expected = generate_hash
 
     assert_equal expected, actual
+  end
+
+
+  def test_standard_metadata_full
+    client = Authlete::Model::Client.new
+    set_params(client)
+
+    expected_response_types = ['none', 'code', 'token', 'id_token']
+    expected_grant_types    = ['authorization_code', 'refresh_token']
+    expected_jwks           = { "keys" => [] }
+
+    metadata = client.standard_metadata(false, false, false)
+
+    assert_equal "#{CLIENT_ID}",                             metadata[:client_id]
+    assert_equal REDIRECT_URIS,                              metadata[:redirect_uris]
+    assert_equal expected_response_types,                    metadata[:response_types]
+    assert_equal expected_grant_types,                       metadata[:grant_types]
+    assert_equal 'web',                                      metadata[:application_type]
+    assert_equal CONTACTS,                                   metadata[:contacts]
+    assert_equal CLIENT_NAME,                                metadata[:client_name]
+    assert_equal LOGO_URI,                                   metadata[:logo_uri]
+    assert_equal CLIENT_URI,                                 metadata[:client_uri]
+    assert_equal POLICY_URI,                                 metadata[:policy_uri]
+    assert_equal TOS_URI,                                    metadata[:tos_uri]
+    assert_equal JWKS_URI,                                   metadata[:jwks_uri]
+    assert_equal expected_jwks,                              metadata[:jwks]
+    assert_equal SECTOR_IDENTIFIER_URI,                      metadata[:sector_identifier_uri]
+    assert_equal 'public',                                   metadata[:subject_type]
+    assert_equal 'HS256',                                    metadata[:id_token_signed_response_alg]
+    assert_equal 'PBES2-HS256+A128KW',                       metadata[:id_token_encrypted_response_alg]
+    assert_equal 'A128CBC-HS256',                            metadata[:id_token_encrypted_response_enc]
+    assert_equal 'HS256',                                    metadata[:userinfo_signed_response_alg]
+    assert_equal 'PBES2-HS256+A128KW',                       metadata[:userinfo_encrypted_response_alg]
+    assert_equal 'A128CBC-HS256',                            metadata[:userinfo_encrypted_response_enc]
+    assert_equal 'HS256',                                    metadata[:request_object_signing_alg]
+    assert_equal 'PBES2-HS256+A128KW',                       metadata[:request_object_encryption_alg]
+    assert_equal 'A128CBC-HS256',                            metadata[:request_object_encryption_enc]
+    assert_equal 'client_secret_basic',                      metadata[:token_endpoint_auth_method]
+    assert_equal 'HS256',                                    metadata[:token_endpoint_auth_signing_alg]
+    assert_equal DEFAULT_MAX_AGE,                            metadata[:default_max_age]
+    assert_equal DEFAULT_ACRS,                               metadata[:default_acr_values]
+    assert_equal AUTH_TIME_REQUIRED,                         metadata[:require_auth_time]
+    assert_equal LOGIN_URI,                                  metadata[:initiate_login_uri]
+    assert_equal REQUEST_URIS,                               metadata[:request_uris]
+    assert_equal TLS_CLIENT_AUTH_SUBJECT_DN,                 metadata[:tls_client_auth_subject_dn]
+    assert_equal TLS_CLIENT_AUTH_SAN_DNS,                    metadata[:tls_client_auth_san_dns]
+    assert_equal TLS_CLIENT_AUTH_SAN_URI,                    metadata[:tls_client_auth_san_uri]
+    assert_equal TLS_CLIENT_AUTH_SAN_IP,                     metadata[:tls_client_auth_san_ip]
+    assert_equal TLS_CLIENT_AUTH_SAN_EMAIL,                  metadata[:tls_client_auth_san_email]
+    assert_equal TLS_CLIENT_CERTIFICATE_BOUND_ACCESS_TOKENS, metadata[:tls_client_certificate_bound_access_tokens]
+    assert_equal SOFTWARE_ID,                                metadata[:software_id]
+    assert_equal SOFTWARE_VERSION,                           metadata[:software_version]
+    assert_equal 'HS256',                                    metadata[:authorization_signed_response_alg]
+    assert_equal 'PBES2-HS256+A128KW',                       metadata[:authorization_encrypted_response_alg]
+    assert_equal 'A128CBC-HS256',                            metadata[:authorization_encrypted_response_enc]
+    assert_equal 'poll',                                     metadata[:backchannel_token_delivery_mode]
+    assert_equal BC_NOTIFICATION_ENDPOINT,                   metadata[:backchannel_client_notification_endpoint]
+    assert_equal 'HS256',                                    metadata[:backchannel_authentication_request_signing_alg]
+    assert_equal BC_USER_CODE_REQUIRED,                      metadata[:backchannel_user_code_parameter]
+    assert_equal AUTHORIZATION_DETAILS_TYPES,                metadata[:authorization_details_types]
+    assert_equal DIGEST_ALGORITHM,                           metadata[:digest_algorithm]
+  end
+
+
+  def test_standard_metadata_minimum
+    client = Authlete::Model::Client.new
+    set_params(client)
+
+    client.default_max_age    = 0
+    client.auth_time_required = false
+    client.login_uri          = nil
+
+    metadata = client.standard_metadata
+
+    assert_nil metadata[:default_max_age]
+    assert_nil metadata[:require_auth_time]
+    assert_nil metadata[:initiate_login_uri]
   end
 end

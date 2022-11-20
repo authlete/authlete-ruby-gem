@@ -1,6 +1,6 @@
 # :nodoc:
 #
-# Copyright (C) 2014-2020 Authlete, Inc.
+# Copyright (C) 2014-2022 Authlete, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -13,6 +13,9 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+
+
+require 'json'
 
 
 module Authlete
@@ -501,6 +504,121 @@ module Authlete
           else
             raw_val
         end
+      end
+
+      public
+
+      def standard_metadata(delete_zero = true, delete_false = true, delete_nil = true)
+        metadata = {
+          client_id:                                      "#{@clientId}",
+          redirect_uris:                                  @redirectUris,
+          response_types:                                 standard_response_types(@responseTypes),
+          grant_types:                                    standard_grant_types(@grantTypes),
+          application_type:                               from_application_type(@applicationType),
+          contacts:                                       @contacts,
+          client_name:                                    @clientName,
+          logo_uri:                                       @logoUri,
+          client_uri:                                     @clientUri,
+          policy_uri:                                     @policyUri,
+          tos_uri:                                        @tosUri,
+          jwks_uri:                                       @jwksUri,
+          jwks:                                           json_parse(@jwks),
+          sector_identifier_uri:                          @sectorIdentifierUri,
+          subject_type:                                   from_subject_type(@subjectType),
+          id_token_signed_response_alg:                   from_jwsalg(@idTokenSignAlg),
+          id_token_encrypted_response_alg:                from_jwealg(@idTokenEncryptionAlg),
+          id_token_encrypted_response_enc:                from_jweenc(@idTokenEncryptionEnc),
+          userinfo_signed_response_alg:                   from_jwsalg(@userInfoSignAlg),
+          userinfo_encrypted_response_alg:                from_jwealg(@userInfoEncryptionAlg),
+          userinfo_encrypted_response_enc:                from_jweenc(@userInfoEncryptionEnc),
+          request_object_signing_alg:                     from_jwsalg(@requestSignAlg),
+          request_object_encryption_alg:                  from_jwealg(@requestEncryptionAlg),
+          request_object_encryption_enc:                  from_jweenc(@requestEncryptionEnc),
+          token_endpoint_auth_method:                     from_client_auth_method(@tokenAuthMethod),
+          token_endpoint_auth_signing_alg:                from_jwsalg(@tokenAuthSignAlg),
+          default_max_age:                                @defaultMaxAge,
+          default_acr_values:                             @defaultAcrs,
+          require_auth_time:                              @authTimeRequired,
+          initiate_login_uri:                             @loginUri,
+          request_uris:                                   @requestUris,
+          tls_client_auth_subject_dn:                     @tlsClientAuthSubjectDn,
+          tls_client_auth_san_dns:                        @tlsClientAuthSanDns,
+          tls_client_auth_san_uri:                        @tlsClientAuthSanUri,
+          tls_client_auth_san_ip:                         @tlsClientAuthSanIp,
+          tls_client_auth_san_email:                      @tlsClientAuthSanEmail,
+          tls_client_certificate_bound_access_tokens:     @tlsClientCertificateBoundAccessTokens,
+          software_id:                                    @softwareId,
+          software_version:                               @softwareVersion,
+          authorization_signed_response_alg:              from_jwsalg(@authorizationSignAlg),
+          authorization_encrypted_response_alg:           from_jwealg(@authorizationEncryptionAlg),
+          authorization_encrypted_response_enc:           from_jweenc(@authorizationEncryptionEnc),
+          backchannel_token_delivery_mode:                from_delivery_mode(@bcDeliveryMode),
+          backchannel_client_notification_endpoint:       @bcNotificationEndpoint,
+          backchannel_authentication_request_signing_alg: from_jwsalg(@bcRequestSignAlg),
+          backchannel_user_code_parameter:                @bcUserCodeRequired,
+          authorization_details_types:                    @authorizationDetailsTypes,
+          digest_algorithm:                               @digestAlgorithm
+        }
+
+        if delete_nil
+          metadata.compact!
+        end
+
+        if delete_false
+          metadata = metadata.delete_if {|key, value| value == false}
+        end
+
+        if delete_zero
+          metadata = metadata.delete_if {|key, value| value == 0}
+        end
+
+        metadata
+      end
+
+      private
+
+      def standard_response_types(array)
+        array.nil? ? nil : array.map do |element|
+          Authlete::Types::ResponseType::constant_get(element)
+        end
+      end
+
+      def standard_grant_types(array)
+        array.nil? ? nil : array.map do |element|
+          Authlete::Types::GrantType::constant_get(element)
+        end
+      end
+
+      def json_parse(json)
+        json.nil? ? nil : JSON.parse(json)
+      end
+
+      def from_application_type(constant_name)
+        Authlete::Types::ApplicationType::constant_get(constant_name)
+      end
+
+      def from_client_auth_method(constant_name)
+        Authlete::Types::ClientAuthMethod::constant_get(constant_name)
+      end
+
+      def from_delivery_mode(constant_name)
+        Authlete::Types::DeliveryMode::constant_get(constant_name)
+      end
+
+      def from_jwealg(constant_name)
+        Authlete::Types::JWEAlg::constant_get(constant_name)
+      end
+
+      def from_jweenc(constant_name)
+        Authlete::Types::JWEEnc::constant_get(constant_name)
+      end
+
+      def from_jwsalg(constant_name)
+        Authlete::Types::JWSAlg::constant_get(constant_name)
+      end
+
+      def from_subject_type(constant_name)
+        Authlete::Types::SubjectType::constant_get(constant_name)
       end
     end
   end
