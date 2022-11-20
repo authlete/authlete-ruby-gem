@@ -1,6 +1,6 @@
 # :nodoc:
 #
-# Copyright (C) 2014-2020 Authlete, Inc.
+# Copyright (C) 2014-2022 Authlete, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -607,6 +607,10 @@ module Authlete
       alias_method  :dcr_duplicate_software_id_blocked,  :dcrDuplicateSoftwareIdBlocked
       alias_method  :dcr_duplicate_software_id_blocked=, :dcrDuplicateSoftwareIdBlocked=
 
+      attr_accessor :openidDroppedOnRefreshWithoutOfflineAccess
+      alias_method  :openid_dropped_on_refresh_without_offline_access,  :openidDroppedOnRefreshWithoutOfflineAccess
+      alias_method  :openid_dropped_on_refresh_without_offline_access=, :openidDroppedOnRefreshWithoutOfflineAccess=
+
       private
       
       def defaults
@@ -761,6 +765,7 @@ module Authlete
           federationSignatureKeyId:                    nil,
           federationConfigurationDuration:             0,
           dcrDuplicateSoftwareIdBlocked:               false,
+          openidDroppedOnRefreshWithoutOfflineAccess:  false,
         }
       end
 
@@ -915,6 +920,7 @@ module Authlete
         @federationSignatureKeyId                    = hash[:federationSignatureKeyId]
         @federationConfigurationDuration             = hash[:federationConfigurationDuration]
         @dcrDuplicateSoftwareIdBlocked               = hash[:dcrDuplicateSoftwareIdBlocked]
+        @openidDroppedOnRefreshWithoutOfflineAccess  = hash[:openidDroppedOnRefreshWithoutOfflineAccess]
 
       end
 

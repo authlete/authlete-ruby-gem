@@ -1,6 +1,6 @@
 # :nodoc:
 #
-# Copyright (C) 2014-2020 Authlete, Inc.
+# Copyright (C) 2014-2022 Authlete, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -194,6 +194,7 @@ class ServiceTest < Minitest::Test
   FEDERATION_SIGNATURE_KEY_ID                      = '<federation-signature-key-id>'
   FEDERATION_CONFIGURATION_DURATION                = 100
   DCR_DUPLICATE_SOFTWARE_ID_BLOCKED                = false
+  OPENID_DROPPED_ON_REFRESH_WITHOUT_OFFLINE_ACCESS = false
 
   def generate_json
     return <<~JSON
@@ -347,7 +348,8 @@ class ServiceTest < Minitest::Test
         "jwtGrantUnsignedJwtRejected":                 false,
         "federationSignatureKeyId":                    "<federation-signature-key-id>",
         "federationConfigurationDuration":             100,
-        "dcrDuplicateSoftwareIdBlocked":               false
+        "dcrDuplicateSoftwareIdBlocked":               false,
+        "openidDroppedOnRefreshWithoutOfflineAccess":  false
       }
       JSON
 
@@ -505,7 +507,8 @@ class ServiceTest < Minitest::Test
       jwtGrantUnsignedJwtRejected:                 false,
       federationSignatureKeyId:                    '<federation-signature-key-id>',
       federationConfigurationDuration:             100,
-      dcrDuplicateSoftwareIdBlocked:               false
+      dcrDuplicateSoftwareIdBlocked:               false,
+      openidDroppedOnRefreshWithoutOfflineAccess:  false
     }
   end
 
@@ -659,6 +662,7 @@ class ServiceTest < Minitest::Test
     obj.federation_signature_key_id                   = FEDERATION_SIGNATURE_KEY_ID
     obj.federation_configuration_duration             = FEDERATION_CONFIGURATION_DURATION
     obj.dcr_duplicate_software_id_blocked             = DCR_DUPLICATE_SOFTWARE_ID_BLOCKED
+    obj.openidDroppedOnRefreshWithoutOfflineAccess    = OPENID_DROPPED_ON_REFRESH_WITHOUT_OFFLINE_ACCESS
   end
 
   def match(obj)
@@ -827,6 +831,7 @@ class ServiceTest < Minitest::Test
     assert_equal FEDERATION_SIGNATURE_KEY_ID,                      obj.federationSignatureKeyId
     assert_equal FEDERATION_CONFIGURATION_DURATION,                obj.federationConfigurationDuration
     assert_equal DCR_DUPLICATE_SOFTWARE_ID_BLOCKED,                obj.dcrDuplicateSoftwareIdBlocked
+    assert_equal OPENID_DROPPED_ON_REFRESH_WITHOUT_OFFLINE_ACCESS, obj.openidDroppedOnRefreshWithoutOfflineAccess
   end
 
 
