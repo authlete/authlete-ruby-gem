@@ -125,6 +125,8 @@ class ClientTest < Minitest::Test
   SINGLE_ACCESS_TOKEN_PER_SUBJECT                  = false
   PKCE_REQUIRED                                    = false
   PKCE_S256_REQUIRED                               = false
+  AUTOMATICALLY_REGISTERED                         = false
+  EXPLICITLY_REGISTERED                            = false
 
   def generate_json
     return <<~JSON
@@ -213,7 +215,9 @@ class ClientTest < Minitest::Test
         "digestAlgorithm":                             "<digest-algorithm>",
         "singleAccessTokenPerSubject":                 false,
         "pkceRequired":                                false,
-        "pkceS256Required":                            false
+        "pkceS256Required":                            false,
+        "automaticallyRegistered":                     false,
+        "explicitlyRegistered":                        false
       }
       JSON
   end
@@ -306,6 +310,8 @@ class ClientTest < Minitest::Test
       singleAccessTokenPerSubject:                 false,
       pkceRequired:                                false,
       pkceS256Required:                            false,
+      automaticallyRegistered:                     false,
+      explicitlyRegistered:                        false,
     }
   end
 
@@ -389,6 +395,8 @@ class ClientTest < Minitest::Test
     obj.singleAccessTokenPerSubject                 = SINGLE_ACCESS_TOKEN_PER_SUBJECT
     obj.pkceRequired                                = PKCE_REQUIRED
     obj.pkceS256Required                            = PKCE_S256_REQUIRED
+    obj.automaticallyRegistered                     = AUTOMATICALLY_REGISTERED
+    obj.explicitlyRegistered                        = EXPLICITLY_REGISTERED
   end
 
 
@@ -481,6 +489,8 @@ class ClientTest < Minitest::Test
     assert_equal SINGLE_ACCESS_TOKEN_PER_SUBJECT,                  obj.singleAccessTokenPerSubject
     assert_equal PKCE_REQUIRED,                                    obj.pkceRequired
     assert_equal PKCE_S256_REQUIRED,                               obj.pkceS256Required
+    assert_equal AUTOMATICALLY_REGISTERED,                         obj.automaticallyRegistered
+    assert_equal EXPLICITLY_REGISTERED,                            obj.explicitlyRegistered
   end
 
 

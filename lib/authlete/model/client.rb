@@ -324,6 +324,14 @@ module Authlete
       alias_method  :pkce_s256_required,  :pkceS256Required
       alias_method  :pkce_s256_required=, :pkceS256Required=
 
+      attr_accessor :automaticallyRegistered
+      alias_method  :automatically_registered,  :automaticallyRegistered
+      alias_method  :automatically_registered=, :automaticallyRegistered=
+
+      attr_accessor :explicitlyRegistered
+      alias_method  :explicitly_registered,  :explicitlyRegistered
+      alias_method  :explicitly_registered=, :explicitlyRegistered=
+
       private
 
       def defaults
@@ -407,6 +415,8 @@ module Authlete
           singleAccessTokenPerSubject:                 false,
           pkceRequired:                                false,
           pkceS256Required:                            false,
+          automaticallyRegistered:                     false,
+          explicitlyRegistered:                        false,
         }
       end
 
@@ -490,6 +500,8 @@ module Authlete
         @singleAccessTokenPerSubject                 = hash[:singleAccessTokenPerSubject]
         @pkceRequired                                = hash[:pkceRequired]
         @pkceS256Required                            = hash[:pkceS256Required]
+        @automaticallyRegistered                     = hash[:automaticallyRegistered]
+        @explicitlyRegistered                        = hash[:explicitlyRegistered]
       end
 
       def to_hash_value(key, var)
