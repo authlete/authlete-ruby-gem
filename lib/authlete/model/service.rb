@@ -611,6 +611,10 @@ module Authlete
       alias_method  :openid_dropped_on_refresh_without_offline_access,  :openidDroppedOnRefreshWithoutOfflineAccess
       alias_method  :openid_dropped_on_refresh_without_offline_access=, :openidDroppedOnRefreshWithoutOfflineAccess=
 
+      attr_accessor :supportedDocumentsCheckMethods
+      alias_method  :supported_documents_check_methods,  :supportedDocumentsCheckMethods
+      alias_method  :supported_documents_check_methods=, :supportedDocumentsCheckMethods=
+
       private
       
       def defaults
@@ -766,6 +770,7 @@ module Authlete
           federationConfigurationDuration:             0,
           dcrDuplicateSoftwareIdBlocked:               false,
           openidDroppedOnRefreshWithoutOfflineAccess:  false,
+          supportedDocumentsCheckMethods:              nil,
         }
       end
 
@@ -921,6 +926,7 @@ module Authlete
         @federationConfigurationDuration             = hash[:federationConfigurationDuration]
         @dcrDuplicateSoftwareIdBlocked               = hash[:dcrDuplicateSoftwareIdBlocked]
         @openidDroppedOnRefreshWithoutOfflineAccess  = hash[:openidDroppedOnRefreshWithoutOfflineAccess]
+        @supportedDocumentsCheckMethods              = hash[:supportedDocumentsCheckMethods]
 
       end
 
