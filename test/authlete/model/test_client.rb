@@ -127,6 +127,7 @@ class ClientTest < Minitest::Test
   PKCE_S256_REQUIRED                               = false
   AUTOMATICALLY_REGISTERED                         = false
   EXPLICITLY_REGISTERED                            = false
+  DPOP_REQUIRED                                    = false
 
   def generate_json
     return <<~JSON
@@ -217,7 +218,8 @@ class ClientTest < Minitest::Test
         "pkceRequired":                                false,
         "pkceS256Required":                            false,
         "automaticallyRegistered":                     false,
-        "explicitlyRegistered":                        false
+        "explicitlyRegistered":                        false,
+        "dpopRequired":                                false
       }
       JSON
   end
@@ -312,6 +314,7 @@ class ClientTest < Minitest::Test
       pkceS256Required:                            false,
       automaticallyRegistered:                     false,
       explicitlyRegistered:                        false,
+      dpopRequired:                                false,
     }
   end
 
@@ -397,6 +400,7 @@ class ClientTest < Minitest::Test
     obj.pkceS256Required                            = PKCE_S256_REQUIRED
     obj.automaticallyRegistered                     = AUTOMATICALLY_REGISTERED
     obj.explicitlyRegistered                        = EXPLICITLY_REGISTERED
+    obj.dpopRequired                                = DPOP_REQUIRED
   end
 
 
@@ -491,6 +495,7 @@ class ClientTest < Minitest::Test
     assert_equal PKCE_S256_REQUIRED,                               obj.pkceS256Required
     assert_equal AUTOMATICALLY_REGISTERED,                         obj.automaticallyRegistered
     assert_equal EXPLICITLY_REGISTERED,                            obj.explicitlyRegistered
+    assert_equal DPOP_REQUIRED,                                    obj.dpopRequired
   end
 
 
