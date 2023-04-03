@@ -332,6 +332,10 @@ module Authlete
       alias_method  :explicitly_registered,  :explicitlyRegistered
       alias_method  :explicitly_registered=, :explicitlyRegistered=
 
+      attr_accessor :dpopRequired
+      alias_method  :dpop_required,  :dpopRequired
+      alias_method  :dpop_required=, :dpopRequired=
+
       private
 
       def defaults
@@ -417,6 +421,7 @@ module Authlete
           pkceS256Required:                            false,
           automaticallyRegistered:                     false,
           explicitlyRegistered:                        false,
+          dpopRequired:                                false,
         }
       end
 
@@ -502,6 +507,7 @@ module Authlete
         @pkceS256Required                            = hash[:pkceS256Required]
         @automaticallyRegistered                     = hash[:automaticallyRegistered]
         @explicitlyRegistered                        = hash[:explicitlyRegistered]
+        @dpopRequired                                = hash[:dpopRequired]
       end
 
       def to_hash_value(key, var)
