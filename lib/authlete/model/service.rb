@@ -615,6 +615,10 @@ module Authlete
       alias_method  :supported_documents_check_methods,  :supportedDocumentsCheckMethods
       alias_method  :supported_documents_check_methods=, :supportedDocumentsCheckMethods=
 
+      attr_accessor :idTokenAudType
+      alias_method  :id_token_aud_type,  :idTokenAudType
+      alias_method  :id_token_aud_type=, :idTokenAudType=
+
       private
       
       def defaults
@@ -771,6 +775,7 @@ module Authlete
           dcrDuplicateSoftwareIdBlocked:               false,
           openidDroppedOnRefreshWithoutOfflineAccess:  false,
           supportedDocumentsCheckMethods:              nil,
+          idTokenAudType:                              nil,
         }
       end
 
@@ -927,6 +932,7 @@ module Authlete
         @dcrDuplicateSoftwareIdBlocked               = hash[:dcrDuplicateSoftwareIdBlocked]
         @openidDroppedOnRefreshWithoutOfflineAccess  = hash[:openidDroppedOnRefreshWithoutOfflineAccess]
         @supportedDocumentsCheckMethods              = hash[:supportedDocumentsCheckMethods]
+        @idTokenAudType                              = hash[:idTokenAudType]
 
       end
 

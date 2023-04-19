@@ -196,6 +196,7 @@ class ServiceTest < Minitest::Test
   DCR_DUPLICATE_SOFTWARE_ID_BLOCKED                = false
   OPENID_DROPPED_ON_REFRESH_WITHOUT_OFFLINE_ACCESS = false
   SUPPORTED_DOCUMENTS_CHECK_METHODS                = ['supported', 'documents']
+  ID_TOKEN_AUD_TYPE                                = '<id-token-aud-type>'
 
   def generate_json
     return <<~JSON
@@ -351,7 +352,8 @@ class ServiceTest < Minitest::Test
         "federationConfigurationDuration":             100,
         "dcrDuplicateSoftwareIdBlocked":               false,
         "openidDroppedOnRefreshWithoutOfflineAccess":  false,
-        "supportedDocumentsCheckMethods":              ["supported","documents"]
+        "supportedDocumentsCheckMethods":              ["supported","documents"],
+        "idTokenAudType":                              "<id-token-aud-type>"
       }
       JSON
 
@@ -511,7 +513,8 @@ class ServiceTest < Minitest::Test
       federationConfigurationDuration:             100,
       dcrDuplicateSoftwareIdBlocked:               false,
       openidDroppedOnRefreshWithoutOfflineAccess:  false,
-      supportedDocumentsCheckMethods:              ['supported', 'documents']
+      supportedDocumentsCheckMethods:              ['supported', 'documents'],
+      idTokenAudType:                              '<id-token-aud-type>'
     }
   end
 
@@ -667,6 +670,7 @@ class ServiceTest < Minitest::Test
     obj.dcr_duplicate_software_id_blocked             = DCR_DUPLICATE_SOFTWARE_ID_BLOCKED
     obj.openidDroppedOnRefreshWithoutOfflineAccess    = OPENID_DROPPED_ON_REFRESH_WITHOUT_OFFLINE_ACCESS
     obj.supported_documents_check_methods             = SUPPORTED_DOCUMENTS_CHECK_METHODS
+    obj.id_token_aud_type                             = ID_TOKEN_AUD_TYPE
   end
 
   def match(obj)
@@ -837,6 +841,7 @@ class ServiceTest < Minitest::Test
     assert_equal DCR_DUPLICATE_SOFTWARE_ID_BLOCKED,                obj.dcrDuplicateSoftwareIdBlocked
     assert_equal OPENID_DROPPED_ON_REFRESH_WITHOUT_OFFLINE_ACCESS, obj.openidDroppedOnRefreshWithoutOfflineAccess
     assert_equal SUPPORTED_DOCUMENTS_CHECK_METHODS,                obj.supported_documents_check_methods
+    assert_equal ID_TOKEN_AUD_TYPE,                                obj.id_token_aud_type
   end
 
 
