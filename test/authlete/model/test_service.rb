@@ -197,6 +197,7 @@ class ServiceTest < Minitest::Test
   OPENID_DROPPED_ON_REFRESH_WITHOUT_OFFLINE_ACCESS = false
   SUPPORTED_DOCUMENTS_CHECK_METHODS                = ['supported', 'documents']
   ID_TOKEN_AUD_TYPE                                = '<id-token-aud-type>'
+  VERIFIED_CLAIMS_VALIDATION_SCHEMA_SET            = '<verified_claims_validation_schema_set>'
 
   def generate_json
     return <<~JSON
@@ -353,7 +354,8 @@ class ServiceTest < Minitest::Test
         "dcrDuplicateSoftwareIdBlocked":               false,
         "openidDroppedOnRefreshWithoutOfflineAccess":  false,
         "supportedDocumentsCheckMethods":              ["supported","documents"],
-        "idTokenAudType":                              "<id-token-aud-type>"
+        "idTokenAudType":                              "<id-token-aud-type>",
+        "verifiedClaimsValidationSchemaSet":           "<verified_claims_validation_schema_set>"
       }
       JSON
 
@@ -514,7 +516,9 @@ class ServiceTest < Minitest::Test
       dcrDuplicateSoftwareIdBlocked:               false,
       openidDroppedOnRefreshWithoutOfflineAccess:  false,
       supportedDocumentsCheckMethods:              ['supported', 'documents'],
-      idTokenAudType:                              '<id-token-aud-type>'
+      idTokenAudType:                              '<id-token-aud-type>',
+      verifiedClaimsValidationSchemaSet:           '<verified_claims_validation_schema_set>',
+
     }
   end
 
@@ -671,6 +675,8 @@ class ServiceTest < Minitest::Test
     obj.openidDroppedOnRefreshWithoutOfflineAccess    = OPENID_DROPPED_ON_REFRESH_WITHOUT_OFFLINE_ACCESS
     obj.supported_documents_check_methods             = SUPPORTED_DOCUMENTS_CHECK_METHODS
     obj.id_token_aud_type                             = ID_TOKEN_AUD_TYPE
+    obj.verified_claims_validation_schema_set         = VERIFIED_CLAIMS_VALIDATION_SCHEMA_SET
+
   end
 
   def match(obj)
@@ -842,6 +848,7 @@ class ServiceTest < Minitest::Test
     assert_equal OPENID_DROPPED_ON_REFRESH_WITHOUT_OFFLINE_ACCESS, obj.openidDroppedOnRefreshWithoutOfflineAccess
     assert_equal SUPPORTED_DOCUMENTS_CHECK_METHODS,                obj.supported_documents_check_methods
     assert_equal ID_TOKEN_AUD_TYPE,                                obj.id_token_aud_type
+    assert_equal VERIFIED_CLAIMS_VALIDATION_SCHEMA_SET,            obj.verified_claims_validation_schema_set
   end
 
 

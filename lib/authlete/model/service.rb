@@ -619,6 +619,10 @@ module Authlete
       alias_method  :id_token_aud_type,  :idTokenAudType
       alias_method  :id_token_aud_type=, :idTokenAudType=
 
+      attr_accessor :verifiedClaimsValidationSchemaSet
+      alias_method  :verified_claims_validation_schema_set,  :verifiedClaimsValidationSchemaSet
+      alias_method  :verified_claims_validation_schema_set=, :verifiedClaimsValidationSchemaSet=
+
       private
       
       def defaults
@@ -776,6 +780,7 @@ module Authlete
           openidDroppedOnRefreshWithoutOfflineAccess:  false,
           supportedDocumentsCheckMethods:              nil,
           idTokenAudType:                              nil,
+          verifiedClaimsValidationSchemaSet:           nil,
         }
       end
 
@@ -933,6 +938,7 @@ module Authlete
         @openidDroppedOnRefreshWithoutOfflineAccess  = hash[:openidDroppedOnRefreshWithoutOfflineAccess]
         @supportedDocumentsCheckMethods              = hash[:supportedDocumentsCheckMethods]
         @idTokenAudType                              = hash[:idTokenAudType]
+        @verifiedClaimsValidationSchemaSet           = hash[:verifiedClaimsValidationSchemaSet]
 
       end
 
