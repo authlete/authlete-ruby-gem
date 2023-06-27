@@ -623,6 +623,14 @@ module Authlete
       alias_method  :verified_claims_validation_schema_set,  :verifiedClaimsValidationSchemaSet
       alias_method  :verified_claims_validation_schema_set=, :verifiedClaimsValidationSchemaSet=
 
+      attr_accessor :credentialDuration
+      alias_method  :credential_duration,  :credentialDuration
+      alias_method  :credential_duration=, :credentialDuration=
+
+      attr_accessor :credentialJwks
+      alias_method  :credential_jwks,  :credentialJwks
+      alias_method  :credential_jwks=, :credentialJwks=
+
       private
       
       def defaults
@@ -781,6 +789,8 @@ module Authlete
           supportedDocumentsCheckMethods:              nil,
           idTokenAudType:                              nil,
           verifiedClaimsValidationSchemaSet:           nil,
+          credentialDuration:                          nil,
+          credentialJwks:                              nil,
         }
       end
 
@@ -939,6 +949,8 @@ module Authlete
         @supportedDocumentsCheckMethods              = hash[:supportedDocumentsCheckMethods]
         @idTokenAudType                              = hash[:idTokenAudType]
         @verifiedClaimsValidationSchemaSet           = hash[:verifiedClaimsValidationSchemaSet]
+        @credentialDuration                          = hash[:credentialDuration]
+        @credentialJwks                              = hash[:credentialJwks]
 
       end
 
