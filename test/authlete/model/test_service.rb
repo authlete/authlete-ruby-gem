@@ -199,6 +199,10 @@ class ServiceTest < Minitest::Test
   ID_TOKEN_AUD_TYPE                                = '<id-token-aud-type>'
   VERIFIED_CLAIMS_VALIDATION_SCHEMA_SET            = '<verified_claims_validation_schema_set>'
 
+  CREDENTIAL_DURATION                              = 100
+  CREDENTIAL_JWKS                                  = '<credential-duration>'
+
+
   def generate_json
     return <<~JSON
       {
@@ -355,7 +359,10 @@ class ServiceTest < Minitest::Test
         "openidDroppedOnRefreshWithoutOfflineAccess":  false,
         "supportedDocumentsCheckMethods":              ["supported","documents"],
         "idTokenAudType":                              "<id-token-aud-type>",
-        "verifiedClaimsValidationSchemaSet":           "<verified_claims_validation_schema_set>"
+        "verifiedClaimsValidationSchemaSet":           "<verified_claims_validation_schema_set>",
+
+        "credentialDuration":                          100,
+        "credentialJwks":                              "<credential-duration>"
       }
       JSON
 
@@ -518,7 +525,8 @@ class ServiceTest < Minitest::Test
       supportedDocumentsCheckMethods:              ['supported', 'documents'],
       idTokenAudType:                              '<id-token-aud-type>',
       verifiedClaimsValidationSchemaSet:           '<verified_claims_validation_schema_set>',
-
+      credentialDuration:                          100,
+      credentialJwks:                              '<credential-duration>',
     }
   end
 
@@ -676,6 +684,8 @@ class ServiceTest < Minitest::Test
     obj.supported_documents_check_methods             = SUPPORTED_DOCUMENTS_CHECK_METHODS
     obj.id_token_aud_type                             = ID_TOKEN_AUD_TYPE
     obj.verified_claims_validation_schema_set         = VERIFIED_CLAIMS_VALIDATION_SCHEMA_SET
+    obj.credential_duration                           = CREDENTIAL_DURATION
+    obj.credential_jwks                               = CREDENTIAL_JWKS
 
   end
 
@@ -849,6 +859,9 @@ class ServiceTest < Minitest::Test
     assert_equal SUPPORTED_DOCUMENTS_CHECK_METHODS,                obj.supported_documents_check_methods
     assert_equal ID_TOKEN_AUD_TYPE,                                obj.id_token_aud_type
     assert_equal VERIFIED_CLAIMS_VALIDATION_SCHEMA_SET,            obj.verified_claims_validation_schema_set
+    assert_equal CREDENTIAL_DURATION,                              obj.credentialDuration
+    assert_equal CREDENTIAL_JWKS,                                  obj.credentialJwks
+
   end
 
 
