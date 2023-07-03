@@ -631,6 +631,10 @@ module Authlete
       alias_method  :credential_jwks,  :credentialJwks
       alias_method  :credential_jwks=, :credentialJwks=
 
+      attr_accessor :idTokenReissuable
+      alias_method  :id_token_reissuable,  :idTokenReissuable
+      alias_method  :id_token_reissuable=, :idTokenReissuable=
+
       private
       
       def defaults
@@ -791,6 +795,7 @@ module Authlete
           verifiedClaimsValidationSchemaSet:           nil,
           credentialDuration:                          nil,
           credentialJwks:                              nil,
+          idTokenReissuable:                           false,
         }
       end
 
@@ -951,6 +956,7 @@ module Authlete
         @verifiedClaimsValidationSchemaSet           = hash[:verifiedClaimsValidationSchemaSet]
         @credentialDuration                          = hash[:credentialDuration]
         @credentialJwks                              = hash[:credentialJwks]
+        @idTokenReissuable                           = hash[:idTokenReissuable]
 
       end
 

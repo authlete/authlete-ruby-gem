@@ -198,10 +198,9 @@ class ServiceTest < Minitest::Test
   SUPPORTED_DOCUMENTS_CHECK_METHODS                = ['supported', 'documents']
   ID_TOKEN_AUD_TYPE                                = '<id-token-aud-type>'
   VERIFIED_CLAIMS_VALIDATION_SCHEMA_SET            = '<verified_claims_validation_schema_set>'
-
   CREDENTIAL_DURATION                              = 100
   CREDENTIAL_JWKS                                  = '<credential-duration>'
-
+  ID_TOKEN_REISSUABLE                              = false
 
   def generate_json
     return <<~JSON
@@ -362,7 +361,8 @@ class ServiceTest < Minitest::Test
         "verifiedClaimsValidationSchemaSet":           "<verified_claims_validation_schema_set>",
 
         "credentialDuration":                          100,
-        "credentialJwks":                              "<credential-duration>"
+        "credentialJwks":                              "<credential-duration>",
+        "idTokenReissuable":                           false
       }
       JSON
 
@@ -527,6 +527,7 @@ class ServiceTest < Minitest::Test
       verifiedClaimsValidationSchemaSet:           '<verified_claims_validation_schema_set>',
       credentialDuration:                          100,
       credentialJwks:                              '<credential-duration>',
+      idTokenReissuable:                           false,
     }
   end
 
@@ -686,6 +687,7 @@ class ServiceTest < Minitest::Test
     obj.verified_claims_validation_schema_set         = VERIFIED_CLAIMS_VALIDATION_SCHEMA_SET
     obj.credential_duration                           = CREDENTIAL_DURATION
     obj.credential_jwks                               = CREDENTIAL_JWKS
+    obj.id_token_reissuable                           = ID_TOKEN_REISSUABLE
 
   end
 
@@ -861,6 +863,7 @@ class ServiceTest < Minitest::Test
     assert_equal VERIFIED_CLAIMS_VALIDATION_SCHEMA_SET,            obj.verified_claims_validation_schema_set
     assert_equal CREDENTIAL_DURATION,                              obj.credentialDuration
     assert_equal CREDENTIAL_JWKS,                                  obj.credentialJwks
+    assert_equal ID_TOKEN_REISSUABLE,                              obj.idTokenReissuable
 
   end
 
