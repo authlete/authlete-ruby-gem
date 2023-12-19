@@ -793,7 +793,7 @@ module Authlete
           supportedDocumentsCheckMethods:              nil,
           idTokenAudType:                              nil,
           verifiedClaimsValidationSchemaSet:           nil,
-          credentialDuration:                          nil,
+          credentialDuration:                          0,
           credentialJwks:                              nil,
           idTokenReissuable:                           false,
         }
