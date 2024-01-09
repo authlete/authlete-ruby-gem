@@ -217,6 +217,12 @@ module Authlete
       Authlete::Model::Response::TokenFailResponse.new(hash)
     end
 
+    def token_revoke(request)
+      hash = call_api_json_service("/api/auth/token/revoke", to_hash(request))
+
+      Authlete::Model::Response::TokenRevokeResponse.new(hash)
+    end
+
     def service_create(service)
       hash = call_api_json_service_owner("/api/service/create", to_hash(service))
 
