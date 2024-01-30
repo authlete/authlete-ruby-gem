@@ -16,5 +16,5 @@
 
 
 module Authlete
-  VERSION = "1.36.0"
+  VERSION = "1.38.0"
 end
