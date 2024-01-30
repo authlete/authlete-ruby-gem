@@ -314,7 +314,7 @@ module Authlete
 
       attr_accessor :singleAccessTokenPerSubject
       alias_method  :single_access_token_per_subject,  :singleAccessTokenPerSubject
-      alias_method  :single_access_token_per_subject=, :singleAccessTokenPerSubject=    
+      alias_method  :single_access_token_per_subject=, :singleAccessTokenPerSubject=
 
       attr_accessor :pkceRequired
       alias_method  :pkce_required,  :pkceRequired
@@ -335,6 +335,25 @@ module Authlete
       attr_accessor :dpopRequired
       alias_method  :dpop_required,  :dpopRequired
       alias_method  :dpop_required=, :dpopRequired=
+
+      attr_accessor :locked
+
+      # This is required for backward compatibility.
+      attr_accessor :sectorIdentifier
+      alias_method  :sector_identifier,  :sectorIdentifier
+      alias_method  :sector_identifier=, :sectorIdentifier=
+
+      attr_accessor :rsRequestSigned
+      alias_method  :rs_request_signed,  :rsRequestSigned
+      alias_method  :rs_request_signed=, :rsRequestSigned=
+
+      attr_accessor :trustChainExpiresAt
+      alias_method  :trust_chain_expires_at,  :trustChainExpiresAt
+      alias_method  :trust_chain_expires_at=, :trustChainExpiresAt=
+
+      attr_accessor :trustChainUpdatedAt
+      alias_method  :trust_chain_updated_at,  :trustChainUpdatedAt
+      alias_method  :trust_chain_updated_at=, :trustChainUpdatedAt=
 
       private
 
@@ -422,6 +441,11 @@ module Authlete
           automaticallyRegistered:                     false,
           explicitlyRegistered:                        false,
           dpopRequired:                                false,
+          locked:                                      false,
+          sectorIdentifier:                            nil,
+          rsRequestSigned:                             false,
+          trustChainExpiresAt:                         0,
+          trustChainUpdatedAt:                         0
         }
       end
 
@@ -508,6 +532,11 @@ module Authlete
         @automaticallyRegistered                     = hash[:automaticallyRegistered]
         @explicitlyRegistered                        = hash[:explicitlyRegistered]
         @dpopRequired                                = hash[:dpopRequired]
+        @locked                                      = hash[:locked]
+        @sectorIdentifier                            = hash[:sectorIdentifier]
+        @rsRequestSigned                             = hash[:rsRequestSigned]
+        @trustChainExpiresAt                         = hash[:trustChainExpiresAt]
+        @trustChainUpdatedAt                         = hash[:trustChainUpdatedAt]
       end
 
       def to_hash_value(key, var)
