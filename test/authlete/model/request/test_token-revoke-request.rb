@@ -46,7 +46,7 @@ class TokenRevokeRequestTest < Minitest::Test
     {
       accessTokenIdentifier:  '<access-token-identifier>',
       clientIdentifier:       '<client-identifier>',
-      refreshTokenIentifier:  '<refresh-token-identifier>',
+      refreshTokenIdentifier: '<refresh-token-identifier>',
       subject:                '<subject>'
     }
   end
