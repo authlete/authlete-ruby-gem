@@ -201,6 +201,8 @@ class ServiceTest < Minitest::Test
   CREDENTIAL_DURATION                              = 100
   CREDENTIAL_JWKS                                  = '<credential-duration>'
   ID_TOKEN_REISSUABLE                              = false
+  CLIENT_ASSERTION_AUD_RESTRICTED_TO_ISSUER        = false
+
 
   def generate_json
     return <<~JSON
@@ -359,10 +361,10 @@ class ServiceTest < Minitest::Test
         "supportedDocumentsCheckMethods":              ["supported","documents"],
         "idTokenAudType":                              "<id-token-aud-type>",
         "verifiedClaimsValidationSchemaSet":           "<verified_claims_validation_schema_set>",
-
         "credentialDuration":                          100,
         "credentialJwks":                              "<credential-duration>",
-        "idTokenReissuable":                           false
+        "idTokenReissuable":                           false,
+        "clientAssertionAudRestrictedToIssuer":        false
       }
       JSON
 
@@ -528,6 +530,7 @@ class ServiceTest < Minitest::Test
       credentialDuration:                          100,
       credentialJwks:                              '<credential-duration>',
       idTokenReissuable:                           false,
+      clientAssertionAudRestrictedToIssuer:        false,
     }
   end
 
@@ -688,6 +691,7 @@ class ServiceTest < Minitest::Test
     obj.credential_duration                           = CREDENTIAL_DURATION
     obj.credential_jwks                               = CREDENTIAL_JWKS
     obj.id_token_reissuable                           = ID_TOKEN_REISSUABLE
+    obj.client_assertion_aud_restricted_to_issuer     = CLIENT_ASSERTION_AUD_RESTRICTED_TO_ISSUER
 
   end
 
@@ -864,6 +868,7 @@ class ServiceTest < Minitest::Test
     assert_equal CREDENTIAL_DURATION,                              obj.credentialDuration
     assert_equal CREDENTIAL_JWKS,                                  obj.credentialJwks
     assert_equal ID_TOKEN_REISSUABLE,                              obj.idTokenReissuable
+    assert_equal CLIENT_ASSERTION_AUD_RESTRICTED_TO_ISSUER,        obj.clientAssertionAudRestrictedToIssuer
 
   end
 
