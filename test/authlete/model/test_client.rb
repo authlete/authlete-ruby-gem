@@ -128,6 +128,12 @@ class ClientTest < Minitest::Test
   AUTOMATICALLY_REGISTERED                         = false
   EXPLICITLY_REGISTERED                            = false
   DPOP_REQUIRED                                    = false
+  LOCKED                                           = false
+  SECTOR_IDENTIFIER                                = false 
+  RS_REQUEST_SIGNED                                = false
+  TRUST_CHAIN_EXPIRES_AT                           = false
+  TRUST_CHAIN_UPDATED_AT                           = false
+
 
   def generate_json
     return <<~JSON
@@ -219,7 +225,12 @@ class ClientTest < Minitest::Test
         "pkceS256Required":                            false,
         "automaticallyRegistered":                     false,
         "explicitlyRegistered":                        false,
-        "dpopRequired":                                false
+        "dpopRequired":                                false,
+        "locked":                                      false,
+        "sectorIdentifier":                            false,
+        "rsRequestSigned":                             false,
+        "trustChainExpiresAt":                         false,
+        "trustChainUpdatedAt":                         false
       }
       JSON
   end
@@ -315,8 +326,14 @@ class ClientTest < Minitest::Test
       automaticallyRegistered:                     false,
       explicitlyRegistered:                        false,
       dpopRequired:                                false,
+      locked:                                      false,
+      sectorIdentifier:                            false,
+      rsRequestSigned:                             false,
+      trustChainExpiresAt:                         false,
+      trustChainUpdatedAt:                         false,
     }
   end
+
 
   def set_params(obj)
     obj.number                                      = NUMBER
@@ -401,6 +418,11 @@ class ClientTest < Minitest::Test
     obj.automaticallyRegistered                     = AUTOMATICALLY_REGISTERED
     obj.explicitlyRegistered                        = EXPLICITLY_REGISTERED
     obj.dpopRequired                                = DPOP_REQUIRED
+    obj.locked                                      = LOCKED
+    obj.sectorIdentifier                            = SECTOR_IDENTIFIER
+    obj.rsRequestSigned                             = RS_REQUEST_SIGNED
+    obj.trustChainExpiresAt                         = TRUST_CHAIN_EXPIRES_AT
+    obj.trustChainUpdatedAt                         = TRUST_CHAIN_UPDATED_AT
   end
 
 
@@ -496,6 +518,11 @@ class ClientTest < Minitest::Test
     assert_equal AUTOMATICALLY_REGISTERED,                         obj.automaticallyRegistered
     assert_equal EXPLICITLY_REGISTERED,                            obj.explicitlyRegistered
     assert_equal DPOP_REQUIRED,                                    obj.dpopRequired
+    assert_equal LOCKED,                                           obj.locked
+    assert_equal SECTOR_IDENTIFIER,                                obj.sectorIdentifier
+    assert_equal RS_REQUEST_SIGNED,                                obj.rsRequestSigned
+    assert_equal TRUST_CHAIN_EXPIRES_AT,                           obj.trustChainExpiresAt
+    assert_equal TRUST_CHAIN_UPDATED_AT,                           obj.trustChainUpdatedAt
   end
 
 

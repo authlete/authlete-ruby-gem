@@ -635,6 +635,10 @@ module Authlete
       alias_method  :id_token_reissuable,  :idTokenReissuable
       alias_method  :id_token_reissuable=, :idTokenReissuable=
 
+      attr_accessor :clientAssertionAudRestrictedToIssuer
+      alias_method  :client_assertion_aud_restricted_to_issuer,  :clientAssertionAudRestrictedToIssuer
+      alias_method  :client_assertion_aud_restricted_to_issuer=, :clientAssertionAudRestrictedToIssuer=
+
       private
       
       def defaults
@@ -796,6 +800,7 @@ module Authlete
           credentialDuration:                          0,
           credentialJwks:                              nil,
           idTokenReissuable:                           false,
+          clientAssertionAudRestrictedToIssuer:        false,
         }
       end
 
@@ -957,7 +962,8 @@ module Authlete
         @credentialDuration                          = hash[:credentialDuration]
         @credentialJwks                              = hash[:credentialJwks]
         @idTokenReissuable                           = hash[:idTokenReissuable]
-
+        @clientAssertionAudRestrictedToIssuer        = hash[:clientAssertionAudRestrictedToIssuer]
+        
       end
 
       def to_hash_value(key, var)
