@@ -40,6 +40,10 @@ module Authlete
       @service_api_key          = config[:service_api_key]
       @service_api_secret       = config[:service_api_secret]
       @extra_headers            = nil
+
+      if RestClient.log
+        RestClient.log = Authlete::SensitiveLogger.new(RestClient.log)
+      end
     end
 
     def call_api(method, path, content_type, payload, user, password)
