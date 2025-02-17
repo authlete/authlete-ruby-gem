@@ -6,23 +6,23 @@ authlete-ruby-gem
 Ruby library for [Authlete Web APIs](https://docs.authlete.com/).
 
 
-# Logging Configuration
+# REST Client Logging Configuration
 
-The library supports different logging levels that can be configured when initializing the API client. The logging levels are defined in `Authlete::LoggingLevel`:
+The library provides control over `rest-client` logging behavior through `Authlete::LoggingLevel`:
 
-- `NONE` - Disables all logging
-- `SENSITIVE` - Masks sensitive information in logs (e.g. credentials, tokens)
-- `FULL` - Full logging with all details (default)
+- `DEFAULT` - Respects the logger set in `RestClient.log` (default behavior)
+- `SENSITIVE` - Logs all information but redacts sensitive data (tokens, credentials)
+- `NONE` - Disables all logging, useful for handling sensitive PII data
 
 Example configuration:
 
 ```ruby
-# Full logging (default)
+# Default behavior (uses RestClient.log as is)
 config = {
   host: 'https://api.authlete.com',
   service_api_key: 'YOUR_KEY',
   service_api_secret: 'YOUR_SECRET',
-  logging_level: Authlete::LoggingLevel::FULL
+  rest_client_logging_level: Authlete::LoggingLevel::DEFAULT
 }
 
 # Redact sensitive data
@@ -30,15 +30,15 @@ config = {
   host: 'https://api.authlete.com',
   service_api_key: 'YOUR_KEY',
   service_api_secret: 'YOUR_SECRET',
-  logging_level: Authlete::LoggingLevel::SENSITIVE
+  rest_client_logging_level: Authlete::LoggingLevel::SENSITIVE
 }
 
-# Disable all logging
+# Disable all RestClient logging
 config = {
   host: 'https://api.authlete.com',
   service_api_key: 'YOUR_KEY',
   service_api_secret: 'YOUR_SECRET',
-  logging_level: Authlete::LoggingLevel::NONE
+  rest_client_logging_level: Authlete::LoggingLevel::NONE
 }
 
 api_client = Authlete::Api.new(config)

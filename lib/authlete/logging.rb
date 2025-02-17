@@ -1,6 +1,6 @@
 module Authlete
   module LoggingLevel
-    FULL = :full           # Original logging behavior
+    DEFAULT = :default           # Original logging behavior
     SENSITIVE = :sensitive # Redact sensitive data
     NONE = :none          # No logging
   end
@@ -20,21 +20,37 @@ module Authlete
       'authorization_code',
       'id_token',
       'code',
-      
+      # Device flow
+      'user_code',              
+      'client_notification_token', 
+
       # Authlete Credentials
       'service_api_key',
       'service_api_secret',
       'service_owner_api_key',
       'service_owner_api_secret',
+      'sns_credentials',
+      'developer_sns_credentials',
+      'ticket',
+      'subject',
       
-      # authentication & authorization related
+      # Authentication & Authorization
       'password',
       'token',
       'authorization',
+      'client_certificate',
+      'client_certificate_path',
       
-      # JWT/Crypto related
+      # JWT/Crypto/Certificate related
       'jwks',
-      'client_secret_expires_at'
+      'federation_jwks',
+      'client_secret_expires_at',
+      'trusted_root_certificates',
+      'encryption_key_id',
+      'signature_key_id',
+      'access_token_signature_key_id',
+      'refresh_token_signature_key_id',
+      'id_token_signature_key_id'
     ].freeze
 
     SENSITIVE_PATTERNS = SENSITIVE_FIELDS.flat_map do |field|
