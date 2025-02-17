@@ -41,8 +41,21 @@ module Authlete
       @service_api_secret       = config[:service_api_secret]
       @extra_headers            = nil
 
-      if RestClient.log
+      configure_logging(config[:logging_level])
+    end
+    
+    private
+
+    def configure_logging(level)
+      return unless RestClient.log
+
+      case level
+      when LoggingLevel::SENSITIVE
         RestClient.log = Authlete::SensitiveLogger.new(RestClient.log)
+      when LoggingLevel::NONE
+        RestClient.log = Authlete::NullLogger.new
+      when LoggingLevel::FULL, nil
+        # Keep original logger (default behavior)
       end
     end
 

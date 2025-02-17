@@ -24,7 +24,9 @@ module Authlete
   autoload :Exception, 'authlete/exception'
   autoload :ParamInitializer, 'authlete/model/param-initializer'
   autoload :Utility, 'authlete/utility'
-  autoload :SensitiveLogger, 'authlete/sensitive_logger' 
+  autoload :LoggingLevel, 'authlete/logging'
+  autoload :NullLogger, 'authlete/logging'
+  autoload :SensitiveLogger, 'authlete/logging'
 
   module Model
     autoload :Base, 'authlete/model/base'

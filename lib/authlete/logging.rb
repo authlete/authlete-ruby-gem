@@ -1,4 +1,16 @@
 module Authlete
+  module LoggingLevel
+    FULL = :full           # Original logging behavior
+    SENSITIVE = :sensitive # Redact sensitive data
+    NONE = :none          # No logging
+  end
+
+  class NullLogger
+    def <<(msg)
+      # NOOP
+    end
+  end
+  
   class SensitiveLogger
     SENSITIVE_FIELDS = [
       # OAuth/OIDC related
