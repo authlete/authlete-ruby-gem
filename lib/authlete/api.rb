@@ -18,28 +18,75 @@
 require 'json'
 require 'rack'
 require 'rest-client'
-
+require 'uri'
+require_relative 'api_path/v2'
+require_relative 'api_path/v3'
 
 module Authlete
   class Api
     include Authlete::Utility
+
+    module ApiVersion
+      V2 = :v2
+      V3 = :v3
+
+      def self.from_string(version_string)
+        case version_string&.downcase
+        when 'v3'
+          V3
+        else
+          # Defaults to V2 when the provided API version is not recognized or missing.
+          V2
+        end
+      end
+    end
 
     attr_accessor :host
     attr_accessor :service_owner_api_key
     attr_accessor :service_owner_api_secret
     attr_accessor :service_api_key
     attr_accessor :service_api_secret
+    attr_accessor :organization_access_token
+    attr_accessor :service_access_token
+    attr_accessor :service_id
     attr_accessor :extra_headers
+    attr_reader   :api_version
 
     private
 
+    attr_reader :path_resolver
+
     def initialize(config = {})
-      @host                     = config[:host]
-      @service_owner_api_key    = config[:service_owner_api_key]
-      @service_owner_api_secret = config[:service_owner_api_secret]
-      @service_api_key          = config[:service_api_key]
-      @service_api_secret       = config[:service_api_secret]
-      @extra_headers            = nil
+      @host                      = config[:host]
+      # v2
+      @service_owner_api_key     = config[:service_owner_api_key]
+      @service_owner_api_secret  = config[:service_owner_api_secret]
+      @service_api_key           = config[:service_api_key]
+      @service_api_secret        = config[:service_api_secret]
+      # v3
+      @organization_access_token = config[:organization_access_token]
+      @service_access_token      = config[:service_access_token]
+      @service_id                = if config[:service_id].nil? || config[:service_id].to_s.empty?
+                                     nil
+                                   else
+                                     URI.encode_www_form_component(config[:service_id].to_s)
+                                   end
+
+      @extra_headers             = nil
+      @api_version               = ApiVersion.from_string(config[:api_version])
+
+      if @api_version == ApiVersion::V3 && @service_id.nil?
+        warn "Warning: A Service ID (:service_id) is required for most APIs in Authlete version 3."
+      end
+
+      @path_resolver = case @api_version
+                       when ApiVersion::V3
+                         Authlete::ApiPath::V3.new(@service_id)
+                       when ApiVersion::V2
+                         Authlete::ApiPath::V2.new()
+                       else
+                          raise ArgumentError, "Unsupported API version for path resolver: #{@api_version.inspect}"
+                       end
 
       configure_logging(config[:rest_client_logging_level])
     end
@@ -59,8 +106,29 @@ module Authlete
       end
     end
 
-    def call_api(method, path, content_type, payload, user, password)
+    def call_api(method, path, content_type, payload, credential_type)
       headers = {}
+      user = nil
+      password = nil
+      token = nil
+
+      case @api_version
+      when ApiVersion::V3
+        token = case credential_type
+                when :service_owner then @organization_access_token
+                when :service       then @service_access_token
+                else nil
+                end
+        headers.merge!(Authorization: "Bearer #{token}") unless token.nil?
+      when ApiVersion::V2
+        user, password = case credential_type
+                         when :service_owner then [@service_owner_api_key, @service_owner_api_secret]
+                         when :service       then [@service_api_key, @service_api_secret]
+                         else [nil, nil]
+                         end
+      else
+        raise ArgumentError, "Unsupported API version: #{@api_version.inspect}"
+      end
 
       headers.merge!(content_type: content_type) unless content_type.nil?
 
@@ -146,23 +214,23 @@ module Authlete
     end
 
     def call_api_service_owner(method, path, content_type, payload)
-      call_api(method, path, content_type, payload, @service_owner_api_key, @service_owner_api_secret)
+      call_api(method, path, content_type, payload, :service_owner)
     end
 
     def call_api_service(method, path, content_type, payload)
-      call_api(method, path, content_type, payload, @service_api_key, @service_api_secret)
+      call_api(method, path, content_type, payload, :service)
     end
 
-    def call_api_json(path, body, user, password)
-      call_api(:post, path, 'application/json;charset=UTF-8', JSON.generate(body), user, password)
+    def call_api_json(path, body, credential_type)
+      call_api(:post, path, 'application/json;charset=UTF-8', JSON.generate(body), credential_type)
     end
 
     def call_api_json_service_owner(path, body)
-      call_api_json(path, body, @service_owner_api_key, @service_owner_api_secret)
+      call_api_json(path, body, :service_owner)
     end
 
     def call_api_json_service(path, body)
-      call_api_json(path, body, @service_api_key, @service_api_secret)
+      call_api_json(path, body, :service)
     end
 
     def build_error_message(path, exception)
@@ -199,294 +267,304 @@ module Authlete
     public
 
     def authorization(request)
-      hash = call_api_json_service("/api/auth/authorization", to_hash(request))
-
+      path = @path_resolver.authorization
+      hash = call_api_json_service(path, to_hash(request))
       Authlete::Model::Response::AuthorizationResponse.new(hash)
     end
 
     def authorization_issue(request)
-      hash = call_api_json_service("/api/auth/authorization/issue", to_hash(request))
-
+      path = @path_resolver.authorization_issue
+      hash = call_api_json_service(path, to_hash(request))
       Authlete::Model::Response::AuthorizationIssueResponse.new(hash)
     end
 
     def authorization_fail(request)
-      hash = call_api_json_service("/api/auth/authorization/fail", to_hash(request))
-
+      path = @path_resolver.authorization_fail
+      hash = call_api_json_service(path, to_hash(request))
       Authlete::Model::Response::AuthorizationFailResponse.new(hash)
     end
 
     def token(request)
-      hash = call_api_json_service("/api/auth/token", to_hash(request))
-
+      path = @path_resolver.token
+      hash = call_api_json_service(path, to_hash(request))
       Authlete::Model::Response::TokenResponse.new(hash)
     end
 
     def token_issue(request)
-      hash = call_api_json_service("/api/auth/token/issue", to_hash(request))
-
+      path = @path_resolver.token_issue
+      hash = call_api_json_service(path, to_hash(request))
       Authlete::Model::Response::TokenIssueResponse.new(hash)
     end
 
     def token_fail(request)
-      hash = call_api_json_service("/api/auth/token/fail", to_hash(request))
-
+      path = @path_resolver.token_fail
+      hash = call_api_json_service(path, to_hash(request))
       Authlete::Model::Response::TokenFailResponse.new(hash)
     end
 
     def token_revoke(request)
-      hash = call_api_json_service("/api/auth/token/revoke", to_hash(request))
-
+      path = @path_resolver.token_revoke
+      hash = call_api_json_service(path, to_hash(request))
       Authlete::Model::Response::TokenRevokeResponse.new(hash)
     end
 
     def service_create(service)
-      hash = call_api_json_service_owner("/api/service/create", to_hash(service))
-
+      path = @path_resolver.service_create
+      hash = call_api_json_service_owner(path, to_hash(service))
       Authlete::Model::Service.new(hash)
     end
 
-    def service_delete(api_key)
-      call_api_service_owner(:delete, "/api/service/delete/#{api_key}", nil, nil)
+    def service_delete(service_id)
+      path = @path_resolver.service_delete(service_id)
+      call_api_service_owner(:delete, path, nil, nil)
     end
 
-    def service_get(api_key)
-      hash = call_api_service_owner(:get, "/api/service/get/#{api_key}", nil, nil)
-
+    def service_get(service_id)
+      path = @path_resolver.service_get(service_id)
+      hash = call_api_service_owner(:get, path, nil, nil)
       Authlete::Model::Service.new(hash)
     end
 
     def service_get_list(params = nil)
-      hash = call_api_service_owner(:get, "/api/service/get/list#{to_query(params)}", nil, nil)
-
+      base_path = @path_resolver.service_get_list
+      relative_path = base_path + to_query(params)
+      hash = call_api_service_owner(:get, relative_path, nil, nil)
       Authlete::Model::Response::ServiceListResponse.new(hash)
     end
 
-    def service_update(api_key, service)
-      hash = call_api_json_service_owner("/api/service/update/#{api_key}", to_hash(service))
-
+    def service_update(service_id, service)
+      path = @path_resolver.service_update(service_id)
+      hash = call_api_json_service_owner(path, to_hash(service))
       Authlete::Model::Service.new(hash)
     end
 
     def serviceowner_get_self
-      hash = call_api_service_owner(:get, "/api/serviceowner/get/self", nil, nil)
-
+      path = @path_resolver.serviceowner_get_self
+      hash = call_api_service_owner(:get, path, nil, nil)
       Authlete::Model::ServiceOwner.new(hash)
     end
 
     def client_create(client)
-      hash = call_api_json_service("/api/client/create", to_hash(client))
-
+      path = @path_resolver.client_create
+      hash = call_api_json_service(path, to_hash(client))
       Authlete::Model::Client.new(hash)
     end
 
     def client_delete(client_id)
-      call_api_service(:delete, "/api/client/delete/#{client_id}", nil, nil)
+      path = @path_resolver.client_delete(client_id)
+      call_api_service(:delete, path, nil, nil)
     end
 
     def client_get(client_id)
-      hash = call_api_service(:get, "/api/client/get/#{client_id}", nil, nil)
-
+      path = @path_resolver.client_get(client_id)
+      hash = call_api_service(:get, path, nil, nil)
       Authlete::Model::Client.new(hash)
     end
 
     def client_get_list(params = nil)
-      hash = call_api_service(:get, "/api/client/get/list#{to_query(params)}", nil, nil)
-
+      base_path = @path_resolver.client_get_list
+      relative_path = base_path + to_query(params)
+      hash = call_api_service(:get, relative_path, nil, nil)
       Authlete::Model::Response::ClientListResponse.new(hash)
     end
 
     def client_update(client)
-      hash = call_api_json_service("/api/client/update/#{client.clientId}", to_hash(client))
-
+      path = @path_resolver.client_update(client.clientId)
+      hash = call_api_json_service(path, to_hash(client))
       Authlete::Model::Client.new(hash)
     end
 
     def refresh_client_secret(client_identifier)
-      hash = call_api_service(:get, "/api/client/secret/refresh/#{client_identifier}", nil, nil)
-
+      path = @path_resolver.refresh_client_secret(client_identifier)
+      hash = call_api_service(:get, path, nil, nil)
       Authlete::Model::Response::ClientSecretRefreshResponse.new(hash)
     end
 
     def update_client_secret(client_identifier, client_secret)
       request = Authlete::Model::Request::ClientSecretUpdateRequest.new(clientSecret: client_secret)
-
-      hash = call_api_json_service("/api/client/secret/update/#{client_identifier}", request.to_hash)
-
+      path = @path_resolver.update_client_secret(client_identifier)
+      hash = call_api_json_service(path, request.to_hash)
       Authlete::Model::Response::ClientSecretUpdateResponse.new(hash)
     end
 
     def get_client_authorization_list(request)
-      hash = call_api_json_service("/api/client/authorization/get/list", to_hash(request))
-
+      path = @path_resolver.get_client_authorization_list
+      hash = call_api_json_service(path, to_hash(request))
       Authlete::Model::Response::AuthorizedClientListResponse.new(hash)
     end
 
     def update_client_authorization(client_id, request)
-      call_api_json_service("/api/client/authorization/update/#{client_id}", to_hash(request))
+      path = @path_resolver.update_client_authorization(client_id)
+      call_api_json_service(path, to_hash(request))
     end
 
     def delete_client_authorization(client_id, subject)
       request = Authlete::Model::Request::ClientAuthorizationDeleteRequest.new(subject: subject)
-
-      call_api_json_service("/api/client/authorization/delete/#{client_id}", request.to_hash)
+      path = @path_resolver.delete_client_authorization(client_id)
+      call_api_json_service(path, request.to_hash)
     end
 
     def introspection(request)
-      hash = call_api_json_service('/api/auth/introspection', to_hash(request))
-
+      path = @path_resolver.introspection
+      hash = call_api_json_service(path, to_hash(request))
       Authlete::Model::Response::IntrospectionResponse.new(hash)
     end
 
     def standard_introspection(request)
-      hash = call_api_json_service('/api/auth/introspection/standard', to_hash(request))
-
+      path = @path_resolver.standard_introspection
+      hash = call_api_json_service(path, to_hash(request))
       Authlete::Model::Response::StandardIntrospectionResponse.new(hash)
     end
 
     def revocation(request)
-      hash = call_api_json_service("/api/auth/revocation", to_hash(request))
-
+      path = @path_resolver.revocation
+      hash = call_api_json_service(path, to_hash(request))
       Authlete::Model::Response::RevocationResponse.new(hash)
     end
 
     def user_info(request)
-      hash = call_api_json_service("/api/auth/userinfo", to_hash(request))
-
+      path = @path_resolver.user_info
+      hash = call_api_json_service(path, to_hash(request))
       Authlete::Model::Response::UserInfoResponse.new(hash)
     end
 
     def user_info_issue(request)
-      hash = call_api_json_service("/api/auth/userinfo/issue", to_hash(request))
-
+      path = @path_resolver.user_info_issue
+      hash = call_api_json_service(path, to_hash(request))
       Authlete::Model::Response::UserInfoIssueResponse.new(hash)
     end
 
     def get_service_jwks(params = nil)
-      call_api_service(:get, "/api/service/jwks/get#{to_query(params)}", nil, nil)
+      base_path = @path_resolver.get_service_jwks
+      relative_path = base_path + to_query(params)
+      call_api_service(:get, relative_path, nil, nil)
     end
 
     def get_service_configuration(params = nil)
-      call_api_service(:get, "/api/service/configuration#{to_query(params)}", nil, nil)
+      base_path = @path_resolver.get_service_configuration
+      relative_path = base_path + to_query(params)
+      call_api_service(:get, relative_path, nil, nil)
     end
 
     def token_create(request)
-      hash = call_api_json_service("/api/auth/token/create", to_hash(request))
-
+      path = @path_resolver.token_create
+      hash = call_api_json_service(path, to_hash(request))
       Authlete::Model::Response::TokenCreateResponse.new(hash)
     end
 
     def token_update(request)
-      hash = call_api_json_service("/api/auth/token/update", to_hash(request))
-
+      path = @path_resolver.token_update
+      hash = call_api_json_service(path, to_hash(request))
       Authlete::Model::Response::TokenUpdateResponse.new(hash)
     end
 
     def get_token_list(params = nil)
-      hash = call_api_service(:get, "/api/auth/token/get/list#{to_query(params)}", nil, nil)
-
+      base_path = @path_resolver.get_token_list
+      relative_path = base_path + to_query(params)
+      hash = call_api_service(:get, relative_path, nil, nil)
       Authlete::Model::Response::TokenListResponse.new(hash)
     end
 
     def get_granted_scopes(client_id, subject)
       request = Authlete::Model::Request::GrantedScopesRequest.new(subject: subject)
-
-      hash = call_api_json_service("/api/client/granted_scopes/get/#{client_id}", to_hash(request))
-
+      path = @path_resolver.get_granted_scopes(client_id)
+      hash = call_api_json_service(path, to_hash(request))
       Authlete::Model::Response::GrantedScopesGetResponse.new(hash)
     end
 
     def delete_granted_scopes(client_id, subject)
       request = Authlete::Model::Request::GrantedScopesRequest.new(subject: subject)
 
-      call_api_json_service("/api/client/granted_scopes/delete/#{client_id}", to_hash(request))
+      path = @path_resolver.delete_granted_scopes(client_id)
+      call_api_json_service(path, to_hash(request))
     end
 
     def get_requestable_scopes(client_id)
-      hash = call_api_service(:get, "/api/client/extension/requestable_scopes/get/#{client_id}", nil, nil)
-
+      path = @path_resolver.get_requestable_scopes(client_id)
+      hash = call_api_service(:get, path, nil, nil)
       extract_requestable_scopes(hash)
     end
 
     def set_requestable_scopes(client_id, scopes)
-      hash = call_api_json_service("/api/client/extension/requestable_scopes/update/#{client_id}", { requestableScopes: scopes })
-
+      path = @path_resolver.set_requestable_scopes(client_id)
+      hash = call_api_json_service(path, { requestableScopes: scopes })
       extract_requestable_scopes(hash)
     end
 
     def delete_requestable_scopes(client_id)
-      call_api_service(:delete, "/api/client/extension/requestable_scopes/delete/#{client_id}", nil, nil)
+      path = @path_resolver.delete_requestable_scopes(client_id)
+      call_api_service(:delete, path, nil, nil)
     end
 
     def dynamic_client_register(request)
-      hash = call_api_json_service("/api/client/registration", to_hash(request))
-
+      path = @path_resolver.dynamic_client_register
+      hash = call_api_json_service(path, to_hash(request))
       Authlete::Model::Response::ClientRegistrationResponse.new(hash)
     end
 
     def dynamic_client_get(request)
-      hash = call_api_json_service("/api/client/registration/get", to_hash(request))
-
+      path = @path_resolver.dynamic_client_get
+      hash = call_api_json_service(path, to_hash(request))
       Authlete::Model::Response::ClientRegistrationResponse.new(hash)
     end
 
     def dynamic_client_update(request)
-      hash = call_api_json_service("/api/client/registration/update", to_hash(request))
-
+      path = @path_resolver.dynamic_client_update
+      hash = call_api_json_service(path, to_hash(request))
       Authlete::Model::Response::ClientRegistrationResponse.new(hash)
     end
 
     def dynamic_client_delete(request)
-      hash = call_api_json_service("/api/client/registration/delete", to_hash(request))
-
+      path = @path_resolver.dynamic_client_delete
+      hash = call_api_json_service(path, to_hash(request))
       Authlete::Model::Response::ClientRegistrationResponse.new(hash)
     end
 
     def backchannel_authentication(request)
-      hash = call_api_json_service("/api/backchannel/authentication", to_hash(request))
-
+      path = @path_resolver.backchannel_authentication
+      hash = call_api_json_service(path, to_hash(request))
       Authlete::Model::Response::BackchannelAuthenticationResponse.new(hash)
     end
 
     def backchannel_authentication_issue(request)
-      hash = call_api_json_service("/api/backchannel/authentication/issue", to_hash(request))
-
+      path = @path_resolver.backchannel_authentication_issue
+      hash = call_api_json_service(path, to_hash(request))
       Authlete::Model::Response::BackchannelAuthenticationIssueResponse.new(hash)
     end
 
     def backchannel_authentication_fail(request)
-      hash = call_api_json_service("/api/backchannel/authentication/fail", to_hash(request))
-
+      path = @path_resolver.backchannel_authentication_fail
+      hash = call_api_json_service(path, to_hash(request))
       Authlete::Model::Response::BackchannelAuthenticationFailResponse.new(hash)
     end
 
     def backchannel_authentication_complete(request)
-      hash = call_api_json_service("/api/backchannel/authentication/complete", to_hash(request))
-
+      path = @path_resolver.backchannel_authentication_complete
+      hash = call_api_json_service(path, to_hash(request))
       Authlete::Model::Response::BackchannelAuthenticationCompleteResponse.new(hash)
     end
 
     def device_authorization(request)
-      hash = call_api_json_service("/api/device/authorization", to_hash(request))
-
+      path = @path_resolver.device_authorization
+      hash = call_api_json_service(path, to_hash(request))
       Authlete::Model::Response::DeviceAuthorizationResponse.new(hash)
     end
 
     def device_complete(request)
-      hash = call_api_json_service("/api/device/complete", to_hash(request))
-
+      path = @path_resolver.device_complete
+      hash = call_api_json_service(path, to_hash(request))
       Authlete::Model::Response::DeviceCompleteResponse.new(hash)
     end
 
     def device_verification(request)
-      hash = call_api_json_service("/api/device/verification", to_hash(request))
-
+      path = @path_resolver.device_verification
+      hash = call_api_json_service(path, to_hash(request))
       Authlete::Model::Response::DeviceVerificationResponse.new(hash)
     end
 
     def push_authorization_request(request)
-      hash = call_api_json_service("/api/pushed_auth_req", to_hash(request))
-
+      path = @path_resolver.push_authorization_request
+      hash = call_api_json_service(path, to_hash(request))
       Authlete::Model::Response::PushedAuthReqResponse.new(hash)
     end
 
@@ -537,7 +615,7 @@ module Authlete
         result = introspection(request)
       rescue => e
         # Error message.
-        message = build_error_message('/api/auth/introspection', e)
+        message = build_error_message(@path_resolver.introspection, e)
 
         # Emit a Rack error message.
         emit_rack_error_message(request, message)
@@ -549,7 +627,7 @@ module Authlete
         )
       end
 
-      # Return the response from Authlete's /api/auth/introspection API.
+      # Return the response from Authlete's introspection API.
       result
     end
 
