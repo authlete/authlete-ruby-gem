@@ -31,14 +31,14 @@ module Authlete
         def defaults
           {
             token:  nil,
-            clamis: nil,
+            claims: nil,
             sub:    nil
           }
         end
 
         def set_params(hash)
           @token  = hash[:token]
-          @claims = hash[:clamis]
+          @claims = hash[:claims]
           @sub    = hash[:sub]
         end
       end
